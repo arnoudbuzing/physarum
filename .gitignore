@@ -1,0 +1,16 @@
+# Rust build output
+target/
+**/*.rs.bk
+
+# Compiled LibraryLink binaries (produced by scripts/build.sh)
+Physarum/LibraryResources/*/
+*.dylib
+*.so
+*.dll
+
+# Built paclet archives
+build/
+*.paclet
+
+# OS / editor noise
+.DS_Store
