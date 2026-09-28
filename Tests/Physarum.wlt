@@ -79,8 +79,9 @@ VerificationTest[
   (* walls: no agent ends up inside a wall *)
   w = PhysarumEvolve[PhysarumSimulation["Classic", "Size" -> 64, "Agents" -> 2000,
     "Walls" -> Graphics[Disk[{0, 0}, 0.5], PlotRange -> {{-1, 1}, {-1, 1}}]], 30];
-  With[{walls = w["Walls"]},
-    Total[Extract[walls, {Floor[#[[2]]] + 1, Floor[#[[1]]] + 1} & /@ w["Agents"]]]],
+  With[{walls = w["Walls"], w0 = PhysarumSimulation["Classic", "Size" -> 64, "Agents" -> 2000,
+      "Walls" -> Graphics[Disk[{0, 0}, 0.5], PlotRange -> {{-1, 1}, {-1, 1}}]]},
+    Total[Extract[walls, {Floor[#[[2]]] + 1, Floor[#[[1]]] + 1} & /@ Join[w["Agents"], w0["Agents"]]]]],
   0.,
   TestID -> "Walls"
 ];
@@ -128,6 +129,46 @@ VerificationTest[
   $Failed,
   {PhysarumNetwork::geo},
   TestID -> "BadEntity"
+];
+
+VerificationTest[
+  mz = PhysarumMaze[6, RandomSeeding -> 1];
+  {ImageQ[mz], ImageDimensions[mz]},
+  {True, {31, 31}},
+  TestID -> "Maze"
+];
+
+VerificationTest[
+  (* in a loop-free maze exactly one route survives: the solution path *)
+  hist = PhysarumFlow[mz, {{0.05, 0.95}, {0.95, 0.05}}, "Output" -> "History"];
+  cond = Last[hist];
+  {Length[hist], Count[cond, x_ /; x > 0.5 Max[cond]] > 0, Count[cond, x_ /; x > 0.01 Max[cond]] < Length[cond]/2},
+  {201, True, True},
+  TestID -> "FlowMaze"
+];
+
+VerificationTest[
+  (* two food sources on a path graph with a detour: the short route wins *)
+  gd = Graph[{1 <-> 2, 2 <-> 3, 1 <-> 4, 4 <-> 5, 5 <-> 6, 6 <-> 3}];
+  c = PhysarumFlow[gd, {1, 3}, "Output" -> "Conductivity"];
+  {c[UndirectedEdge[1, 2]] > 0.9 Max[c], c[UndirectedEdge[4, 5]] < 0.01 Max[c]},
+  {True, True},
+  TestID -> "FlowShortestPath"
+];
+
+VerificationTest[
+  SeedRandom[2];
+  gf = PhysarumFlow[RandomReal[1, {6, 2}], "Resolution" -> 25, "Steps" -> 200, RandomSeeding -> 1];
+  {GraphQ[gf], ConnectedGraphQ[gf], NumericQ[PropertyValue[{gf, First[EdgeList[gf]]}, "Conductivity"]]},
+  {True, True, True},
+  TestID -> "FlowPoints"
+];
+
+VerificationTest[
+  PhysarumFlow[PathGraph[Range[4]], {1}],
+  $Failed,
+  {PhysarumFlow::food},
+  TestID -> "FlowBadFood"
 ];
 
 VerificationTest[

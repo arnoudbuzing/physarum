@@ -35,8 +35,18 @@ PhysarumNetwork::usage =
   "PhysarumNetwork[{p1, p2, ...}] lets a slime mould grow between the food sources pi and returns the resulting transport network as a Graph.\n" <>
   "PhysarumNetwork[{GeoPosition[...], ...}] works with geographic locations.";
 
+PhysarumFlow::usage =
+  "PhysarumFlow[maze, {p1, p2, ...}] runs the Tero flow model (tubes carrying more protoplasm thicken, idle tubes wither) through the free cells of a maze image, with food at the points pi of the unit square.\n" <>
+  "PhysarumFlow[{p1, p2, ...}] grows a flow network between food sources on a lattice.\n" <>
+  "PhysarumFlow[g, {v1, v2, ...}] runs the flow model on the Graph g with food at vertices vi.";
+
+PhysarumMaze::usage =
+  "PhysarumMaze[n] generates an n\[Times]n maze as an Image with white walls.";
+
 $PhysarumPresets::usage =
   "$PhysarumPresets is an Association of named simulation presets.";
+
+PhysarumFlow::food = "Need at least two food sources that lie on the graph or in the free part of the maze.";
 
 PhysarumSimulation::nolib = "The Physarum simulation library could not be loaded from `1`.";
 PhysarumSimulation::spec = "`1` is not a valid preset name or species specification.";
@@ -294,7 +304,7 @@ PhysarumSimulation[spec_, opts : OptionsPattern[]] := Catch[
 dropBlocked[agents_, walls_, {w_, h_}] /; Max[walls] == 0 := agents;
 dropBlocked[agents_, walls_, {w_, h_}] := Module[{free = 1 - walls, blocked},
   blocked = Pick[Range[Length[agents]],
-    Extract[walls, {Clip[Floor[#[[2]]] + 1, {1, h}], Clip[Floor[#[[1]]] + 1, {1, w}]} & /@ agents], 1.];
+    Extract[walls, {Clip[Floor[#[[2]]] + 1, {1, h}], Clip[Floor[#[[1]]] + 1, {1, w}]} & /@ agents], _?Positive];
   If[blocked === {}, agents,
     ReplacePart[agents, Thread[blocked -> MapThread[Append,
       {initAgents[free, Length[blocked], {w, h}, None], agents[[blocked, 4]]}]]]]
@@ -675,6 +685,203 @@ networkGeoGraphics[graph_, food_, lat0_] := Module[{coord},
     {RGBColor[0.9, 0.35, 0.1], AbsoluteThickness[2], GeoPath[{coord[#[[1]]], coord[#[[2]]]}, "Rhumb"] & /@ EdgeList[graph]},
     {RGBColor[0.1, 0.2, 0.6], PointSize[0.012], Point[coord /@ food]}
   }]
+];
+
+(* ::Section:: *)
+(* PhysarumMaze *)
+
+Options[PhysarumMaze] = {"CellSize" -> 5, "WallWidth" -> 1, "Loops" -> 0, RandomSeeding -> Automatic};
+
+(* Depth-first "recursive backtracker" maze; "Loops" re-opens extra walls so that
+   there is more than one route between two points. *)
+PhysarumMaze[n_Integer /; n >= 2, opts : OptionsPattern[]] := BlockRandom[
+  Module[{cell = OptionValue["CellSize"], wall = OptionValue["WallWidth"], visited, stack, open = {},
+      cur, nbrs, nxt, closed, m, carve},
+    visited = ConstantArray[False, {n, n}];
+    stack = {{1, 1}}; visited[[1, 1]] = True;
+    While[stack =!= {},
+      cur = Last[stack];
+      nbrs = Select[cur + # & /@ {{1, 0}, {-1, 0}, {0, 1}, {0, -1}},
+        1 <= #[[1]] <= n && 1 <= #[[2]] <= n && !visited[[#[[1]], #[[2]]]] &];
+      If[nbrs === {},
+        stack = Most[stack],
+        nxt = RandomChoice[nbrs]; visited[[nxt[[1]], nxt[[2]]]] = True;
+        AppendTo[open, Sort[{cur, nxt}]]; AppendTo[stack, nxt]]];
+    closed = Complement[
+      Select[Flatten[Table[{{{i, j}, {i + 1, j}}, {{i, j}, {i, j + 1}}}, {i, n}, {j, n}], 2], Max[#] <= n &],
+      open];
+    open = Join[open, RandomSample[closed, Min[OptionValue["Loops"], Length[closed]]]];
+
+    m = ConstantArray[1., {n cell + wall, n cell + wall}];
+    Do[m[[(i - 1) cell + wall + 1 ;; i cell, (j - 1) cell + wall + 1 ;; j cell]] = 0., {i, n}, {j, n}];
+    carve[{a_, b_}] := If[a[[1]] == b[[1]],
+      m[[(a[[1]] - 1) cell + wall + 1 ;; a[[1]] cell, a[[2]] cell + 1 ;; a[[2]] cell + wall]] = 0.,
+      m[[a[[1]] cell + 1 ;; a[[1]] cell + wall, (a[[2]] - 1) cell + wall + 1 ;; a[[2]] cell]] = 0.];
+    Scan[carve, open];
+    Image[m]
+  ],
+  RandomSeeding -> OptionValue[RandomSeeding]
+];
+
+(* ::Section:: *)
+(* PhysarumFlow: the Tero et al. current-reinforcement model
+
+   Protoplasm flows through a network of tubes. Each step:
+     1. one food source pumps in flux I0, the other food sources drain it (Kirchhoff's laws
+        give the pressures p from a weighted graph Laplacian);
+     2. every tube's flow is Q = D/L (p_i - p_j);
+     3. conductivities adapt: dD/dt = f(|Q|) - D. Busy tubes thicken, idle tubes wither.
+   With two food sources and f(Q) = |Q| only the shortest path survives (Tero et al., J. Theor.
+   Biol. 244, 2007). With many food sources and a sigmoidal f the result is a robust transport
+   network (Tero et al., Science 327, 2010). *)
+
+Options[PhysarumFlow] = {
+  "Steps" -> Automatic,
+  "Flux" -> 2,
+  "Exponent" -> Automatic,
+  "TimeStep" -> 0.3,
+  "Threshold" -> 0.01,
+  "Resolution" -> 50,
+  "Output" -> Automatic,
+  ImageSize -> 400,
+  RandomSeeding -> Automatic
+};
+
+incidence[pairs_, nv_] := With[{m = Length[pairs]},
+  SparseArray[Join[
+    Thread[Transpose[{Range[m], pairs[[All, 1]]}] -> 1.],
+    Thread[Transpose[{Range[m], pairs[[All, 2]]}] -> -1.]], {m, nv}]];
+
+(* conductivity vectors over time *)
+teroHistory[b_, len_, food_, steps_, flux_, gamma_, dt_] := Module[
+  {nv = Last[Dimensions[b]], k = Length[food], f, step, bt = Transpose[b]},
+  f = Which[
+    gamma === Automatic && k == 2, Abs,
+    gamma === Automatic, (Abs[#]^1.8 / (1 + Abs[#]^1.8)) &,
+    True, (Abs[#]^gamma / (1 + Abs[#]^gamma)) &];
+  step[d_] := Module[{src, sinks, rhs, keep, lap, p = ConstantArray[0., nv], q},
+    src = If[k == 2, food[[1]], RandomChoice[food]];
+    sinks = DeleteCases[food, src];
+    rhs = ConstantArray[0., nv];
+    rhs[[src]] = flux; rhs[[sinks]] = -flux / Length[sinks];
+    keep = Delete[Range[nv], First[sinks]];   (* ground one sink: p = 0 *)
+    lap = bt . SparseArray[Band[{1, 1}] -> d / len, {Length[d], Length[d]}] . b;
+    p[[keep]] = LinearSolve[lap[[keep, keep]] + 10.^-9 IdentityMatrix[nv - 1, SparseArray], rhs[[keep]]];
+    q = (d / len) (b . p);
+    d + dt (f[q] - d)
+  ];
+  NestList[step, ConstantArray[1., Length[len]], steps]
+];
+
+flowSteps[steps_, k_] := Replace[steps, Automatic :> If[k == 2, 200, 600]];
+
+frameIndices[n_] := DeleteDuplicates[Round[Subdivide[1, n, Min[n - 1, 40]]]];
+
+$tubeColor = RGBColor[1., 0.82, 0.15];
+$foodColor = RGBColor[0.9, 0.2, 0.25];
+
+(* --- general graphs --- *)
+
+PhysarumFlow[g_?GraphQ, food_List, opts : OptionsPattern[]] := Catch[
+  Module[{v = VertexList[g], e = EdgeList[g], idx, pairs, fi, len, coords, hist, steps},
+    idx = AssociationThread[v -> Range[Length[v]]];
+    fi = DeleteDuplicates @ Lookup[idx, food, Nothing];
+    If[Length[fi] < 2, Message[PhysarumFlow::food]; Throw[$Failed, $tag]];
+    pairs = Map[idx, List @@@ e, {2}];
+    (* tube lengths: edge weights, else explicit vertex coordinates (never an automatic
+       layout, which has no physical meaning), else 1 *)
+    coords = If[MatchQ[Options[g, VertexCoordinates], {VertexCoordinates -> Automatic} | {}], None,
+      Quiet @ GraphEmbedding[g]];
+    len = Which[
+      WeightedGraphQ[g], N @ PropertyValue[g, EdgeWeight],
+      MatrixQ[coords, NumericQ], EuclideanDistance @@ coords[[#]] & /@ pairs,
+      True, ConstantArray[1., Length[e]]];
+    steps = flowSteps[OptionValue["Steps"], Length[fi]];
+    hist = BlockRandom[
+      teroHistory[incidence[pairs, Length[v]], len, fi, steps, OptionValue["Flux"],
+        OptionValue["Exponent"], OptionValue["TimeStep"]],
+      RandomSeeding -> OptionValue[RandomSeeding]];
+    flowGraphOutput[g, e, v[[fi]], hist, OptionValue["Threshold"], Replace[OptionValue["Output"], Automatic -> "Graph"]]
+  ],
+  $tag
+];
+
+flowGraph[g_, e_, food_, d_, thr_] := Module[{top = Max[d, $MachineEpsilon], keep, sub},
+  keep = Pick[Range[Length[e]], UnitStep[d - thr top], 1];
+  sub = Graph[Union[VertexList[EdgeList[g][[keep]]], food], e[[keep]],
+    VertexCoordinates -> Thread[# -> PropertyValue[{g, #}, VertexCoordinates] & /@ Union[VertexList[EdgeList[g][[keep]]], food]]];
+  Graph[sub,
+    Properties -> Thread[e[[keep]] -> ({"Conductivity" -> #} & /@ d[[keep]])],
+    EdgeStyle -> Thread[e[[keep]] -> (Directive[$tubeColor, CapForm["Round"], AbsoluteThickness[0.5 + 6 #/top]] & /@ d[[keep]])],
+    VertexSize -> Append[(# -> {"Scaled", 0.025}) & /@ food, {"Scaled", 0.002}],
+    VertexStyle -> Append[Thread[food -> $foodColor], $tubeColor],
+    VertexShapeFunction -> Append[(# -> "Circle") & /@ food, None],
+    Background -> GrayLevel[0.08]]
+];
+
+flowGraphOutput[g_, e_, food_, hist_, thr_, out_] := Switch[out,
+  "Conductivity", AssociationThread[e -> Last[hist]],
+  "History", hist,
+  "Frames", flowGraph[g, e, food, hist[[#]], thr] & /@ frameIndices[Length[hist]],
+  _, flowGraph[g, e, food, Last[hist], thr]
+];
+
+(* --- food points in the plane: grow on a lattice with diagonals --- *)
+
+PhysarumFlow[pts_?pointsQ, opts : OptionsPattern[]] := Catch[
+  Module[{p = N[pts], lo, hi, pad, res, nx, ny, grid, g, near, food},
+    {lo, hi} = {Min /@ Transpose[p], Max /@ Transpose[p]};
+    pad = 0.08 Max[hi - lo]; {lo, hi} = {lo - pad, hi + pad};
+    res = OptionValue["Resolution"];
+    {nx, ny} = Max[2, #] & /@ Round[res (hi - lo) / Max[hi - lo]];
+    grid = Flatten[Table[lo + (hi - lo) {i/(nx - 1), j/(ny - 1)}, {j, 0, ny - 1}, {i, 0, nx - 1}], 1];
+    g = NearestNeighborGraph[grid, {All, 1.01 Sqrt[2] Max[(hi - lo) / ({nx, ny} - 1)]}];
+    near = Nearest[grid -> Automatic];
+    food = DeleteDuplicates[VertexList[g][[First[near[#]]]] & /@ p];
+    PhysarumFlow[Graph[g, VertexCoordinates -> grid], food, opts]
+  ],
+  $tag
+];
+
+(* --- mazes: every free pixel is a node, 4-neighbours are tubes --- *)
+
+PhysarumFlow[maze_Image, food_?pointsQ, opts : OptionsPattern[]] := Catch[
+  Module[{m, h, w, free, nv, idx, pairs, b, near, fi, hist, render, out},
+    m = UnitStep[gray[maze] - 0.5];
+    {h, w} = Dimensions[m];
+    free = Position[m, 0];
+    nv = Length[free];
+    idx = Normal @ SparseArray[free -> Range[nv], {h, w}];
+    pairs = Select[Join[
+        Transpose[{Flatten[idx[[All, ;; -2]]], Flatten[idx[[All, 2 ;;]]]}],
+        Transpose[{Flatten[idx[[;; -2]]], Flatten[idx[[2 ;;]]]}]],
+      Min[#] > 0 &];
+    b = incidence[pairs, nv];
+    near = Nearest[N[free] -> Automatic];
+    fi = DeleteDuplicates[First[near[{(1 - #[[2]]) h + 0.5, #[[1]] w + 0.5}]] & /@ N[food]];
+    If[Length[fi] < 2, Message[PhysarumFlow::food]; Throw[$Failed, $tag]];
+    hist = BlockRandom[
+      teroHistory[b, ConstantArray[1., Length[pairs]], fi, flowSteps[OptionValue["Steps"], Length[fi]],
+        OptionValue["Flux"], OptionValue["Exponent"], OptionValue["TimeStep"]],
+      RandomSeeding -> OptionValue[RandomSeeding]];
+
+    render[d_] := Module[{node, tube, foodMask, px},
+      node = (Abs[Transpose[b]] . d) / 2;
+      tube = Normal @ SparseArray[free -> Clip[node / Max[node, $MachineEpsilon], {0, 1}]^0.5, {h, w}];
+      foodMask = Normal @ SparseArray[free[[fi]] -> ConstantArray[1., Length[fi]], {h, w}];
+      px = TensorProduct[m, {0.35, 0.35, 0.4}] + TensorProduct[tube (1 - foodMask), rgb[$tubeColor]] +
+        TensorProduct[foodMask, rgb[$foodColor]] + TensorProduct[(1 - m) (1 - tube), {0.06, 0.05, 0.04}];
+      ImageResize[Image[Clip[px, {0, 1}]], Round[OptionValue[ImageSize] {1, h/w}], Resampling -> "Nearest"]
+    ];
+    out = Replace[OptionValue["Output"], Automatic -> "Image"];
+    Switch[out,
+      "Frames", render[hist[[#]]] & /@ frameIndices[Length[hist]],
+      "History", hist,
+      "Conductivity", AssociationThread[UndirectedEdge @@@ Map[free[[#]] &, pairs, {2}] -> Last[hist]],
+      _, render[Last[hist]]
+    ]
+  ],
+  $tag
 ];
 
 End[];

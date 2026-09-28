@@ -71,6 +71,7 @@ struct Grid<'a> {
     h: usize,
     layers: usize,
     wrap: bool,
+    has_walls: bool,
 }
 
 impl Grid<'_> {
@@ -91,6 +92,20 @@ impl Grid<'_> {
         } else {
             Some(c)
         }
+    }
+
+    /// True if the straight line from (x0, y0) to (x1, y1) stays out of walls,
+    /// sampled at roughly one-pixel intervals.
+    #[inline]
+    fn clear_line(&self, x0: f64, y0: f64, x1: f64, y1: f64) -> bool {
+        if !self.has_walls {
+            return true;
+        }
+        let steps = (x1 - x0).hypot(y1 - y0).ceil().max(1.0) as usize;
+        (1..steps).all(|k| {
+            let t = k as f64 / steps as f64;
+            self.cell(x0 + t * (x1 - x0), y0 + t * (y1 - y0)).is_some()
+        })
     }
 
     /// What species `s` "smells" at a point: its own trail minus a penalty for
@@ -136,15 +151,22 @@ fn evolve(
 
         // 1. Sense, rotate, move (parallel: trail is read-only here).
         {
-            let grid = Grid { trail, wall, w, h, layers, wrap };
+            let has_walls = wall.iter().any(|&v| v != 0.0);
+            let grid = Grid { trail, wall, w, h, layers, wrap, has_walls };
             agents.par_chunks_mut(4).zip(moved.par_iter_mut()).enumerate().for_each(|(i, (a, ok))| {
                 let s = (a[3] as usize).min(layers - 1);
                 let sp = &species[s];
                 let (x, y, mut th) = (a[0], a[1], a[2]);
                 let mut rng = splitmix(step_key ^ (i as u64).wrapping_mul(0x9E37_79B9_7F4A_7C15));
 
+                // Sensors cannot see through walls.
                 let probe = |ang: f64| {
-                    grid.sense(s, sp.repulsion, x + sp.sensor_dist * ang.cos(), y + sp.sensor_dist * ang.sin())
+                    let (sx, sy) = (x + sp.sensor_dist * ang.cos(), y + sp.sensor_dist * ang.sin());
+                    if grid.clear_line(x, y, sx, sy) {
+                        grid.sense(s, sp.repulsion, sx, sy)
+                    } else {
+                        f64::NEG_INFINITY
+                    }
                 };
                 let fl = probe(th - sp.sensor_angle);
                 let fc = probe(th);
