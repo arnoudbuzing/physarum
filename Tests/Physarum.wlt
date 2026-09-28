@@ -113,6 +113,24 @@ VerificationTest[
 ];
 
 VerificationTest[
+  (* entities resolve via "Position" and become the food vertices (needs Knowledgebase access) *)
+  cities = Entity["City", #] & /@ {{"Amsterdam", "NoordHolland", "Netherlands"},
+    {"Rotterdam", "ZuidHolland", "Netherlands"}, {"Utrecht", "Utrecht", "Netherlands"}};
+  SeedRandom[3];
+  g = PhysarumNetwork[cities, "Size" -> 150, "Steps" -> 800];
+  {GraphQ[g], SubsetQ[VertexList[g], cities]},
+  {True, True},
+  TestID -> "NetworkEntities"
+];
+
+VerificationTest[
+  PhysarumNetwork[{Entity["City", {"Amsterdam", "NoordHolland", "Netherlands"}], Entity["City", {"Nowhere", "Nope", "Netherlands"}]}],
+  $Failed,
+  {PhysarumNetwork::geo},
+  TestID -> "BadEntity"
+];
+
+VerificationTest[
   PhysarumSimulation["NoSuchPreset"],
   $Failed,
   {PhysarumSimulation::spec},

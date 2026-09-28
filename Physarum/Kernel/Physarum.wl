@@ -493,8 +493,15 @@ Options[PhysarumNetwork] = {
 
 geoLikeQ[x_] := MatchQ[x, _GeoPosition | _Entity];
 
+(* Entities (cities, landmarks, ...) are resolved with a single batched "Position" lookup. *)
+toGeoPositions[pts_List] := Module[{geo = pts, ents = Position[pts, _Entity, {1}, Heads -> False]},
+  If[ents =!= {},
+    geo = ReplacePart[geo, Thread[ents -> Quiet @ EntityValue[Extract[pts, ents], "Position"]]]];
+  Replace[geo, g : Except[_GeoPosition] :> Quiet @ GeoPosition[g], {1}]
+];
+
 toPlane[pts_List] := Module[{latlon, lat0, geo},
-  geo = GeoPosition /@ pts;
+  geo = toGeoPositions[pts];
   If[!MatchQ[geo, {GeoPosition[{_?NumericQ, _?NumericQ, ___}, ___] ..}],
     Message[PhysarumNetwork::geo, Select[Transpose[{pts, geo}], !MatchQ[#[[2]], _GeoPosition] &][[All, 1]]];
     Throw[$Failed, $tag]];

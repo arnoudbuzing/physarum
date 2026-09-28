@@ -184,16 +184,24 @@ Useful options: `"Size"` (grid resolution, default 400), `"Steps"` (2000),
 
 ### Geographic networks
 
-Give `GeoPosition`s, or `Entity` objects that have a position, and use
-`"Output" -> "GeoGraphics"`. Here is a slime-mould rail network for the 15 largest Dutch
-cities:
+Give `GeoPosition`s or entities with a position (cities, airports, landmarks, …), and use
+`"Output" -> "GeoGraphics"`. Entities are resolved with one batched `EntityValue[..., "Position"]`
+lookup, and the graph's food vertices are the entities themselves:
 
 ```wolfram
-cities = GeoPosition /@ {{52.37, 4.90}, {51.92, 4.48}, {52.08, 4.30}, {52.09, 5.12}, {51.44, 5.47},
-  {53.22, 6.57}, {51.56, 5.09}, {52.37, 5.21}, {51.59, 4.78}, {51.84, 5.86}, {52.22, 6.89},
-  {52.51, 6.09}, {50.85, 5.69}, {53.20, 5.80}, {51.98, 5.91}};
+cities = Entity["City", #] & /@ {
+  {"Amsterdam", "NoordHolland", "Netherlands"}, {"Rotterdam", "ZuidHolland", "Netherlands"},
+  {"TheHague", "ZuidHolland", "Netherlands"}, {"Utrecht", "Utrecht", "Netherlands"},
+  {"Eindhoven", "NoordBrabant", "Netherlands"}, {"Groningen", "Groningen", "Netherlands"},
+  {"Zwolle", "Overijssel", "Netherlands"}, {"Maastricht", "Limburg", "Netherlands"}};
+
 PhysarumNetwork[cities, "Output" -> "GeoGraphics", "Backbone" -> True]
+
+g = PhysarumNetwork[cities, "Backbone" -> True];
+GraphDistance[g, cities[[1]], cities[[8]]]   (* hops along the mould from Amsterdam to Maastricht *)
 ```
+
+Here is a network for the 15 largest Dutch cities:
 
 ![A slime-mould rail network for the Netherlands](images/netherlands.png)
 
