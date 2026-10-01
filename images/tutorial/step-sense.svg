@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 200" width="220" height="200" role="img" aria-labelledby="t" font-family="Helvetica, Arial, sans-serif" font-size="12">
+  <title id="t">Sense: the agent smells the trail at three sensors</title>
+  <rect width="220" height="200" rx="8" fill="#f6f4ee"/>
+  <defs>
+    <path id="agent" d="M 0 -25 L 15 8 L 0 0 L -15 8 Z" fill="#8a7332"/>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M 0 0 L 8 4 L 0 8 z" fill="#8a8578"/></marker>
+  </defs>
+  <path d="M 190 25 C 168 58 163 100 150 190" fill="none" stroke="#e3d3a3" stroke-width="16" stroke-linecap="round" opacity="0.8"/>
+  <g stroke="#8a8578" stroke-width="1.5" stroke-dasharray="4 4" fill="none">
+    <line x1="110" y1="165" x2="55.5" y2="87.2"/>
+    <line x1="110" y1="165" x2="110" y2="70"/>
+    <line x1="110" y1="165" x2="164.5" y2="87.2"/>
+  </g>
+  <circle cx="55.5" cy="87.2" r="9" fill="#f6f4ee" stroke="#8a8578" stroke-width="1.5"/>
+  <circle cx="110" cy="70" r="9" fill="#f6f4ee" stroke="#8a8578" stroke-width="1.5"/>
+  <circle cx="164.5" cy="87.2" r="9" fill="#c9ac5e" stroke="#8a7332" stroke-width="1.5"/>
+  <g fill="#5c584f" text-anchor="middle">
+    <text x="55.5" y="66">weak</text>
+    <text x="110" y="49">weak</text>
+    <text x="164.5" y="66">strong</text>
+  </g>
+  <use href="#agent" transform="translate(110 165)"/>
+</svg>

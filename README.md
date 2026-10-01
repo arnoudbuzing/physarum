@@ -40,34 +40,78 @@ capture two different sides of the organism.
 Jeff Jones (2010) showed that a crowd of simple "particles of plasmodium" produces
 Physarum-like networks. Every agent repeats the same four steps:
 
-```
-         left   centre   right            1. SENSE   smell the trail at three sensors ahead
-            \     |     /                 2. ROTATE  turn towards the strongest smell
-             \    |    /   <- sensor      3. MOVE    take one step forward
-              \   |   /       distance    4. DEPOSIT leave a little trail behind
-               \  |  /
-                  @        <- agent       ...then the whole trail map diffuses and decays.
-```
+![An agent and its three sensors](images/tutorial/agent.svg)
+
+| 1. Sense | 2. Rotate | 3. Move | 4. Deposit |
+| :---: | :---: | :---: | :---: |
+| ![Sense](images/tutorial/step-sense.svg) | ![Rotate](images/tutorial/step-rotate.svg) | ![Move](images/tutorial/step-move.svg) | ![Deposit](images/tutorial/step-deposit.svg) |
+| Smell the trail at three sensors ahead. | Turn towards the strongest smell. | Take one step forward. | Leave a little trail behind. |
+
+Then the whole trail map diffuses and decays.
 
 Nobody tells the agents to build a network. Trails attract agents, and agents lay more trail:
-that **positive feedback** turns random motion into structure. Load the paclet (see *Build & load* below) and watch it happen:
+that **positive feedback** turns random motion into structure. Load the paclet (see
+[*Getting started*](#getting-started) below) and watch it happen:
 
 ```wolfram
 SeedRandom[1];
 sim = PhysarumSimulation["Classic", "Size" -> 220];
-states = FoldList[PhysarumEvolve, sim, {2, 8, 40, 300}];   (* evolve 2, then 8 more, ... *)
+states = FoldList[PhysarumEvolve, sim, {2, 8, 40, 300}];   (* steps 2, 10, 50, 350 *)
 PhysarumImage /@ Rest[states]
 ```
 
 ![Self-organization: from noise to network](images/tutorial/emergence.png)
 
+**What you are looking at.** The four pictures are the same simulation after 2, 10, 50 and
+350 steps (`FoldList` keeps every intermediate state). There is no food in this example. The
+simulation starts with agents scattered at random over a 220×220 grid, and they have nothing
+to steer by except each other.
+
+**What is an agent?** An agent is a point-sized virtual particle, and it is not a piece of a
+real cell. The model does not simulate the plasmodium's tubes or nuclei. Instead it treats the
+mould as a crowd of "particles of plasmodium" (Jones's term), each so simple that on its own it
+only wanders and follows smells. Only the crowd, through its shared trail, behaves like the
+mould. You can read one agent as a small patch of protoplasm, and the trail as the
+chemical signal that patches leave in their surroundings. The crowd's strands, not any
+single agent, correspond to the mould's veins.
+
+**How is the number of agents determined?** The number of agents is chosen as a fraction of the grid
+area. The "Classic" preset uses an `"AgentDensity"` of 0.3 agents per pixel, so a 220×220
+grid (48,400 pixels) gets 0.3 × 48,400 = 14,520 agents, and a larger `"Size"` gets
+proportionally more. To use a different number, set an exact count with the `"Agents"`
+option (or give your own species specification an `"AgentDensity"`):
+
+```wolfram
+PhysarumSimulation["Classic", "Size" -> 220, "Agents" -> 5000]
+```
+
+The pictures do not draw the agents themselves, which would be a haze of tiny dots. They
+show the **trail map**: the amount of chemical trail on every pixel, which is what the agents
+sense and what they add to. Black means no trail, and the colours run from purple through
+orange to pale yellow as the trail gets stronger. Bright strands are therefore places that
+many agents travel along, which is the closest thing to the mould's body in this picture. The
+darker haze around them is faint trail that is still fading.
+
 At first the trail is noise. Within a few dozen steps, little streams merge into strands.
 Over hundreds of steps, small loops dissolve and the survivors thicken, just as a real
 plasmodium coarsens its network over time.
 
-**How agents steer.** The *sensor angle* (how far apart the sensors look) and the *rotation
-angle* (how sharply an agent turns) decide the kind of pattern. The same agents can make
-smooth strands, a dense web, or isolated spots:
+Food does not appear until the *Foraging* example below, where `"ShowFood" -> True` draws the
+food sources on top of the trail map.
+
+**How agents steer.** Two numbers from the agent picture above decide what pattern the crowd
+makes:
+
+* the *sensor angle*: how far apart the three sensors point (the arc in the picture),
+* the *rotation angle*: how sharply an agent turns towards the sensor that smells strongest.
+
+Each line of code below grows one simulation with its own pair of angles. `PhysarumArt` takes
+a *species* (an Association of agent parameters) in place of a preset name, and grows and
+draws it in one call. Only the two angles are given. Everything else (sensor distance 9,
+decay 0.1, and so on) is left at its default and is the same in all three runs, so any
+difference between the pictures comes from the angles alone. Angles are in radians, hence
+`Degree`. All three runs use the same grid size and number of steps, and the same color
+scheme, which is only there to make the pictures easier to compare.
 
 ```wolfram
 PhysarumArt[<|"SensorAngle" -> 22.5 Degree, "RotationAngle" -> 45 Degree|>, "Size" -> 220, "Steps" -> 400, ColorFunction -> "SunsetColors"]
@@ -76,6 +120,17 @@ PhysarumArt[<|"SensorAngle" -> 90 Degree, "RotationAngle" -> 11.25 Degree|>, "Si
 ```
 
 ![Sensor angle and rotation angle](images/tutorial/angles.png)
+
+The three pictures, left to right (labelled SA for sensor angle and RA for rotation angle):
+
+1. **SA 22.5°, RA 45°** (the defaults). The sensors look almost straight ahead and the turns
+   are moderate, so agents follow long, smooth curves and gather into a few strong strands.
+2. **SA 22.5°, RA 90°.** The sensors are the same, but agents turn sharply. They swing onto
+   any trail they touch and cross it again and again, which builds a dense web of many
+   junctions. This is the `"Mesh"` preset.
+3. **SA 90°, RA 11.25°.** The outer sensors look sideways, and the turns are gentle. Instead of
+   strands, the agents settle into isolated round clumps, like the spots of a leopard. This is
+   the `"Leopard"` preset.
 
 **How far agents look.** The *sensor distance* sets the scale of the network. Short-sighted
 agents build fine, tight meshes. Far-sighted agents build coarse, fibrous highways:
@@ -196,46 +251,34 @@ simulation into a video.
 
 ---
 
-## The paclet
+## Physarum in the Wolfram Language
 
-A Wolfram Language paclet (`ArnoudBuzing/Physarum`) for **slime-mould simulations**. Hundreds of
+The `ArnoudBuzing/Physarum` paclet brings both models to the Wolfram Language. Hundreds of
 thousands of simple agents follow each other's chemical trails, and glowing, vein-like
-transport networks emerge. They look like *Physarum polycephalum*, the slime mould that
-famously re-created the Tokyo rail network.
+transport networks emerge. The agent model adds multiple competing species, food sources and
+walls to Jones's original. The flow model turns food sources into shortest paths and
+efficient networks.
 
-The model follows J. Jones, *"Characteristics of pattern formation and evolution in
-approximations of Physarum transport networks"* (Artificial Life 16, 2010). It adds
-multiple competing species, food sources and walls.
+| Function | What it does |
+| --- | --- |
+| `PhysarumArt` | grow and render an agent simulation in one call |
+| `PhysarumSimulation`, `PhysarumEvolve`, `PhysarumImage` | set up, advance and draw an agent simulation step by step |
+| `PhysarumAnimate` | turn a simulation into an animation or a video |
+| `PhysarumNetwork` | grow a mould between food sources and read it off as a `Graph` (also on a map) |
+| `PhysarumFlow` | tube-and-flow model: shortest paths and adaptive transport networks |
+| `PhysarumMaze` | generate a maze for the flow model to solve |
+| `$PhysarumPresets` | named parameter sets ("Classic", "Marble", "Rivals", …) |
 
-The hot inner loop (sense → rotate → move → deposit → diffuse) runs in a small Rust library,
-called through LibraryLink and parallelized with rayon. Everything else is Wolfram
-Language: setup, presets, rendering, animation and network extraction.
+### Getting started
 
-## Layout
-
-```
-Physarum/            the paclet
-  PacletInfo.wl
-  Kernel/Physarum.wl
-  LibraryResources/<SystemID>/libphysarum.dylib   (built, not checked in)
-physarum-rs/         Rust source of the simulation kernel
-scripts/build.sh     builds the Rust library and installs it into the paclet
-Tests/Physarum.wlt   test suite
-images/              the pictures in this README
-```
-
-## Build & load
-
-Requires a Rust toolchain (`cargo`) and Wolfram Language 14.1+.
-
-```sh
-./scripts/build.sh
-```
+Load the paclet:
 
 ```wolfram
 PacletDirectoryLoad["/path/to/fun/Physarum"];
 Needs["ArnoudBuzing`Physarum`"]
 ```
+
+See [BUILD.md](BUILD.md) for requirements and how to build the paclet.
 
 ## Quick start
 
@@ -407,8 +450,9 @@ graph is then not connected); a larger `"Steps"` or `"FoodStrength"` usually fix
 
 ## Flow networks: `PhysarumFlow` and `PhysarumMaze`
 
-The tube-and-flow model (Tero *et al.* 2007/2010) is pure Wolfram Language: each step is a
-sparse Kirchhoff solve followed by the conductivity update dD/dt = f(|Q|) − D.
+The tube-and-flow model (Tero *et al.* 2007/2010): each step solves for the flow Q through
+the tubes (like currents in a circuit), then updates the conductivity of every tube with
+dD/dt = f(|Q|) − D.
 
 ```wolfram
 maze = PhysarumMaze[12, "Loops" -> 10, "CellSize" -> 5, "WallWidth" -> 1, RandomSeeding -> 1];
@@ -426,16 +470,14 @@ dropped), `"Resolution"` (lattice size for point input, 50), `"Output"` (`"Image
 `"Frames"`, `"History"`, `"Conductivity"`), `ImageSize` and `RandomSeeding`. Graph output
 keeps the conductivity of every tube as the edge property `"Conductivity"`.
 
-## Tests
+## Function reference
 
-```sh
-wolframscript -code 'TestReport["Tests/Physarum.wlt"]'
-```
+Every function has its own reference page with syntax, options, notes and examples. Start at
+the [function reference](docs/README.md).
 
-## Performance
+## Building and contributing
 
-A 512×512 grid with 131k agents runs about 300 steps per second on an Apple M-series machine.
-Evaluations can be aborted as usual (the Rust loop checks for aborts every step).
+Build instructions, the project layout, tests and performance notes are in [BUILD.md](BUILD.md).
 
 ## License
 

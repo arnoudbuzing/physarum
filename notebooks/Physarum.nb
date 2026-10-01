@@ -1,0 +1,597 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 15.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     23973,        587]
+NotebookOptionsPosition[     20920,        542]
+NotebookOutlinePosition[     21353,        559]
+CellTagsIndexPosition[     21310,        556]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData["Quit"], "Input",
+ CellChangeTimes->{{3.99962024663869*^9, 3.9996202470606947`*^9}},
+ CellLabel->
+  "In[416]:=",ExpressionUUID->"ff6e7b6a-94b6-45fe-ab47-d33ff68397a5"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"PacletDirectoryLoad", "[", "\"\<~/stash/fun/Physarum\>\"", 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.999619406287662*^9, 3.999619418982211*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"997241e9-0edd-445d-ad2e-68e32824eb00"],
+
+Cell[BoxData[
+ RowBox[{"{", "\<\"/Users/arnoudb/stash/fun/Physarum\"\>", "}"}]], "Output",
+ CellChangeTimes->{3.999707314024592*^9},
+ CellLabel->"Out[1]=",ExpressionUUID->"4879dda4-e61c-43f9-87d6-96901b4221f6"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"Needs", "[", "\"\<ArnoudBuzing`Physarum`\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.999619552107877*^9, 3.999619563599215*^9}},
+ CellLabel->"In[2]:=",ExpressionUUID->"09880fd4-8a9b-4860-b56e-649d148812a5"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"maze", "=", 
+   RowBox[{"PhysarumMaze", "[", 
+    RowBox[{"40", ",", 
+     RowBox[{"\"\<Loops\>\"", "->", "8"}], ",", 
+     RowBox[{"RandomSeeding", "->", "5"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"frames", "=", 
+   RowBox[{"PhysarumFlow", "[", 
+    RowBox[{"maze", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0.05", ",", "0.95"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0.95", ",", "0.05"}], "}"}]}], "}"}], ",", 
+     RowBox[{"\"\<Output\>\"", "->", "\"\<Frames\>\""}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{"ListAnimate", " ", "@", " ", 
+  RowBox[{"Take", "[", 
+   RowBox[{"frames", ",", "12"}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.9996841968371553`*^9, 3.999684365614841*^9}},
+ CellLabel->"In[27]:=",ExpressionUUID->"8de9bc58-bbde-4691-92c6-fad7ab9f3c0d"],
+
+Cell[BoxData[
+ RowBox[{"sim", "=", 
+  RowBox[{"PhysarumSimulation", "[", "]"}]}]], "Input",
+ CellChangeTimes->{{3.999619598096654*^9, 3.999619598668503*^9}, {
+  3.999619734724889*^9, 3.999619739171821*^9}},
+ CellLabel->"In[3]:=",ExpressionUUID->"8fe16467-5b3c-478b-97fc-2910df7f64dd"],
+
+Cell[BoxData[
+ RowBox[{"PhysarumEvolve", "[", 
+  RowBox[{
+   TemplateBox[<|
+    "InUUID" -> "8fe16467-5b3c-478b-97fc-2910df7f64dd", "OutUUID" -> 
+     "c4c0954b-8448-473c-a0d5-57b8b87af080", "InUUIDOffset" -> 0, 
+     "KernelEvalInfoKey" -> {"Global`", 1456}, "OutNumber" -> 3, "Status" -> 
+     "PercentReferenceExists_KernelN_InY_OutN", "DisplayCache" -> 
+     TemplateBox[{"\"Physaru...\""}, "SmartPercent_Head"]|>,
+    "PercentRef"], ",", "50"}], "]"}]], "Input",
+ CellChangeTimes->{{3.99961962275944*^9, 3.999619637755588*^9}},
+ CellLabel->"In[19]:=",ExpressionUUID->"f58481fc-fff0-4520-a92c-b2cc98b28e49"],
+
+Cell[BoxData[
+ RowBox[{"ListAnimate", " ", "@", " ", 
+  RowBox[{"PhysarumAnimate", "[", 
+   RowBox[{"sim", ",", "10", ",", "10"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.999619656856703*^9, 3.999619749963357*^9}, {
+  3.999619788074643*^9, 3.999619789701819*^9}},
+ CellLabel->"In[25]:=",ExpressionUUID->"cf031bc3-2408-41ac-8f88-ac3eb17646d3"],
+
+Cell[BoxData[
+ RowBox[{"PhysarumArt", "[", "]"}]], "Input",
+ CellChangeTimes->{{3.999620197686201*^9, 3.9996201976862373`*^9}},
+ CellLabel->"In[27]:=",ExpressionUUID->"10f110aa-db8d-450b-87ab-b5fb48778e09"],
+
+Cell[BoxData[
+ RowBox[{"PhysarumArt", "[", 
+  RowBox[{"\"\<Marble\>\"", ",", 
+   RowBox[{"\"\<Size\>\"", "->", "768"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.999620221615234*^9, 3.9996202216152697`*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"6f430b14-d549-4eda-97df-3bdb59bc222e"],
+
+Cell[BoxData[
+ RowBox[{"Keys", "[", "$PhysarumPresets", "]"}]], "Input",
+ CellChangeTimes->{{3.9996202377752457`*^9, 3.999620237775292*^9}},
+ CellLabel->"In[3]:=",ExpressionUUID->"6ae78c50-c742-4861-a3cb-d6a36f6c6cf7"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"start", " ", "the", " ", "agents", " ", "in", " ", "a", " ", 
+     RowBox[{"shape", ":", "\"\<Random\>\""}]}], ",", "\"\<Disk\>\"", 
+    ",", "\"\<Ring\>\"", ",", "\"\<Burst\>\"", ",", "\"\<Food\>\"", ",", 
+    RowBox[{"or", " ", "any", " ", 
+     RowBox[{
+      RowBox[{"String", "/", "Graphics"}], "/", "Image"}]}]}], "*)"}], 
+  RowBox[{
+   RowBox[{"PhysarumArt", "[", 
+    RowBox[{"\"\<Classic\>\"", ",", 
+     RowBox[{"\"\<Initialization\>\"", "->", "\"\<Disk\>\""}], ",", 
+     RowBox[{"\"\<Wrap\>\"", "->", "False"}], ",", 
+     RowBox[{"\"\<Steps\>\"", "->", "200"}]}], "]"}], "\[IndentingNewLine]", 
+   "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"food", ":", 
+      RowBox[{"agents", " ", "are", " ", "drawn", " ", "to", " ", 
+       RowBox[{"it", ".", "Points"}], " ", "in", " ", "the", " ", "unit", " ",
+        "square"}]}], ",", 
+     RowBox[{"or", " ", 
+      RowBox[{
+       RowBox[{"text", "/", "graphics"}], "/", "images"}]}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"PhysarumArt", "[", 
+    RowBox[{"\"\<Filaments\>\"", ",", 
+     RowBox[{"\"\<Food\>\"", "->", "\"\<PHYSARUM\>\""}], ",", 
+     RowBox[{"\"\<FoodStrength\>\"", "->", "5"}], ",", 
+     RowBox[{"\"\<Initialization\>\"", "->", "\"\<Food\>\""}], ",", 
+     RowBox[{"\"\<Size\>\"", "->", 
+      RowBox[{"{", 
+       RowBox[{"768", ",", "256"}], "}"}]}]}], "]"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{"PhysarumArt", "[", 
+    RowBox[{"\"\<Classic\>\"", ",", 
+     RowBox[{"\"\<Food\>\"", "->", 
+      RowBox[{"RandomReal", "[", 
+       RowBox[{"1", ",", 
+        RowBox[{"{", 
+         RowBox[{"12", ",", "2"}], "}"}]}], "]"}]}], ",", 
+     RowBox[{"\"\<FoodStrength\>\"", "->", "50"}], ",", 
+     RowBox[{"\"\<ShowFood\>\"", "->", "True"}]}], "]"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"walls", ":", 
+      RowBox[{"anything", " ", "maskable"}]}], ";", 
+     RowBox[{"agents", " ", "cannot", " ", "enter", " ", "them"}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"PhysarumArt", "[", 
+    RowBox[{"\"\<Classic\>\"", ",", 
+     RowBox[{"\"\<Walls\>\"", "->", 
+      RowBox[{"Graphics", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"Disk", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"0", ",", "0"}], "}"}], ",", "0.3"}], "]"}], ",", 
+          RowBox[{"Disk", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"0.6", ",", "0.5"}], "}"}], ",", "0.15"}], "]"}]}], 
+         "}"}], ",", 
+        RowBox[{"PlotRange", "->", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", "1"}], ",", "1"}], "}"}]}], "}"}]}]}], "]"}]}]}], 
+    "]"}], "\n"}]}]], "Input",
+ CellChangeTimes->{{3.99962030133922*^9, 3.999620301339284*^9}},
+ CellLabel->"In[5]:=",ExpressionUUID->"eed345a8-5f7e-49ef-bcd6-6fdd4dd04913"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"frames", "=", 
+    RowBox[{"PhysarumAnimate", "[", 
+     RowBox[{"\"\<Classic\>\"", ",", "60", ",", "10"}], "]"}]}], ";"}], 
+  "               ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"60", " ", "frames"}], ",", 
+    RowBox[{"10", " ", "steps", " ", "each"}]}], "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"ListAnimate", "[", "frames", "]"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{"PhysarumAnimate", "[", 
+  RowBox[{
+   RowBox[{"PhysarumSimulation", "[", 
+    RowBox[{"\"\<Marble\>\"", ",", 
+     RowBox[{"\"\<Size\>\"", "->", "384"}]}], "]"}], ",", "120", ",", "5", ",", 
+   RowBox[{"\"\<Output\>\"", "->", "\"\<Video\>\""}]}], "]"}], "\n"}], "Input",\
+
+ CellChangeTimes->{{3.9996203278158903`*^9, 3.999620327815937*^9}},
+ CellLabel->"In[9]:=",ExpressionUUID->"bec0fa3a-648a-4bbf-bec7-13a323ae991f"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"pts", "=", 
+   RowBox[{"RandomReal", "[", 
+    RowBox[{"1", ",", 
+     RowBox[{"{", 
+      RowBox[{"14", ",", "2"}], "}"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"g", "=", 
+   RowBox[{"PhysarumNetwork", "[", "pts", "]"}]}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"PhysarumNetwork", "[", 
+   RowBox[{"pts", ",", 
+    RowBox[{"\"\<Output\>\"", "->", "\"\<Image\>\""}]}], "]"}], "         ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"the", " ", "grown", " ", "mould"}], ",", 
+    RowBox[{"food", " ", "highlighted"}]}], "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"PhysarumNetwork", "[", 
+   RowBox[{"pts", ",", 
+    RowBox[{"\"\<Output\>\"", "->", "\"\<Association\>\""}]}], "]"}], "   ", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Graph", ",", "Simulation", ",", "Image", ",", "Skeleton", ",", "Food"}], 
+   "*)"}], "\[IndentingNewLine]", "\n", 
+  RowBox[{"(*", 
+   RowBox[{
+   "compare", " ", "with", " ", "the", " ", "minimum", " ", "spanning", " ", 
+    "tree"}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"FindSpanningTree", "[", "g", "]"}], "\[IndentingNewLine]", "\n", 
+  RowBox[{"(*", "geographic", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"cities", "=", 
+   RowBox[{"EntityList", "[", 
+    RowBox[{"EntityClass", "[", 
+     RowBox[{"\"\<City\>\"", ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"\"\<Country\>\"", "->", 
+         RowBox[{"Entity", "[", 
+          RowBox[{"\"\<Country\>\"", ",", "\"\<Netherlands\>\""}], "]"}]}], ",", 
+        RowBox[{"\"\<Population\>\"", "->", 
+         RowBox[{"TakeLargest", "[", "12", "]"}]}]}], "}"}]}], "]"}], "]"}]}],
+   ";"}], "\n", 
+ RowBox[{"PhysarumNetwork", "[", 
+  RowBox[{"cities", ",", 
+   RowBox[{"\"\<Output\>\"", "->", "\"\<GeoGraphics\>\""}]}], 
+  "]"}], "\n"}], "Input",
+ CellChangeTimes->{{3.999620471109932*^9, 3.999620471109988*^9}},
+ CellLabel->"In[12]:=",ExpressionUUID->"c3b1bda2-fd29-416a-8009-ae7fd1ff299a"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"pts", "=", 
+   RowBox[{"RandomReal", "[", 
+    RowBox[{"1", ",", 
+     RowBox[{"{", 
+      RowBox[{"14", ",", "2"}], "}"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"g", "=", 
+   RowBox[{"PhysarumNetwork", "[", "pts", "]"}]}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"PhysarumNetwork", "[", 
+   RowBox[{"pts", ",", 
+    RowBox[{"\"\<Output\>\"", "->", "\"\<Image\>\""}]}], "]"}], "         ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"the", " ", "grown", " ", "mould"}], ",", 
+    RowBox[{"food", " ", "highlighted"}]}], "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"PhysarumNetwork", "[", 
+   RowBox[{"pts", ",", 
+    RowBox[{"\"\<Output\>\"", "->", "\"\<Association\>\""}]}], "]"}], "   ", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Graph", ",", "Simulation", ",", "Image", ",", "Skeleton", ",", "Food"}], 
+   "*)"}], "\[IndentingNewLine]", "\n", 
+  RowBox[{"(*", 
+   RowBox[{
+   "compare", " ", "with", " ", "the", " ", "minimum", " ", "spanning", " ", 
+    "tree"}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"FindSpanningTree", "[", "g", "]"}], "\[IndentingNewLine]", "\n", 
+  RowBox[{"(*", "geographic", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"cities", "=", 
+   RowBox[{"EntityList", "[", 
+    RowBox[{"EntityClass", "[", 
+     RowBox[{"\"\<City\>\"", ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"\"\<Country\>\"", "->", 
+         RowBox[{"Entity", "[", 
+          RowBox[{"\"\<Country\>\"", ",", "\"\<Netherlands\>\""}], "]"}]}], ",", 
+        RowBox[{"\"\<Population\>\"", "->", 
+         RowBox[{"TakeLargest", "[", "12", "]"}]}]}], "}"}]}], "]"}], "]"}]}],
+   ";"}], "\n", 
+ RowBox[{"PhysarumNetwork", "[", 
+  RowBox[{"cities", ",", 
+   RowBox[{"\"\<Output\>\"", "->", "\"\<GeoGraphics\>\""}]}], 
+  "]"}], "\n"}], "Input",
+ CellChangeTimes->{{3.999620792466522*^9, 3.999620792466587*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"e3cbea44-34ae-462b-b2bb-c9a510bed9bd"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"frames", "=", 
+    RowBox[{"PhysarumAnimate", "[", 
+     RowBox[{"\"\<Classic\>\"", ",", "60", ",", "10"}], "]"}]}], ";"}], 
+  "               ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"60", " ", "frames"}], ",", 
+    RowBox[{"10", " ", "steps", " ", "each"}]}], "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"ListAnimate", "[", "frames", "]"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{"PhysarumAnimate", "[", 
+  RowBox[{
+   RowBox[{"PhysarumSimulation", "[", 
+    RowBox[{"\"\<Marble\>\"", ",", 
+     RowBox[{"\"\<Size\>\"", "->", "384"}]}], "]"}], ",", "120", ",", "5", ",", 
+   RowBox[{"\"\<Output\>\"", "->", "\"\<Video\>\""}]}], "]"}], "\n"}], "Input",\
+
+ CellChangeTimes->{{3.999621048729228*^9, 3.999621048729282*^9}},
+ CellLabel->"In[11]:=",ExpressionUUID->"67dc6a88-5e8f-4f6c-95f6-aab58a358614"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"start", " ", "the", " ", "agents", " ", "in", " ", "a", " ", 
+     RowBox[{"shape", ":", "\"\<Random\>\""}]}], ",", "\"\<Disk\>\"", 
+    ",", "\"\<Ring\>\"", ",", "\"\<Burst\>\"", ",", "\"\<Food\>\"", ",", 
+    RowBox[{"or", " ", "any", " ", 
+     RowBox[{
+      RowBox[{"String", "/", "Graphics"}], "/", "Image"}]}]}], "*)"}], 
+  RowBox[{
+   RowBox[{"PhysarumArt", "[", 
+    RowBox[{"\"\<Classic\>\"", ",", 
+     RowBox[{"\"\<Initialization\>\"", "->", "\"\<Disk\>\""}], ",", 
+     RowBox[{"\"\<Wrap\>\"", "->", "False"}], ",", 
+     RowBox[{"\"\<Steps\>\"", "->", "200"}]}], "]"}], "\[IndentingNewLine]", 
+   "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"food", ":", 
+      RowBox[{"agents", " ", "are", " ", "drawn", " ", "to", " ", 
+       RowBox[{"it", ".", "Points"}], " ", "in", " ", "the", " ", "unit", " ",
+        "square"}]}], ",", 
+     RowBox[{"or", " ", 
+      RowBox[{
+       RowBox[{"text", "/", "graphics"}], "/", "images"}]}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"PhysarumArt", "[", 
+    RowBox[{"\"\<Filaments\>\"", ",", 
+     RowBox[{"\"\<Food\>\"", "->", "\"\<PHYSARUM\>\""}], ",", 
+     RowBox[{"\"\<FoodStrength\>\"", "->", "5"}], ",", 
+     RowBox[{"\"\<Initialization\>\"", "->", "\"\<Food\>\""}], ",", 
+     RowBox[{"\"\<Size\>\"", "->", 
+      RowBox[{"{", 
+       RowBox[{"768", ",", "256"}], "}"}]}]}], "]"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{"PhysarumArt", "[", 
+    RowBox[{"\"\<Classic\>\"", ",", 
+     RowBox[{"\"\<Food\>\"", "->", 
+      RowBox[{"RandomReal", "[", 
+       RowBox[{"1", ",", 
+        RowBox[{"{", 
+         RowBox[{"12", ",", "2"}], "}"}]}], "]"}]}], ",", 
+     RowBox[{"\"\<FoodStrength\>\"", "->", "50"}], ",", 
+     RowBox[{"\"\<ShowFood\>\"", "->", "True"}]}], "]"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"walls", ":", 
+      RowBox[{"anything", " ", "maskable"}]}], ";", 
+     RowBox[{"agents", " ", "cannot", " ", "enter", " ", "them"}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"PhysarumArt", "[", 
+    RowBox[{"\"\<Classic\>\"", ",", 
+     RowBox[{"\"\<Walls\>\"", "->", 
+      RowBox[{"Graphics", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"Disk", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"0", ",", "0"}], "}"}], ",", "0.3"}], "]"}], ",", 
+          RowBox[{"Disk", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"0.6", ",", "0.5"}], "}"}], ",", "0.15"}], "]"}]}], 
+         "}"}], ",", 
+        RowBox[{"PlotRange", "->", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", "1"}], ",", "1"}], "}"}]}], "}"}]}]}], "]"}]}]}], 
+    "]"}], "\n"}]}]], "Input",
+ CellChangeTimes->{{3.999621091878129*^9, 3.9996210918782167`*^9}},
+ CellLabel->"In[14]:=",ExpressionUUID->"159b3f61-d8cc-42d3-afb4-c58ed4b73801"],
+
+Cell[BoxData[
+ RowBox[{"PhysarumArt", "[", 
+  RowBox[{"\"\<Filaments\>\"", ",", 
+   RowBox[{"\"\<Food\>\"", "->", "\"\<PHYSARUM\>\""}], ",", 
+   RowBox[{"\"\<FoodStrength\>\"", "->", "5"}], ",", 
+   RowBox[{"\"\<Initialization\>\"", "->", "\"\<Food\>\""}], ",", 
+   RowBox[{"\"\<Size\>\"", "->", 
+    RowBox[{"{", 
+     RowBox[{"768", ",", "256"}], "}"}]}]}], "]"}]], "Input",
+ CellLabel->"In[18]:=",ExpressionUUID->"f99f98a5-364b-4ac6-aa9c-e1fc5ea0649c"],
+
+Cell[BoxData[
+ RowBox[{"PhysarumArt", "[", 
+  RowBox[{"\"\<Filaments\>\"", ",", 
+   RowBox[{"\"\<Food\>\"", "->", "\"\<PHYSARUM\>\""}], ",", 
+   RowBox[{"\"\<FoodStrength\>\"", "->", "5"}], ",", 
+   RowBox[{"\"\<Initialization\>\"", "->", "\"\<Food\>\""}], ",", 
+   RowBox[{"\"\<Size\>\"", "->", 
+    RowBox[{"{", 
+     RowBox[{"768", ",", "256"}], "}"}]}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.999621136277206*^9, 3.9996211466755943`*^9}},
+ CellLabel->"In[20]:=",ExpressionUUID->"f577f3a5-f598-4168-aced-0651cc48f318"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"sim", "=", 
+   RowBox[{"PhysarumSimulation", "[", 
+    RowBox[{"\"\<Filaments\>\"", ",", 
+     RowBox[{"\"\<Food\>\"", "->", "\"\<WOLFRAM\>\""}], ",", 
+     RowBox[{"\"\<FoodStrength\>\"", "->", "5"}], ",", 
+     RowBox[{"\"\<Initialization\>\"", "->", "\"\<Food\>\""}], ",", 
+     RowBox[{"\"\<Size\>\"", "->", 
+      RowBox[{"{", 
+       RowBox[{"960", ",", "300"}], "}"}]}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.999621230520672*^9, 3.999621313175819*^9}, {
+   3.999621365712365*^9, 3.999621369165655*^9}, {3.999621462051219*^9, 
+   3.999621471179699*^9}, {3.999621628547083*^9, 3.999621628687509*^9}, 
+   3.999621686196488*^9, {3.999621763609641*^9, 3.999621774837047*^9}},
+ CellLabel->"In[41]:=",ExpressionUUID->"bdf6a44c-469a-4f48-a218-7174ed0a56b6"],
+
+Cell[BoxData[
+ RowBox[{"PhysarumAnimate", "[", 
+  RowBox[{"sim", ",", "40", ",", "5", ",", 
+   RowBox[{"\"\<Output\>\"", "->", "\"\<Video\>\""}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.999621230520672*^9, 3.999621313175819*^9}, {
+   3.999621365712365*^9, 3.999621369165655*^9}, {3.999621462051219*^9, 
+   3.999621482288045*^9}, {3.999621666094945*^9, 3.9996216977726603`*^9}, 
+   3.9996217804318323`*^9},
+ CellLabel->"In[43]:=",ExpressionUUID->"c67563fd-2541-428e-9eee-9fe5fcc8d6c3"],
+
+Cell[BoxData[
+ RowBox[{"?", "PhysarumNetwork"}]], "Input",
+ CellChangeTimes->{{3.999624678613307*^9, 3.999624678907655*^9}},
+ CellLabel->"In[46]:=",ExpressionUUID->"8b440d49-640c-417c-9543-94c375c1555f"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"pts", "=", 
+   RowBox[{"RandomReal", "[", 
+    RowBox[{"1", ",", 
+     RowBox[{"{", 
+      RowBox[{"14", ",", "2"}], "}"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{"g", "=", 
+  RowBox[{"PhysarumNetwork", "[", "pts", "]"}]}]}], "Input",
+ CellChangeTimes->{{3.99962465997019*^9, 3.999624659970244*^9}},
+ CellLabel->"In[44]:=",ExpressionUUID->"2c2c5490-d793-4223-9a8d-eb3a30f0e222"],
+
+Cell[BoxData["pts"], "Input",
+ CellChangeTimes->{{3.999624696977572*^9, 3.9996246973446293`*^9}},
+ CellLabel->"In[47]:=",ExpressionUUID->"56ec94d3-61bd-49a1-b407-baf5cb43ecf0"],
+
+Cell[BoxData[
+ RowBox[{"pts", "=", 
+  RowBox[{"Tuples", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"0", ",", "1"}], "}"}], ",", "2"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.999624707496808*^9, 3.9996247122518053`*^9}, {
+  3.999624769700029*^9, 3.9996247703164377`*^9}},
+ CellLabel->"In[53]:=",ExpressionUUID->"7c1b9771-1ca2-495f-a8fc-ce184a33afa9"],
+
+Cell[BoxData[
+ RowBox[{"PhysarumNetwork", "[", 
+  RowBox[{"Tuples", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"0", ",", "1"}], "}"}], ",", "2"}], "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.999624703525631*^9, 3.9996247181718817`*^9}},
+ CellLabel->"In[54]:=",ExpressionUUID->"fd25f227-36b1-4264-b2cd-d0be616b775d"],
+
+Cell[BoxData[
+ RowBox[{"PhysarumNetwork", "[", 
+  RowBox[{"pts", ",", 
+   RowBox[{"\"\<Backbone\>\"", "->", "True"}]}], "]"}]], "Input",
+ CellLabel->"In[56]:=",ExpressionUUID->"c7d7ab37-9a7c-42b3-b5dd-c55b27b86f65"],
+
+Cell[BoxData[
+ RowBox[{"FindSpanningTree", "[", 
+  RowBox[{"PhysarumNetwork", "[", 
+   RowBox[{"pts", ",", 
+    RowBox[{"\"\<Backbone\>\"", "->", "True"}]}], "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.9996247614395523`*^9, 3.9996247614396048`*^9}},
+ CellLabel->"In[55]:=",ExpressionUUID->"a4930676-6719-4315-bcf7-9e9ed5f5181d"],
+
+Cell[BoxData[
+ RowBox[{
+  TemplateBox[{"\"Amsterdam\"", 
+    RowBox[{"Entity", "[", 
+      RowBox[{"\"City\"", ",", 
+        RowBox[{"{", 
+          
+          RowBox[{"\"Amsterdam\"", ",", "\"NoordHolland\"", ",", 
+            "\"Netherlands\""}], "}"}]}], "]"}], 
+    "\"Entity[\\\"City\\\", {\\\"Amsterdam\\\", \\\"NoordHolland\\\", \
+\\\"Netherlands\\\"}]\"", "\"city\""},
+   "Entity"], "[", "\"\<Position\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.999624814183178*^9, 3.9996248242082872`*^9}},
+ CellLabel->"In[57]:=",ExpressionUUID->"5c797d74-3be4-4df4-a7ad-aa3e4c973228"]
+},
+WindowSize->{1470, 894},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+TaggingRules-><|"TryRealOnly" -> False|>,
+FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (July 2, 2026)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"8322f950-62ac-48ad-9ae3-02c401a7434a"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 180, 3, 29, "Input",ExpressionUUID->"ff6e7b6a-94b6-45fe-ab47-d33ff68397a5"],
+Cell[CellGroupData[{
+Cell[759, 27, 246, 4, 29, "Input",ExpressionUUID->"997241e9-0edd-445d-ad2e-68e32824eb00"],
+Cell[1008, 33, 210, 3, 33, "Output",ExpressionUUID->"4879dda4-e61c-43f9-87d6-96901b4221f6"]
+}, Open  ]],
+Cell[1233, 39, 231, 3, 29, "Input",ExpressionUUID->"09880fd4-8a9b-4860-b56e-649d148812a5"],
+Cell[1467, 44, 853, 22, 70, "Input",ExpressionUUID->"8de9bc58-bbde-4691-92c6-fad7ab9f3c0d"],
+Cell[2323, 68, 284, 5, 29, "Input",ExpressionUUID->"8fe16467-5b3c-478b-97fc-2910df7f64dd"],
+Cell[2610, 75, 611, 11, 31, "Input",ExpressionUUID->"f58481fc-fff0-4520-a92c-b2cc98b28e49"],
+Cell[3224, 88, 343, 6, 29, "Input",ExpressionUUID->"cf031bc3-2408-41ac-8f88-ac3eb17646d3"],
+Cell[3570, 96, 206, 3, 29, "Input",ExpressionUUID->"10f110aa-db8d-450b-87ab-b5fb48778e09"],
+Cell[3779, 101, 284, 5, 29, "Input",ExpressionUUID->"6f430b14-d549-4eda-97df-3bdb59bc222e"],
+Cell[4066, 108, 218, 3, 29, "Input",ExpressionUUID->"6ae78c50-c742-4861-a3cb-d6a36f6c6cf7"],
+Cell[4287, 113, 3054, 76, 233, "Input",ExpressionUUID->"eed345a8-5f7e-49ef-bcd6-6fdd4dd04913"],
+Cell[7344, 191, 851, 22, 111, "Input",ExpressionUUID->"bec0fa3a-648a-4bbf-bec7-13a323ae991f"],
+Cell[8198, 215, 1954, 51, 274, "Input",ExpressionUUID->"c3b1bda2-fd29-416a-8009-ae7fd1ff299a"],
+Cell[10155, 268, 1953, 51, 274, "Input",ExpressionUUID->"e3cbea44-34ae-462b-b2bb-c9a510bed9bd"],
+Cell[12111, 321, 850, 22, 111, "Input",ExpressionUUID->"67dc6a88-5e8f-4f6c-95f6-aab58a358614"],
+Cell[12964, 345, 3058, 76, 233, "Input",ExpressionUUID->"159b3f61-d8cc-42d3-afb4-c58ed4b73801"],
+Cell[16025, 423, 455, 9, 29, "Input",ExpressionUUID->"f99f98a5-364b-4ac6-aa9c-e1fc5ea0649c"],
+Cell[16483, 434, 523, 10, 29, "Input",ExpressionUUID->"f577f3a5-f598-4168-aced-0651cc48f318"],
+Cell[17009, 446, 803, 15, 29, "Input",ExpressionUUID->"bdf6a44c-469a-4f48-a218-7174ed0a56b6"],
+Cell[17815, 463, 485, 8, 29, "Input",ExpressionUUID->"c67563fd-2541-428e-9eee-9fe5fcc8d6c3"],
+Cell[18303, 473, 203, 3, 29, "Input",ExpressionUUID->"8b440d49-640c-417c-9543-94c375c1555f"],
+Cell[18509, 478, 409, 10, 49, "Input",ExpressionUUID->"2c2c5490-d793-4223-9a8d-eb3a30f0e222"],
+Cell[18921, 490, 176, 2, 29, "Input",ExpressionUUID->"56ec94d3-61bd-49a1-b407-baf5cb43ecf0"],
+Cell[19100, 494, 357, 8, 29, "Input",ExpressionUUID->"7c1b9771-1ca2-495f-a8fc-ce184a33afa9"],
+Cell[19460, 504, 323, 7, 29, "Input",ExpressionUUID->"fd25f227-36b1-4264-b2cd-d0be616b775d"],
+Cell[19786, 513, 215, 4, 29, "Input",ExpressionUUID->"c7d7ab37-9a7c-42b3-b5dd-c55b27b86f65"],
+Cell[20004, 519, 330, 6, 29, "Input",ExpressionUUID->"a4930676-6719-4315-bcf7-9e9ed5f5181d"],
+Cell[20337, 527, 579, 13, 35, "Input",ExpressionUUID->"5c797d74-3be4-4df4-a7ad-aa3e4c973228"]
+}
+]
+*)
+
+(* End of internal cache information *)
+

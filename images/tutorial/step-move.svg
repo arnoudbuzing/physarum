@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 200" width="220" height="200" role="img" aria-labelledby="t" font-family="Helvetica, Arial, sans-serif" font-size="12">
+  <title id="t">Move: the agent takes one step forward</title>
+  <rect width="220" height="200" rx="8" fill="#f6f4ee"/>
+  <defs>
+    <path id="agent" d="M 0 -25 L 15 8 L 0 0 L -15 8 Z" fill="#8a7332"/>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M 0 0 L 8 4 L 0 8 z" fill="#8a8578"/></marker>
+  </defs>
+  <use href="#agent" transform="translate(75 170) rotate(35)" opacity="0.35"/>
+  <line x1="80" y1="163" x2="106" y2="126" stroke="#8a8578" stroke-width="1.5" marker-end="url(#ah)"/>
+  <text x="102" y="160" fill="#5c584f">one step</text>
+  <use href="#agent" transform="translate(112.3 116.8) rotate(35)"/>
+</svg>

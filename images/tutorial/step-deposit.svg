@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 200" width="220" height="200" role="img" aria-labelledby="t" font-family="Helvetica, Arial, sans-serif" font-size="12">
+  <title id="t">Deposit: the agent leaves a little trail behind</title>
+  <rect width="220" height="200" rx="8" fill="#f6f4ee"/>
+  <defs>
+    <path id="agent" d="M 0 -25 L 15 8 L 0 0 L -15 8 Z" fill="#8a7332"/>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M 0 0 L 8 4 L 0 8 z" fill="#8a8578"/></marker>
+  </defs>
+  <defs>
+    <linearGradient id="fade" gradientUnits="userSpaceOnUse" x1="120" y1="100" x2="68" y2="174">
+      <stop offset="0" stop-color="#c9ac5e" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#c9ac5e" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+  <line x1="120" y1="100" x2="68" y2="174" stroke="url(#fade)" stroke-width="12" stroke-linecap="round"/>
+  <text x="104" y="176" fill="#5c584f">trail</text>
+  <use href="#agent" transform="translate(120 100) rotate(35)"/>
+</svg>
