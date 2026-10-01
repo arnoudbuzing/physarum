@@ -349,12 +349,12 @@ PhysarumEvolve[PhysarumSimulationObject[a_Association], n_Integer?NonNegative] :
       Boole[a["Wrap"]], n, RandomInteger[2^62]];
     If[Head[res] =!= NumericArray || Length[res] == 0,
       Message[PhysarumEvolve::abort]; Throw[$Aborted, $tag]];
-    res = Normal[res];
     na = First[Dimensions[a["Agents"]]];
     dims = Dimensions[a["Trail"]];
+    (* split and reshape the flat result without leaving NumericArray *)
     PhysarumSimulationObject[<|a,
-      "Agents" -> toNA[ArrayReshape[res[[;; 4 na]], {na, 4}]],
-      "Trail" -> toNA[ArrayReshape[res[[4 na + 1 ;;]], dims]],
+      "Agents" -> ArrayReshape[Take[res, 4 na], {na, 4}],
+      "Trail" -> ArrayReshape[Drop[res, 4 na], dims],
       "Step" -> a["Step"] + n
     |>]
   ],
