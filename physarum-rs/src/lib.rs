@@ -142,6 +142,7 @@ fn evolve(
     let n = w * h;
     let mut buf = vec![0.0; trail.len()];
     let mut moved = vec![true; agents.len() / 4];
+    let has_walls = wall.iter().any(|&v| v != 0.0);
 
     for step in 0..nsteps {
         if wll::aborted() {
@@ -151,7 +152,6 @@ fn evolve(
 
         // 1. Sense, rotate, move (parallel: trail is read-only here).
         {
-            let has_walls = wall.iter().any(|&v| v != 0.0);
             let grid = Grid { trail, wall, w, h, layers, wrap, has_walls };
             agents.par_chunks_mut(4).zip(moved.par_iter_mut()).enumerate().for_each(|(i, (a, ok))| {
                 let s = (a[3] as usize).min(layers - 1);
