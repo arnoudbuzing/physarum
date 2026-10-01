@@ -23,6 +23,18 @@ Needs["ArnoudBuzing`Physarum`"]
 | [PhysarumNetwork](PhysarumNetwork.md) | grow a mould between food sources and read it off as a `Graph` |
 | [$PhysarumPresets](PhysarumPresets.md) | the named parameter sets |
 
+## Agent model in 3D
+
+| Function | Purpose |
+| --- | --- |
+| [PhysarumArt3D](PhysarumArt3D.md) | grow and render a 3D simulation in one call |
+| [PhysarumSimulation3D](PhysarumSimulation3D.md) | create a 3D simulation: species, food, walls, initial layout |
+| [PhysarumSimulation3DObject](PhysarumSimulation3DObject.md) | the 3D simulation state, and the properties you can read from it |
+| [PhysarumImage3D](PhysarumImage3D.md) | render the trail as a volume `Image3D` |
+| [PhysarumGraphics3D](PhysarumGraphics3D.md) | render the network as a `Graphics3D` surface or point cloud |
+
+[PhysarumEvolve](PhysarumEvolve.md) advances 2D and 3D simulations alike.
+
 ## Flow model (tubes carrying protoplasm)
 
 | Function | Purpose |
@@ -37,6 +49,7 @@ Needs["ArnoudBuzing`Physarum`"]
 * **Angles** are in radians. Use `Degree`, as in `30 Degree`.
 * **Points** in food and maze arguments are in the *unit square*: `{0, 0}` is the bottom left and
   `{1, 1}` is the top right, with *y pointing up*.
+* **Points and regions in 3D** are in the *unit cube*, with *z pointing up*.
 * **Masks** (for `"Food"`, `"Walls"` and `"Initialization"`) can be given as a string, a
   `Graphics` object, an `Image`, or a matrix of values between 0 and 1. Strings are rendered in
   bold Helvetica, cropped and centred. A `Graphics` object is stretched over the whole grid: its

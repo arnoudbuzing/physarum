@@ -18,7 +18,26 @@ PhysarumSimulationObject::usage =
   "PhysarumSimulationObject[...] represents the state of a Physarum simulation.";
 
 PhysarumEvolve::usage =
-  "PhysarumEvolve[sim, n] advances the simulation sim by n steps and returns the new PhysarumSimulationObject.";
+  "PhysarumEvolve[sim, n] advances the simulation sim (a PhysarumSimulationObject or PhysarumSimulation3DObject) by n steps and returns the new simulation object.";
+
+PhysarumSimulation3D::usage =
+  "PhysarumSimulation3D[] creates a new 3D slime-mould simulation using the \"Classic\" preset.\n" <>
+  "PhysarumSimulation3D[\"preset\"] uses a named preset from $PhysarumPresets.\n" <>
+  "PhysarumSimulation3D[species] uses an Association (or a list of Associations) of species parameters.";
+
+PhysarumSimulation3DObject::usage =
+  "PhysarumSimulation3DObject[...] represents the state of a 3D Physarum simulation.";
+
+PhysarumImage3D::usage =
+  "PhysarumImage3D[sim] renders the trail map of a PhysarumSimulation3DObject as a volume Image3D.";
+
+PhysarumGraphics3D::usage =
+  "PhysarumGraphics3D[sim] renders a PhysarumSimulation3DObject as Graphics3D, with the network as a surface or the agents as points.";
+
+PhysarumArt3D::usage =
+  "PhysarumArt3D[] grows and renders a 3D slime mould with the \"Classic\" preset.\n" <>
+  "PhysarumArt3D[\"preset\"] grows and renders a named preset in 3D.\n" <>
+  "PhysarumArt3D[spec, opts] accepts any PhysarumSimulation3D specification and options.";
 
 PhysarumImage::usage =
   "PhysarumImage[sim] renders the trail map of a PhysarumSimulationObject as an Image.";
@@ -71,20 +90,24 @@ libraryFile[] := SelectFirst[
 
 $na = {LibraryDataType[NumericArray, "Real64"], "Constant"};
 
-libEvolve := libEvolve = Module[{file = libraryFile[], fun},
+(* Both kernels take (agents, trail, stim, wall, params, wrap, nsteps, seed). A failed load
+   is not memoized, so a later call (e.g. after building the library) tries again. *)
+libLoad[name_String] := libLoad[name] = Module[{file = libraryFile[], fun},
   fun = If[StringQ[file],
-    Quiet @ LibraryFunctionLoad[file, "physarum_evolve",
+    Quiet @ LibraryFunctionLoad[file, name,
       {$na, $na, $na, $na, $na, Integer, Integer, Integer},
       LibraryDataType[NumericArray, "Real64"]],
     $Failed
   ];
   If[Head[fun] =!= LibraryFunction,
     Message[PhysarumSimulation::nolib, FileNameJoin[{$pacletRoot, "LibraryResources", $SystemID}]];
-    Clear[libEvolve];
     Throw[$Failed, $tag]
   ];
   fun
 ];
+
+libEvolve := libLoad["physarum_evolve"];
+libEvolve3D := libLoad["physarum_evolve3d"];
 
 toNA[x_] := NumericArray[Developer`ToPackedArray[N[x]], "Real64"];
 
@@ -341,24 +364,27 @@ PhysarumSimulationObject /: MakeBoxes[obj : PhysarumSimulationObject[a_Associati
 (* ::Section:: *)
 (* PhysarumEvolve *)
 
-PhysarumEvolve[sim_PhysarumSimulationObject] := PhysarumEvolve[sim, 1];
+PhysarumEvolve[sim : (_PhysarumSimulationObject | _PhysarumSimulation3DObject)] := PhysarumEvolve[sim, 1];
 
-PhysarumEvolve[PhysarumSimulationObject[a_Association], n_Integer?NonNegative] := Catch[
-  Module[{res, na, dims},
-    res = libEvolve[a["Agents"], a["Trail"], a["Stimulus"], a["Walls"], a["Parameters"],
-      Boole[a["Wrap"]], n, RandomInteger[2^62]];
-    If[Head[res] =!= NumericArray || Length[res] == 0,
-      Message[PhysarumEvolve::abort]; Throw[$Aborted, $tag]];
-    na = First[Dimensions[a["Agents"]]];
-    dims = Dimensions[a["Trail"]];
-    (* split and reshape the flat result without leaving NumericArray *)
-    PhysarumSimulationObject[<|a,
-      "Agents" -> ArrayReshape[Take[res, 4 na], {na, 4}],
-      "Trail" -> ArrayReshape[Drop[res, 4 na], dims],
-      "Step" -> a["Step"] + n
-    |>]
-  ],
-  $tag
+PhysarumEvolve[PhysarumSimulationObject[a_Association], n_Integer?NonNegative] :=
+  Catch[PhysarumSimulationObject[evolveData[libEvolve, a, n]], $tag];
+
+PhysarumEvolve[PhysarumSimulation3DObject[a_Association], n_Integer?NonNegative] :=
+  Catch[PhysarumSimulation3DObject[evolveData[libEvolve3D, a, n]], $tag];
+
+evolveData[lib_, a_Association, n_] := Module[{res, dims, na, cols},
+  res = lib[a["Agents"], a["Trail"], a["Stimulus"], a["Walls"], a["Parameters"],
+    Boole[a["Wrap"]], n, RandomInteger[2^62]];
+  If[Head[res] =!= NumericArray || Length[res] == 0,
+    Message[PhysarumEvolve::abort]; Throw[$Aborted, $tag]];
+  {na, cols} = Dimensions[a["Agents"]];
+  dims = Dimensions[a["Trail"]];
+  (* split and reshape the flat result without leaving NumericArray *)
+  <|a,
+    "Agents" -> ArrayReshape[Take[res, cols na], {na, cols}],
+    "Trail" -> ArrayReshape[Drop[res, cols na], dims],
+    "Step" -> a["Step"] + n
+  |>
 ];
 
 (* ::Section:: *)
@@ -475,6 +501,344 @@ PhysarumArt[spec_, opts : OptionsPattern[]] := Module[{sim, steps},
   sim = PhysarumEvolve[sim, steps];
   If[sim === $Aborted, Return[$Aborted]];
   PhysarumImage[sim, Sequence @@ FilterRules[{opts}, Options[PhysarumImage]]]
+];
+
+(* ::Section:: *)
+(* 3D agent model
+
+   Grids are stored as {d, h, w} arrays indexed [[z, y, x]], with every index increasing
+   along its axis (z and y point up). Positions in the API are in the unit cube. Image3D puts
+   its first slice at the top and its first row at the back, so arrays are reversed in z and y
+   on the way to and from Image3D. *)
+
+toImage3DData[m_] := Reverse[m, {1, 2}];
+fromImage3DData[m_] := Reverse[m, {1, 2}];
+
+gray3D[img_Image3D] := ImageData[ColorConvert[RemoveAlphaChannel[img, White], "Grayscale"], "Real"];
+
+(* voxel centres {x, y, z} in the unit cube, flattened in storage order (z slowest) *)
+voxelCentres[{w_, h_, d_}] :=
+  Tuples[{(Range[d] - 0.5)/d, (Range[h] - 0.5)/h, (Range[w] - 0.5)/w}][[All, {3, 2, 1}]];
+
+region3DQ[r_] := RegionQ[r] && RegionEmbeddingDimension[r] == 3;
+
+toMask3D[None | Automatic, {w_, h_, d_}] := ConstantArray[0., {d, h, w}];
+toMask3D[img_Image3D, {w_, h_, d_}] := Clip[fromImage3DData[gray3D[ImageResize[img, {w, h, d}]]], {0, 1}];
+toMask3D[m_ /; ArrayQ[m, 3, NumericQ], size_] := toMask3D[Image3D[N[m]], size];
+(* The precompiled RegionMember[r] is far faster on many points than RegionMember[r, pts],
+   and testing each region of a list beats testing their RegionUnion. *)
+toMask3D[l : {__?region3DQ}, size_] := Fold[vmax, toMask3D[#, size] & /@ l];
+toMask3D[r_?region3DQ, {w_, h_, d_}] :=
+  ArrayReshape[N @ Boole[RegionMember[r][voxelCentres[{w, h, d}]]], {d, h, w}];
+toMask3D[other_, _] := (Message[PhysarumSimulation3D::mask, Short[other]]; Throw[$Failed, $tag]);
+
+points3DQ[p_] := MatrixQ[p, NumericQ] && Last[Dimensions[p]] == 3;
+
+(* Food given as points in the unit cube: soft balls, computed in a window around each point. *)
+foodMask3D[pts_?points3DQ, {w_, h_, d_}, radius_] := Module[{m = ConstantArray[0., {d, h, w}], r = N[radius]},
+  Do[
+    Module[{c = p {w, h, d}, lo, hi, axes, s},
+      lo = Max[1, #] & /@ Floor[c - 3 Sqrt[2] r];
+      hi = MapThread[Min, {{w, h, d}, Ceiling[c + 3 Sqrt[2] r]}];
+      If[And @@ Thread[lo <= hi],
+        axes = MapThread[((Range[#1, #2] - 0.5 - #3)^2 / (2 r^2)) &, {lo, hi, c}];
+        s = Outer[Plus, axes[[3]], axes[[2]], axes[[1]]];
+        m[[lo[[3]] ;; hi[[3]], lo[[2]] ;; hi[[2]], lo[[1]] ;; hi[[1]]]] += UnitStep[9. - s] Exp[-Clip[s, {0., 9.}]]]],
+    {p, N[pts]}];
+  Clip[m, {0, 1}]
+];
+foodMask3D[other_, size_, _] := toMask3D[other, size];
+
+randomDirections[n_] := Normalize /@ RandomVariate[NormalDistribution[], {n, 3}];
+
+ballAgents[n_, {w_, h_, d_}, rmax_] := Module[{dirs = randomDirections[n], r},
+  r = rmax Min[w, h, d] RandomReal[1, n]^(1/3);
+  {ConstantArray[{w, h, d}/2, n] + r dirs, dirs}];
+
+(* agents as {x, y, z, hx, hy, hz} rows in grid units *)
+initAgents3D["Random", n_, {w_, h_, d_}, _] :=
+  Join[Transpose[{RandomReal[w, n], RandomReal[h, n], RandomReal[d, n]}], randomDirections[n], 2];
+
+initAgents3D["Ball", n_, size_, _] := Join[First[ballAgents[n, size, 0.38]], randomDirections[n], 2];
+
+initAgents3D["Shell", n_, {w_, h_, d_}, _] := Module[{dirs = randomDirections[n]},
+  Join[ConstantArray[{w, h, d}/2, n] + 0.42 Min[w, h, d] dirs, -dirs, 2]];
+
+initAgents3D["Burst", n_, size_, _] := Join @@ Append[ballAgents[n, size, 0.03], 2];
+
+initAgents3D["Food", n_, size_, food_] := initAgents3D[food, n, size, food];
+
+initAgents3D[mask_ /; ArrayQ[mask, 3, NumericQ], n_, {w_, h_, d_}, _] := Module[{weights = Flatten[mask], idx},
+  If[Total[weights] <= 0, Return[initAgents3D["Random", n, {w, h, d}, None]]];
+  idx = RandomChoice[weights -> Range[w h d], n] - 1;
+  Join[
+    Transpose[{Mod[idx, w], Mod[Quotient[idx, w], h], Quotient[idx, w h]}] + RandomReal[1, {n, 3}],
+    randomDirections[n], 2]
+];
+
+initAgents3D[spec_, n_, size_, food_] := initAgents3D[toMask3D[spec, size], n, size, food];
+
+(* Move agents that start inside a wall to a random free cell. *)
+dropBlocked3D[agents_, walls_, _] /; Max[walls] == 0 := agents;
+dropBlocked3D[agents_, walls_, {w_, h_, d_}] := Module[{blocked},
+  blocked = Pick[Range[Length[agents]],
+    Extract[walls, {Clip[Floor[#[[3]]] + 1, {1, d}], Clip[Floor[#[[2]]] + 1, {1, h}], Clip[Floor[#[[1]]] + 1, {1, w}]} & /@ agents],
+    _?Positive];
+  If[blocked === {}, agents,
+    ReplacePart[agents, Thread[blocked -> MapThread[Append,
+      {initAgents3D[1 - walls, Length[blocked], {w, h, d}, None], agents[[blocked, 7]]}]]]]
+];
+
+Options[PhysarumSimulation3D] = {
+  "Size" -> 96,
+  "Agents" -> Automatic,
+  "Initialization" -> Automatic,
+  "Food" -> None,
+  "FoodStrength" -> Automatic,
+  "FoodRadius" -> 2,
+  "Walls" -> None,
+  "Wrap" -> Automatic
+};
+
+PhysarumSimulation3D::mask = "Cannot interpret `1` as a 3D mask.";
+PhysarumSimulation3D::size = "\"Size\" must be a positive integer or a list of three positive integers.";
+
+PhysarumSimulation3D[opts : OptionsPattern[]] := PhysarumSimulation3D["Classic", opts];
+
+PhysarumSimulation3D[spec_, opts : OptionsPattern[]] := Catch[
+  Module[{p, species, size, w, h, d, n, counts, food, stim, walls, agents, init, wrap, strength},
+    p = resolveSpec[spec];
+    species = p["Species"];
+    If[!MatrixQ[speciesMatrix[species], Internal`RealValuedNumericQ],
+      Message[PhysarumSimulation::spec, spec]; Throw[$Failed, $tag]];
+    size = Replace[OptionValue["Size"], s_?NumericQ :> {s, s, s}];
+    If[!MatchQ[Round[size], {_Integer?Positive, _Integer?Positive, _Integer?Positive}],
+      Message[PhysarumSimulation3D::size]; Throw[$Failed, $tag]];
+    {w, h, d} = Round[size];
+    n = Replace[OptionValue["Agents"], Automatic :> Round[Lookup[p, "AgentDensity", 0.5] w h d]];
+
+    walls = UnitStep[toMask3D[OptionValue["Walls"], {w, h, d}] - 0.5];
+    food = foodMask3D[OptionValue["Food"], {w, h, d}, OptionValue["FoodRadius"]];
+    strength = Replace[OptionValue["FoodStrength"], Automatic :> Max[Lookup[species, "Deposit"]]];
+    stim = strength food (1 - walls);
+
+    wrap = Replace[OptionValue["Wrap"], Automatic :>
+      Lookup[p, "Wrap", OptionValue["Walls"] === None && OptionValue["Food"] === None]];
+
+    init = Replace[OptionValue["Initialization"], Automatic :> Lookup[p, "Initialization", "Random"]];
+    If[init === "Food" && OptionValue["Food"] === None, init = "Random"];
+    (* the 2D-only shapes have 3D counterparts *)
+    init = Replace[init, {"Disk" -> "Ball", "Ring" -> "Shell"}];
+
+    counts = Differences @ Round[n Prepend[Accumulate[#], 0] &[#/Total[#] &[N @ Lookup[species, "Fraction"]]]];
+    agents = Join @@ MapIndexed[
+      With[{a = initAgents3D[init, #1, {w, h, d}, food]},
+        If[#1 == 0, {}, Join[a, ConstantArray[{First[#2] - 1.}, #1], 2]]] &,
+      counts];
+    agents = dropBlocked3D[agents, walls, {w, h, d}];
+
+    PhysarumSimulation3DObject[<|
+      "Agents" -> toNA[agents],
+      "Trail" -> toNA[ConstantArray[0., {Length[species], d, h, w}]],
+      "Stimulus" -> toNA[stim],
+      "Walls" -> toNA[walls],
+      "Parameters" -> toNA[speciesMatrix[species]],
+      "Species" -> species,
+      "Colors" -> speciesColors[species],
+      "Size" -> {w, h, d},
+      "Wrap" -> TrueQ[wrap],
+      "Step" -> 0,
+      "Style" -> KeyTake[p, {"ColorFunction", "Background", "Gamma", "Clip"}],
+      "Steps" -> Lookup[p, "Steps3D", 300]
+    |>]
+  ],
+  $tag
+];
+
+PhysarumSimulation3DObject[a_Association]["Properties"] :=
+  {"Agents", "Trail", "Stimulus", "Walls", "Species", "Size", "Step", "Wrap", "AgentCount", "Image3D", "Graphics3D", "Projection"};
+PhysarumSimulation3DObject[a_Association]["Agents"] := Normal[a["Agents"]];
+PhysarumSimulation3DObject[a_Association]["Trail"] := Normal[a["Trail"]];
+PhysarumSimulation3DObject[a_Association]["Stimulus"] := Normal[a["Stimulus"]];
+PhysarumSimulation3DObject[a_Association]["Walls"] := Normal[a["Walls"]];
+PhysarumSimulation3DObject[a_Association]["AgentCount"] := First[Dimensions[a["Agents"]]];
+PhysarumSimulation3DObject[a_Association]["Image3D"] := PhysarumImage3D[PhysarumSimulation3DObject[a]];
+PhysarumSimulation3DObject[a_Association]["Graphics3D"] := PhysarumGraphics3D[PhysarumSimulation3DObject[a]];
+PhysarumSimulation3DObject[a_Association]["Projection"] := projection3D[a];
+PhysarumSimulation3DObject[a_Association]["Data"] := a;
+PhysarumSimulation3DObject[a_Association][key_String] /; KeyExistsQ[a, key] := a[key];
+
+(* A cheap 2D view: the maximum of each species' trail along z, seen from above. *)
+projection3D[a_Association] := Module[{layers},
+  layers = normalizeLayer[Fold[vmax, #], 0.995, 0.7] & /@ Normal[a["Trail"]];
+  ImageReflect[Image[blendLayers[layers, a["Colors"], Black]], Top]
+];
+
+PhysarumSimulation3DObject /: MakeBoxes[obj : PhysarumSimulation3DObject[a_Association], fmt_] :=
+  BoxForm`ArrangeSummaryBox[PhysarumSimulation3DObject, obj,
+    Quiet @ Check[Image[projection3D[a], ImageSize -> 48], None],
+    {
+      BoxForm`SummaryItem[{"Step: ", a["Step"]}],
+      BoxForm`SummaryItem[{"Size: ", Row[a["Size"], "\[Times]"]}]
+    },
+    {
+      BoxForm`SummaryItem[{"Agents: ", First[Dimensions[a["Agents"]]]}],
+      BoxForm`SummaryItem[{"Species: ", Length[a["Species"]]}],
+      BoxForm`SummaryItem[{"Wrap: ", a["Wrap"]}]
+    },
+    fmt];
+
+(* --- PhysarumImage3D: volume rendering with opacity following trail strength --- *)
+
+Options[PhysarumImage3D] = {
+  ColorFunction -> Automatic,
+  "Colors" -> Automatic,
+  Background -> Automatic,
+  "Gamma" -> Automatic,
+  "Clip" -> Automatic,
+  "Opacity" -> 1,
+  "Smoothing" -> 2,
+  "ShowFood" -> False,
+  "ShowWalls" -> True,
+  "WallColor" -> GrayLevel[0.6],
+  "FoodColor" -> RGBColor[1, 0.3, 0.35],
+  ImageSize -> Automatic
+};
+
+(* Colour a whole array through a 256-entry lookup table: one cf call per entry, not per voxel. *)
+colorize3D[m_, cf_String] := colorize3D[m, ColorData[cf]];
+colorize3D[m_, cf_] := With[{lut = rgb[cf[#]] & /@ Subdivide[0., 1., 255]},
+  ArrayReshape[lut[[Flatten[Round[255 Clip[m, {0, 1}]]] + 1]], Append[Dimensions[m], 3]]];
+
+(* elementwise maximum of two arrays *)
+vmax[a_, b_] := 0.5 (a + b + Abs[a - b]);
+
+PhysarumImage3D[PhysarumSimulation3DObject[a_Association], opts : OptionsPattern[{PhysarumImage3D, Image3D}]] := Module[
+  {style = a["Style"], opt, layers, cf, colors, bg, rgbData, alpha, food, walls, img, extra},
+  opt[name_, default_] := Replace[OptionValue[name],
+    Automatic :> Lookup[style, If[StringQ[name], name, SymbolName[name]], default]];
+  food = Normal[a["Stimulus"]];
+  (* a light blur keeps one-voxel-thin strands from rendering as stripes *)
+  layers = normalizeLayer[If[OptionValue["Smoothing"] > 0, GaussianFilter[#, OptionValue["Smoothing"]], #],
+      (* several species fill the volume with haze: a higher gamma keeps their strands apart *)
+      opt["Clip", 0.995], opt["Gamma", If[Length[a["Species"]] == 1, 1, 2.5]],
+      If[Max[food] > 0, UnitStep[food - 10.^-3 Max[food]], None]] & /@
+    Normal[a["Trail"]];
+  cf = opt[ColorFunction, None];
+  colors = Replace[OptionValue["Colors"], Automatic :> a["Colors"]];
+  bg = opt[Background, Black];
+
+  (* colour from the trail, opacity from its strength *)
+  If[Length[layers] == 1 && cf =!= None && OptionValue["Colors"] === Automatic,
+    rgbData = colorize3D[First[layers], cf];
+    alpha = First[layers],
+    (* species colours weighted by their share of the trail in each voxel *)
+    With[{total = Total[layers]},
+      rgbData = Total[MapThread[TensorProduct, {layers, rgb /@ colors}]] / (total + $MachineEpsilon);
+      alpha = Clip[total, {0, 1}]]
+  ];
+  alpha = Clip[OptionValue["Opacity"] alpha, {0, 1}];
+
+  If[TrueQ[OptionValue["ShowFood"]] && Max[food] > 0,
+    With[{f = Clip[3 food / Max[food], {0, 1}]},
+      rgbData = rgbData (1 - f) + TensorProduct[f, rgb[OptionValue["FoodColor"]]];
+      alpha = vmax[alpha, f]]];
+
+  walls = Normal[a["Walls"]];
+  If[TrueQ[OptionValue["ShowWalls"]] && Max[walls] > 0,
+    rgbData = rgbData (1 - walls) + TensorProduct[walls, rgb[OptionValue["WallColor"]]];
+    alpha = vmax[alpha, 0.08 walls]];
+
+  extra = FilterRules[{opts}, Except[Options[PhysarumImage3D]]];
+  img = Image3D[toImage3DData[Join[rgbData, ArrayReshape[alpha, Append[Dimensions[alpha], 1]], 4]],
+    ColorSpace -> "RGB", Interleaving -> True, Background -> bg, Sequence @@ extra];
+  If[OptionValue[ImageSize] =!= Automatic, img = Image3D[img, ImageSize -> OptionValue[ImageSize]]];
+  img
+];
+
+(* --- PhysarumGraphics3D: isosurfaces of the trail, or the agents as points --- *)
+
+Options[PhysarumGraphics3D] = {
+  Method -> "Surface",
+  "Colors" -> Automatic,
+  Background -> Automatic,
+  "Threshold" -> Automatic,
+  "Smoothing" -> 1,
+  "MaxPoints" -> 50000,
+  "ShowFood" -> True,
+  "ShowWalls" -> True,
+  "WallColor" -> GrayLevel[0.6],
+  "FoodColor" -> RGBColor[1, 0.3, 0.35],
+  ImageSize -> Automatic
+};
+
+(* Isosurface of a {d, h, w} array at level thr, as a GraphicsComplex in grid coordinates.
+   On grayscale input ImageMesh picks its own threshold, so the values first go through a
+   steep sigmoid centred on thr: the surface then lands within about a voxel of thr and,
+   unlike a binarized volume, stays smooth. *)
+isoSurface[m_, thr_, smooth_] := Module[{v = m, mesh},
+  If[smooth > 0, v = GaussianFilter[v, smooth]];
+  mesh = Quiet @ ImageMesh[Image3D[toImage3DData[LogisticSigmoid[20 (v - thr)]]], Method -> "MarchingCubes"];
+  If[!MeshRegionQ[mesh] && !BoundaryMeshRegionQ[mesh], Return[{}]];
+  GraphicsComplex[MeshCoordinates[mesh], MeshCells[mesh, 2]]
+];
+
+PhysarumGraphics3D[PhysarumSimulation3DObject[a_Association], opts : OptionsPattern[{PhysarumGraphics3D, Graphics3D}]] := Module[
+  {style = a["Style"], w, h, d, colors, bg, food, walls, prims, layers, thr, agents, extra},
+  {w, h, d} = a["Size"];
+  (* a single species with a preset colour scheme takes a bright colour from that scheme *)
+  colors = Replace[OptionValue["Colors"], Automatic :>
+    If[Length[a["Species"]] == 1 && KeyExistsQ[style, "ColorFunction"] && a["Species"][[1, "Color"]] === Automatic,
+      {Replace[style["ColorFunction"], s_String :> ColorData[s]][0.75]},
+      a["Colors"]]];
+  bg = Replace[OptionValue[Background], Automatic :> Lookup[style, "Background", Black]];
+  food = Normal[a["Stimulus"]];
+  prims = Switch[OptionValue[Method],
+    "Points",
+      (* each agent is coloured by its species, brighter where the trail is stronger *)
+      agents = Normal[a["Agents"]];
+      If[Length[agents] > OptionValue["MaxPoints"], agents = RandomSample[agents, OptionValue["MaxPoints"]]];
+      layers = normalizeLayer[#, 0.995, 0.7] & /@ Normal[a["Trail"]];
+      With[{s = Round[agents[[All, 7]]] + 1,
+          cell = Transpose[{Clip[Floor[agents[[All, 3]]] + 1, {1, d}], Clip[Floor[agents[[All, 2]]] + 1, {1, h}],
+            Clip[Floor[agents[[All, 1]]] + 1, {1, w}]}]},
+        {PointSize[Tiny], Point[agents[[All, ;; 3]], VertexColors ->
+          (RGBColor @@ ((0.2 + 0.8 Extract[layers[[#1]], #2]) rgb[colors[[#1]]]) & @@@ Transpose[{s, cell}])]}],
+    _,
+      layers = normalizeLayer[#, 0.995, 1, If[Max[food] > 0, UnitStep[food - 10.^-3 Max[food]], None]] & /@ Normal[a["Trail"]];
+      thr = Replace[OptionValue["Threshold"], Automatic :> 0.3];
+      MapThread[{EdgeForm[], #2, Specularity[White, 30], isoSurface[#1, thr, OptionValue["Smoothing"]]} &, {layers, colors}]
+  ];
+  If[TrueQ[OptionValue["ShowFood"]] && Max[food] > 0,
+    AppendTo[prims, {EdgeForm[], OptionValue["FoodColor"], isoSurface[food / Max[food], 0.2, 0]}]];
+  walls = Normal[a["Walls"]];
+  If[TrueQ[OptionValue["ShowWalls"]] && Max[walls] > 0,
+    AppendTo[prims, {EdgeForm[], OptionValue["WallColor"], Opacity[0.25], isoSurface[walls, 0.5, 0]}]];
+  extra = FilterRules[{opts}, Except[Options[PhysarumGraphics3D]]];
+  Graphics3D[prims, Sequence @@ extra,
+    PlotRange -> {{0, w}, {0, h}, {0, d}}, BoxRatios -> {w, h, d}, Background -> bg,
+    Boxed -> True, BoxStyle -> GrayLevel[0.5], Lighting -> "Neutral", SphericalRegion -> True,
+    ImageSize -> OptionValue[ImageSize]]
+];
+
+(* --- PhysarumArt3D --- *)
+
+Options[PhysarumArt3D] = Join[{"Steps" -> Automatic, "Output" -> "Image3D"}, Options[PhysarumSimulation3D],
+  DeleteCases[Options[PhysarumImage3D], ImageSize -> _], {ImageSize -> Automatic}];
+
+PhysarumArt3D[opts : OptionsPattern[]] := PhysarumArt3D["Classic", opts];
+
+PhysarumArt3D[spec_, opts : OptionsPattern[{PhysarumArt3D, PhysarumGraphics3D}]] := Module[{sim, steps},
+  sim = PhysarumSimulation3D[spec, Sequence @@ FilterRules[{opts}, Options[PhysarumSimulation3D]]];
+  If[Head[sim] =!= PhysarumSimulation3DObject, Return[$Failed]];
+  steps = Replace[OptionValue["Steps"], Automatic :> sim["Steps"]];
+  sim = PhysarumEvolve[sim, steps];
+  If[sim === $Aborted, Return[$Aborted]];
+  Switch[OptionValue["Output"],
+    "Graphics3D", PhysarumGraphics3D[sim, Sequence @@ FilterRules[{opts}, Options[PhysarumGraphics3D]]],
+    "Simulation", sim,
+    _, PhysarumImage3D[sim, Sequence @@ FilterRules[{opts}, Options[PhysarumImage3D]]]
+  ]
 ];
 
 (* ::Section:: *)

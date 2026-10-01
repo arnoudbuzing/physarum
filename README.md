@@ -267,6 +267,7 @@ efficient networks.
 | `PhysarumNetwork` | grow a mould between food sources and read it off as a `Graph` (also on a map) |
 | `PhysarumFlow` | tube-and-flow model: shortest paths and adaptive transport networks |
 | `PhysarumMaze` | generate a maze for the flow model to solve |
+| `PhysarumSimulation3D`, `PhysarumImage3D`, `PhysarumGraphics3D`, `PhysarumArt3D` | the agent model in 3D, drawn as a volume, a surface or a point cloud |
 | `$PhysarumPresets` | named parameter sets ("Classic", "Marble", "Rivals", …) |
 
 ### Getting started
@@ -387,6 +388,35 @@ ListAnimate[frames]
 
 PhysarumAnimate[PhysarumSimulation["Marble", "Size" -> 384], 120, 5, "Output" -> "Video"]
 ```
+
+## In three dimensions
+
+The agent model also runs in a volume. Each agent senses with one sensor ahead and a ring of four
+tilted ones, and the trail diffuses in 3D. The same presets and species work.
+`PhysarumEvolve` advances 2D and 3D simulations alike:
+
+```wolfram
+sim = PhysarumEvolve[PhysarumSimulation3D["Classic"], 300];   (* 96 × 96 × 96 voxels *)
+PhysarumImage3D[sim]                          (* volume rendering: an Image3D *)
+PhysarumGraphics3D[sim]                       (* the network as a smooth surface *)
+PhysarumGraphics3D[sim, Method -> "Points"]   (* the agents as a point cloud *)
+```
+
+![Volume, surface and point views of a 3D simulation](images/3d/views.png)
+
+Food points and walls are given in the unit cube. Walls can be any 3D region:
+
+```wolfram
+PhysarumArt3D["Classic", "Food" -> RandomReal[{0.15, 0.85}, {8, 3}], "FoodStrength" -> 50,
+  "Steps" -> 400, "Output" -> "Graphics3D"]
+PhysarumArt3D["Classic", "Walls" -> Ball[{0.5, 0.5, 0.5}, 0.25], "Wrap" -> True, "Output" -> "Graphics3D"]
+```
+
+![Foraging, food in the volume view, and walls](images/3d/food-walls.png)
+
+All presets in 3D:
+
+![All presets in 3D](images/3d/presets.png)
 
 ## Transport networks → `Graph`
 

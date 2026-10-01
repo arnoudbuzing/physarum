@@ -8,6 +8,7 @@ Advances a simulation by a number of steps.
 | --- | --- |
 | `PhysarumEvolve[sim, n]` | advances the [PhysarumSimulationObject](PhysarumSimulationObject.md) `sim` by `n` steps and returns the new object |
 | `PhysarumEvolve[sim]` | advances by a single step |
+| `PhysarumEvolve[sim3D, n]` | advances a 3D [PhysarumSimulation3DObject](PhysarumSimulation3DObject.md) by `n` steps |
 
 ## Details
 
@@ -22,6 +23,9 @@ Advances a simulation by a number of steps.
 
   Then the whole trail map *diffuses* (`"Diffusion"`), *decays* (`"Decay"`), and receives the food
   attractant. Food attracts every species.
+* A 3D simulation follows the same steps in a volume. It senses with one sensor ahead and a ring of
+  four tilted ones, and diffuses over 3 × 3 × 3 voxels. See
+  [PhysarumSimulation3D](PhysarumSimulation3D.md) for details.
 * `sim` is not changed. The new object has `"Step"` increased by `n`.
 * `n` must be a non-negative integer. `PhysarumEvolve[sim, 0]` returns the state unchanged.
 * Evolving in several calls gives the same kind of result as evolving in one, so

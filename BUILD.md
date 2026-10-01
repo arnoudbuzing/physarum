@@ -19,7 +19,7 @@ Physarum/            the paclet
   PacletInfo.wl
   Kernel/Physarum.wl
   LibraryResources/<SystemID>/libphysarum.dylib   (built, not checked in)
-physarum-rs/         Rust source of the simulation kernel
+physarum-rs/         Rust source of the simulation kernel (src/lib.rs: 2D, src/evolve3d.rs: 3D)
 scripts/build.sh     builds the Rust library and installs it into the paclet
 Tests/Physarum.wlt   test suite
 images/              the pictures in the README
@@ -56,4 +56,5 @@ wolframscript -code 'TestReport["Tests/Physarum.wlt"]'
 ## Performance
 
 A 512×512 grid with 131k agents runs about 300 steps per second on an Apple M-series machine.
+In 3D, a 96³ grid with 265k agents runs about 75 steps per second.
 Evaluations can be aborted as usual (the Rust loop checks for aborts every step).

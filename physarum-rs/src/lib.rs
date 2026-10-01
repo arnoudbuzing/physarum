@@ -18,6 +18,8 @@
 use rayon::prelude::*;
 use wolfram_library_link::{self as wll, NumericArray};
 
+mod evolve3d;
+
 const NPARAMS: usize = 9;
 
 #[derive(Clone, Copy)]
@@ -280,6 +282,50 @@ fn physarum_evolve(
         wall.as_slice(),
         &species,
         (layers, h, w),
+        wrap != 0,
+        nsteps.max(0) as usize,
+        seed as u64,
+    );
+    if !ok {
+        return NumericArray::from_slice(&[]);
+    }
+    ag.extend_from_slice(&tr);
+    NumericArray::from_slice(&ag)
+}
+
+/// `PhysarumEvolve3D[agents, trail, stim, wall, params, wrap, nsteps, seed]`
+///
+/// The 3D counterpart of `physarum_evolve` (see `evolve3d` for the data layout). Returns a
+/// flat vector `Join[Flatten[agents'], Flatten[trail']]`, or an empty vector if aborted.
+#[wll::export]
+fn physarum_evolve3d(
+    agents: &NumericArray<f64>,
+    trail: &NumericArray<f64>,
+    stim: &NumericArray<f64>,
+    wall: &NumericArray<f64>,
+    params: &NumericArray<f64>,
+    wrap: i64,
+    nsteps: i64,
+    seed: i64,
+) -> NumericArray<f64> {
+    let td = trail.dimensions();
+    assert!(td.len() == 4, "trail must have rank 4 {{species, d, h, w}}");
+    let (layers, d, h, w) = (td[0], td[1], td[2], td[3]);
+    assert!(agents.rank() == 2 && agents.dimensions()[1] == 7, "agents must be {{n, 7}}");
+    assert!(stim.flattened_length() == d * h * w && wall.flattened_length() == d * h * w, "stim/wall must be {{d, h, w}}");
+    assert!(params.flattened_length() == layers * NPARAMS, "params must be {{species, 9}}");
+
+    let species: Vec<Species> = params.as_slice().chunks(NPARAMS).map(Species::from_row).collect();
+    let mut ag = agents.as_slice().to_vec();
+    let mut tr = trail.as_slice().to_vec();
+
+    let ok = evolve3d::evolve3d(
+        &mut ag,
+        &mut tr,
+        stim.as_slice(),
+        wall.as_slice(),
+        &species,
+        (layers, d, h, w),
         wrap != 0,
         nsteps.max(0) as usize,
         seed as u64,

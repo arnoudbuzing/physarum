@@ -185,4 +185,83 @@ VerificationTest[
   TestID -> "BadNetworkInput"
 ];
 
+(* ---- 3D ---- *)
+
+VerificationTest[
+  s3 = PhysarumSimulation3D["Classic", "Size" -> {40, 30, 20}, "Agents" -> 2000];
+  {Head[s3], s3["Size"], s3["AgentCount"], Dimensions[s3["Agents"]], Dimensions[s3["Trail"]], s3["Step"]},
+  {PhysarumSimulation3DObject, {40, 30, 20}, 2000, {2000, 7}, {1, 20, 30, 40}, 0},
+  TestID -> "Create3D"
+];
+
+VerificationTest[
+  (* agents stay in the (periodic) box and keep unit headings *)
+  e3 = PhysarumEvolve[s3, 25];
+  With[{a = e3["Agents"]},
+    {e3["Step"], Total[e3["Trail"], 4] > 0,
+      And @@ MapThread[0 <= Min[#1] && Max[#1] < #2 &, {Transpose[a[[All, ;; 3]]], {40, 30, 20}}],
+      Max[Abs[Norm /@ a[[All, 4 ;; 6]] - 1]] < 10^-9}],
+  {25, True, True, True},
+  TestID -> "Evolve3D"
+];
+
+VerificationTest[
+  SeedRandom[4]; a = PhysarumEvolve[PhysarumSimulation3D["Classic", "Size" -> 24, "Agents" -> 500], 10]["Trail"];
+  SeedRandom[4]; b = PhysarumEvolve[PhysarumSimulation3D["Classic", "Size" -> 24, "Agents" -> 500], 10]["Trail"];
+  a == b,
+  True,
+  TestID -> "Reproducible3D"
+];
+
+VerificationTest[
+  (* walls: no agent ends up inside a wall *)
+  w3 = PhysarumEvolve[PhysarumSimulation3D["Classic", "Size" -> 32, "Agents" -> 3000,
+    "Walls" -> Ball[{0.5, 0.5, 0.5}, 0.3]], 30];
+  {Max[w3["Walls"]] > 0, Total[Extract[w3["Walls"], {Floor[#[[3]]] + 1, Floor[#[[2]]] + 1, Floor[#[[1]]] + 1} & /@ w3["Agents"]]]},
+  {True, 0.},
+  TestID -> "Walls3D"
+];
+
+VerificationTest[
+  (* food in the unit cube lands in the right voxel; stored as [[z, y, x]] *)
+  f3 = PhysarumSimulation3D["Classic", "Size" -> {40, 30, 20}, "Agents" -> 100, "Food" -> {{9.5/40, 23.5/30, 9.5/20}}];
+  {f3["Wrap"], Reverse[First[Position[f3["Stimulus"], Max[f3["Stimulus"]]]]]},
+  {False, {10, 24, 10}},
+  TestID -> "Food3D"
+];
+
+VerificationTest[
+  m3 = PhysarumEvolve[PhysarumSimulation3D["Marble", "Size" -> 24, "Agents" -> 900], 5];
+  {Dimensions[m3["Trail"]], Sort[DeleteDuplicates[m3["Agents"][[All, 7]]]]},
+  {{3, 24, 24, 24}, {0., 1., 2.}},
+  TestID -> "MultiSpecies3D"
+];
+
+VerificationTest[
+  {Head[i3 = PhysarumImage3D[e3]], ImageDimensions[i3], ImageChannels[i3],
+    Head[PhysarumImage3D[m3]], ImageQ[e3["Projection"]]},
+  {Image3D, {40, 30, 20}, 4, Image3D, True},
+  TestID -> "Image3D"
+];
+
+VerificationTest[
+  Head /@ {PhysarumGraphics3D[e3], PhysarumGraphics3D[e3, Method -> "Points"], PhysarumGraphics3D[w3]},
+  {Graphics3D, Graphics3D, Graphics3D},
+  TestID -> "Graphics3D"
+];
+
+VerificationTest[
+  Head /@ {PhysarumArt3D["Classic", "Size" -> 24, "Steps" -> 10],
+    PhysarumArt3D["Classic", "Size" -> 24, "Steps" -> 10, "Output" -> "Graphics3D", Method -> "Points"]},
+  {Image3D, Graphics3D},
+  TestID -> "Art3D"
+];
+
+VerificationTest[
+  PhysarumSimulation3D["Classic", "Size" -> {10, 10}],
+  $Failed,
+  {PhysarumSimulation3D::size},
+  TestID -> "BadSize3D"
+];
+
 EndTestSection[];
