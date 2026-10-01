@@ -626,7 +626,8 @@ backbone[graph_, food_] := Module[{g, pos, paths, keep},
    Junction pixel clusters collapse to single nodes; the pixel chains between nodes are
    walked and resampled every `step` pixels so that edges follow the curves. *)
 skeletonGraph[skel_Image, step_Integer] := Module[
-  {pos, m, near, adj, deg, nodeOf, nodes, clusters, chains, vpos, edges, next, comps},
+  {pos, m, near, adj, deg, nodeOf, nodes, clusters, chains, vpos, edges, next, comps,
+    ends, loops, seen, walk = 0, interiors, offsets},
   pos = N[PixelValuePositions[skel, 1]] - 0.5;
   m = Length[pos];
   If[m < 2, Return[{{}, {}}]];
@@ -641,22 +642,29 @@ skeletonGraph[skel_Image, step_Integer] := Module[
   clusters = Select[clusters, deg[[First[#]]] >= 3 &];
   Do[nodeOf[[clusters[[k]]]] = k, {k, Length[clusters]}];
   nodes = Mean[pos[[#]]] & /@ clusters;
-  Do[If[deg[[i]] <= 1, AppendTo[nodes, pos[[i]]]; nodeOf[[i]] = Length[nodes]], {i, m}];
+  ends = Pick[Range[m], Thread[deg <= 1]];
+  nodeOf[[ends]] = Length[nodes] + Range[Length[ends]];
+  nodes = Join[nodes, pos[[ends]]];
   comps = ConnectedComponents[Graph[Range[m], Flatten[MapIndexed[UndirectedEdge[First[#2], #1] &, adj, {2}]]]];
-  Do[If[AllTrue[c, nodeOf[[#]] == 0 &], AppendTo[nodes, pos[[First[c]]]]; nodeOf[[First[c]]] = Length[nodes]], {c, comps}];
+  loops = First /@ Select[comps, Max[nodeOf[[#]]] == 0 &];
+  nodeOf[[loops]] = Length[nodes] + Range[Length[loops]];
+  nodes = Join[nodes, pos[[loops]]];
 
-  (* walk every chain leaving a node until another node is reached *)
+  (* walk every chain leaving a node until another node is reached; seen[[i]] == walk marks
+     the pixels of the current walk, and the path is a linked list, so each step is O(1) *)
+  seen = ConstantArray[0, m];
   chains = Reap[
     Do[If[nodeOf[[p]] > 0,
       Do[
-        Module[{prev = p, cur = q, path = {}},
-          While[nodeOf[[cur]] == 0 && Length[path] <= m,
-            AppendTo[path, cur];
-            next = SelectFirst[adj[[cur]], # != prev && !MemberQ[path, #] &, None];
+        Module[{prev = p, cur = q, path = {}, len = 0},
+          walk++;
+          While[nodeOf[[cur]] == 0 && len <= m,
+            path = {path, cur}; len++; seen[[cur]] = walk;
+            next = SelectFirst[adj[[cur]], # != prev && seen[[#]] != walk &, None];
             If[next === None, Break[]];
             {prev, cur} = {cur, next}];
-          If[nodeOf[[cur]] > 0 && (nodeOf[[cur]] != nodeOf[[p]] || path =!= {}),
-            Sow[{nodeOf[[p]], nodeOf[[cur]], path}]]
+          If[nodeOf[[cur]] > 0 && (nodeOf[[cur]] != nodeOf[[p]] || len > 0),
+            Sow[{nodeOf[[p]], nodeOf[[cur]], Flatten[path]}]]
         ],
         {q, Select[adj[[p]], nodeOf[[#]] != nodeOf[[p]] &]}]],
       {p, m}]
@@ -666,15 +674,12 @@ skeletonGraph[skel_Image, step_Integer] := Module[
   chains = DeleteDuplicatesBy[chains, {Sort[#[[;; 2]]], Sort[#[[3]]]} &];
 
   (* resample chains into polylines of intermediate vertices *)
-  vpos = nodes;
-  edges = Flatten @ Map[
-    Function[{c}, Module[{interior = pos[[c[[3, ;; ;; step]]]], ids},
-      interior = If[Length[c[[3]]] > step, Rest[interior], {}];
-      ids = Length[vpos] + Range[Length[interior]];
-      vpos = Join[vpos, interior];
-      UndirectedEdge @@@ Partition[Join[{c[[1]]}, ids, {c[[2]]}], 2, 1]
-    ]],
-    chains];
+  interiors = If[Length[#[[3]]] > step, Rest[pos[[#[[3, ;; ;; step]]]]], {}] & /@ chains;
+  offsets = Length[nodes] + Most[Prepend[Accumulate[Length /@ interiors], 0]];
+  vpos = Join[nodes, Join @@ interiors];
+  edges = Flatten @ MapThread[
+    UndirectedEdge @@@ Partition[Join[{#1[[1]]}, #2 + Range[Length[#3]], {#1[[2]]}], 2, 1] &,
+    {chains, offsets, interiors}];
   edges = DeleteDuplicates[DeleteCases[Sort /@ edges, UndirectedEdge[a_, a_]]];
   {vpos, edges}
 ];
