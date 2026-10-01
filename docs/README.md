@@ -6,7 +6,7 @@ the slime mould and to the two models, see the main [README](../README.md).
 Load the paclet first:
 
 ```wolfram
-PacletDirectoryLoad["/path/to/fun/Physarum"];
+PacletDirectoryLoad["/path/to/physarum/Physarum"];
 Needs["ArnoudBuzing`Physarum`"]
 ```
 

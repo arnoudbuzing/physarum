@@ -274,7 +274,7 @@ efficient networks.
 Load the paclet:
 
 ```wolfram
-PacletDirectoryLoad["/path/to/fun/Physarum"];
+PacletDirectoryLoad["/path/to/physarum/Physarum"];
 Needs["ArnoudBuzing`Physarum`"]
 ```
 

@@ -43,7 +43,7 @@ Linux (x86-64, ARM64). The compiled library is not checked in.
 ## Load
 
 ```wolfram
-PacletDirectoryLoad["/path/to/fun/Physarum"];
+PacletDirectoryLoad["/path/to/physarum/Physarum"];
 Needs["ArnoudBuzing`Physarum`"]
 ```
 
