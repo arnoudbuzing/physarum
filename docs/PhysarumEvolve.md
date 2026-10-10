@@ -13,10 +13,10 @@ Advances a simulation by a number of steps.
 ## Details
 
 * One **step** does the following for every agent, in this order:
-  1. *sense*: read the trail at three sensors ahead of the agent (left, centre and right, at
+  1. *sense*: read the trail at three sensors ahead of the agent (left, center and right, at
      `"SensorDistance"` and `"SensorAngle"`),
-  2. *rotate*: turn by `"RotationAngle"` towards the strongest reading. If the centre sensor is
-     the strongest, the agent goes straight on. If the centre is weaker than both side sensors,
+  2. *rotate*: turn by `"RotationAngle"` toward the strongest reading. If the center sensor is
+     the strongest, the agent goes straight on. If the center is weaker than both side sensors,
      the agent turns left or right at random,
   3. *move*: take a step of length `"StepSize"` (after adding the random `"Jitter"` to the heading),
   4. *deposit*: add `"Deposit"` to the trail at the new position.

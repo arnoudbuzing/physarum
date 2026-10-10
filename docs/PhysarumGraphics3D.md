@@ -17,11 +17,11 @@ cloud.
   trail equals `"Threshold"`. The trail is blurred by `"Smoothing"` first. Raise the threshold for
   thinner strands, lower it for thicker ones.
 * **`Method -> "Points"`** draws up to `"MaxPoints"` agents (a random sample if there are more),
-  coloured by species, and brighter where the trail is strong. It is the fastest view.
+  colored by species, and brighter where the trail is strong. It is the fastest view.
 * Coordinates are grid units: the plot range is `{{0, w}, {0, h}, {0, d}}`, with z up.
-* Food is drawn as red surfaces and walls as translucent grey surfaces.
-* A single species with a preset colour scheme takes a bright colour from that scheme. Otherwise
-  each species has its own colour.
+* Food is drawn as red surfaces and walls as translucent gray surfaces.
+* A single species with a preset color scheme takes a bright color from that scheme. Otherwise
+  each species has its own color.
 * Unknown options are passed to `Graphics3D`, so `ViewPoint`, `Boxed`, `Lighting` and so on work.
 
 ## Options
@@ -29,15 +29,15 @@ cloud.
 | Option | Default | Meaning |
 | --- | --- | --- |
 | `Method` | `"Surface"` | `"Surface"` or `"Points"` |
-| `"Colors"` | Automatic | one colour per species |
-| `Background` | Automatic | background colour. Automatic uses the preset's, or black. |
+| `"Colors"` | Automatic | one color per species |
+| `Background` | Automatic | background color. Automatic uses the preset's, or black. |
 | `"Threshold"` | Automatic | surface level, between 0 and 1, of the normalized trail (0.3) |
 | `"Smoothing"` | 1 | radius of the Gaussian blur applied before the surface is found |
 | `"MaxPoints"` | 50000 | the most agents drawn with `Method -> "Points"` |
 | `"ShowFood"` | True | whether to draw the food |
 | `"ShowWalls"` | True | whether to draw the walls |
-| `"WallColor"` | `GrayLevel[0.6]` | colour of the walls |
-| `"FoodColor"` | `RGBColor[1, 0.3, 0.35]` | colour of the food |
+| `"WallColor"` | `GrayLevel[0.6]` | color of the walls |
+| `"FoodColor"` | `RGBColor[1, 0.3, 0.35]` | color of the food |
 | `ImageSize` | Automatic | display size |
 
 ## Examples

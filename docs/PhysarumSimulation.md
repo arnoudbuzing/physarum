@@ -1,6 +1,6 @@
 # PhysarumSimulation
 
-Creates a slime-mould agent simulation. It returns a
+Creates a slime-mold agent simulation. It returns a
 [PhysarumSimulationObject](PhysarumSimulationObject.md) in its starting state (step 0). Advance it
 with [PhysarumEvolve](PhysarumEvolve.md) and draw it with [PhysarumImage](PhysarumImage.md).
 
@@ -37,7 +37,7 @@ with [PhysarumEvolve](PhysarumEvolve.md) and draw it with [PhysarumImage](Physar
 * With several species, each species has its **own trail layer**. Species sense their own trail,
   and `"Repulsion"` makes them avoid the trails of the others.
 * Food adds attractant to the trail map at every step. Agents that can smell it are drawn
-  towards it, so strands that reach food are reinforced.
+  toward it, so strands that reach food are reinforced.
 * Walls are impassable. Agents cannot enter them or see through them, and a wall pixel never
   receives trail. Agents that would start inside a wall are moved to a random free cell.
 * The random number generator is the kernel's. Use `SeedRandom` to get repeatable initial layouts.
@@ -48,10 +48,10 @@ with [PhysarumEvolve](PhysarumEvolve.md) and draw it with [PhysarumImage](Physar
 | --- | --- | --- |
 | `"SensorAngle"` | `22.5 Degree` | angle between the forward sensor and each of the two side sensors |
 | `"SensorDistance"` | 9 | how far ahead the sensors smell, in grid cells. It sets the scale of the network. |
-| `"RotationAngle"` | `45 Degree` | how far an agent turns towards the strongest sensor in one step |
+| `"RotationAngle"` | `45 Degree` | how far an agent turns toward the strongest sensor in one step |
 | `"StepSize"` | 1 | distance moved per step, in grid cells |
 | `"Deposit"` | 5 | trail laid down per agent per step |
-| `"Decay"` | 0.1 | fraction of trail lost per step (0 to 1). It is the mould's memory. |
+| `"Decay"` | 0.1 | fraction of trail lost per step (0 to 1). It is the mold's memory. |
 | `"Diffusion"` | 1 | how much the trail spreads per step. 0 is no blur, 1 is a full 3×3 blur. |
 | `"Jitter"` | 0 | random wiggle added to the heading each step, in radians (uniform in ±`Jitter`/2) |
 | `"Repulsion"` | 0 | how strongly the species avoids other species' trails. Ignored with a single species. |
@@ -81,8 +81,8 @@ instead, for finer networks.
 | --- | --- |
 | `"Random"` | uniformly over the grid, with random headings |
 | `"Disk"` | uniformly inside a disk in the middle of the grid |
-| `"Ring"` | on a circle, heading inwards |
-| `"Burst"` | in a tiny cluster in the centre, heading outwards |
+| `"Ring"` | on a circle, heading inward |
+| `"Burst"` | in a tiny cluster in the center, heading outward |
 | `"Food"` | placed over the food, in proportion to its intensity. Needs `"Food"`, else falls back to `"Random"`. |
 | any mask | placed in proportion to the brightness of a string, `Graphics`, `Image`, ... |
 
@@ -156,7 +156,7 @@ sim = PhysarumSimulation["Filaments", "Size" -> {600, 200}, "Food" -> "PHYSARUM"
 PhysarumImage[PhysarumEvolve[sim, 400], "ShowFood" -> True]
 ```
 
-![Growing towards text](../images/text.png)
+![Growing toward text](../images/text.png)
 
 ### Walls
 

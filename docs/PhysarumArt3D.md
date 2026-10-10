@@ -1,6 +1,6 @@
 # PhysarumArt3D
 
-Grows a 3D slime-mould simulation and renders it in one call.
+Grows a 3D slime-mold simulation and renders it in one call.
 
 ## Syntax
 

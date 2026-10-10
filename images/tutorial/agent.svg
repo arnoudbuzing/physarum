@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 290" width="440" height="290" role="img" aria-labelledby="t d" font-family="Helvetica, Arial, sans-serif" font-size="13">
   <title id="t">A Physarum agent and its three sensors</title>
-  <desc id="d">An agent pointing up with left, centre and right sensors ahead of it. The right sensor sits on a trail and smells strongest.</desc>
+  <desc id="d">An agent pointing up with left, center and right sensors ahead of it. The right sensor sits on a trail and smells strongest.</desc>
   <rect width="440" height="290" rx="8" fill="#f6f4ee"/>
 
   <!-- trail passing through the right sensor -->
@@ -34,7 +34,7 @@
   <circle cx="235" cy="137.4" r="9" fill="#c9ac5e" stroke="#8a7332" stroke-width="1.5"/>
   <g fill="#5c584f" text-anchor="middle">
     <text x="105" y="115">left</text>
-    <text x="170" y="98">centre</text>
+    <text x="170" y="98">center</text>
     <text x="235" y="115">right</text>
   </g>
 

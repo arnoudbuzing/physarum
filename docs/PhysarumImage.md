@@ -15,7 +15,7 @@ Renders the trail map of a simulation as an `Image`.
 * `PhysarumImage` is `Listable`: given a list of simulations it returns a list of images, all
   drawn with the same options.
 * The picture shows the **trail**, not the agents. Bright places are places where many agents have
-  travelled, so the strands of the network show up as bright lines. See the
+  traveled, so the strands of the network show up as bright lines. See the
   [mini tutorial](../README.md#model-1-many-simple-agents-how-the-network-forms) for how to read it.
 * Each species has its own trail layer. Every layer is scaled so that its brightest 0.5% of
   cells (the `"Clip"` quantile) saturate, then compressed with `"Gamma"`, so that faint filaments

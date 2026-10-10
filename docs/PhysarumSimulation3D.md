@@ -1,6 +1,6 @@
 # PhysarumSimulation3D
 
-Creates a new 3D slime-mould agent simulation: the same model as
+Creates a new 3D slime-mold agent simulation: the same model as
 [PhysarumSimulation](PhysarumSimulation.md), with agents moving through a volume instead of over a plane.
 
 ## Syntax
@@ -25,10 +25,10 @@ Creates a new 3D slime-mould agent simulation: the same model as
 * **How a 3D agent senses.** Each agent has a heading in space, one sensor straight ahead, and a
   ring of four sensors tilted away from the heading by `"SensorAngle"`. The ring is turned by a
   random amount every step, so no direction in the grid is preferred. The agent goes straight on if
-  the centre smells strongest, turns by `"RotationAngle"` towards the strongest ring sensor
-  otherwise, and turns towards a random ring sensor if the centre smells weakest of all.
+  the center smells strongest, turns by `"RotationAngle"` toward the strongest ring sensor
+  otherwise, and turns toward a random ring sensor if the center smells weakest of all.
   `"Jitter"` tilts the heading by a random angle of up to `Jitter`/2 in a random direction.
-* The trail diffuses over the 3 × 3 × 3 neighbourhood of each voxel.
+* The trail diffuses over the 3 × 3 × 3 neighborhood of each voxel.
 * **Coordinates.** Food points and wall regions are given in the **unit cube**: `{0, 0, 0}` is the
   bottom front left corner and `{1, 1, 1}` the top back right, with *z pointing up*.
 * **Masks** for `"Food"`, `"Walls"` and `"Initialization"` can be:
@@ -61,8 +61,8 @@ Creates a new 3D slime-mould agent simulation: the same model as
 | --- | --- |
 | `"Random"` | uniformly over the volume, with random headings |
 | `"Ball"` | uniformly inside a ball in the middle of the grid (`"Disk"` also works) |
-| `"Shell"` | on a sphere, heading inwards (`"Ring"` also works) |
-| `"Burst"` | in a tiny ball in the centre, heading outwards |
+| `"Shell"` | on a sphere, heading inward (`"Ring"` also works) |
+| `"Burst"` | in a tiny ball in the center, heading outward |
 | `"Food"` | placed over the food, in proportion to its intensity. Needs `"Food"`, else falls back to `"Random"`. |
 | a mask | placed over the mask, in proportion to its value |
 

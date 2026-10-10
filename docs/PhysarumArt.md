@@ -1,6 +1,6 @@
 # PhysarumArt
 
-Grows a slime-mould simulation and renders it in one call. It is the quickest way to get a picture.
+Grows a slime-mold simulation and renders it in one call. It is the quickest way to get a picture.
 
 ## Syntax
 
@@ -126,7 +126,7 @@ PhysarumArt["Filaments", "Food" -> "PHYSARUM", "FoodStrength" -> 5, "Initializat
   "Size" -> {768, 256}]
 ```
 
-![Growing towards text](../images/text.png)
+![Growing toward text](../images/text.png)
 
 ### Walls
 

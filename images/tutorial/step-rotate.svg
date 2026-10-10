@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 200" width="220" height="200" role="img" aria-labelledby="t" font-family="Helvetica, Arial, sans-serif" font-size="12">
-  <title id="t">Rotate: the agent turns towards the strongest smell</title>
+  <title id="t">Rotate: the agent turns toward the strongest smell</title>
   <rect width="220" height="200" rx="8" fill="#f6f4ee"/>
   <defs>
     <path id="agent" d="M 0 -25 L 15 8 L 0 0 L -15 8 Z" fill="#8a7332"/>

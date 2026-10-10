@@ -1,15 +1,15 @@
 # PhysarumNetwork
 
-Lets a slime mould grow between food sources and reads the result off as a `Graph`.
+Lets a slime mold grow between food sources and reads the result off as a `Graph`.
 
-This works like the classic slime-mould experiments: food is placed at the given points, the mould
+This works like the classic slime-mold experiments: food is placed at the given points, the mold
 grows between them, and the network of strands that remains is the answer.
 
 ## Syntax
 
 | Form | Meaning |
 | --- | --- |
-| `PhysarumNetwork[{p1, p2, ...}]` | grows a mould between the points `pi` in the plane and returns its transport network as a `Graph` |
+| `PhysarumNetwork[{p1, p2, ...}]` | grows a mold between the points `pi` in the plane and returns its transport network as a `Graph` |
 | `PhysarumNetwork[{geo1, geo2, ...}]` | the same for `GeoPosition` values or entities with a position (cities, airports, ...) |
 | `PhysarumNetwork[input, opts]` | with options |
 
@@ -44,7 +44,7 @@ grows between them, and the network of strands that remains is the answer.
 * For geographic input the coordinates are projected onto a local plane first (longitude scaled
   by the cosine of the mean latitude). `VertexCoordinates` of the resulting graph are in that
   plane, in degrees. Use `"Output" -> "GeoGraphics"` to see the network on a map.
-* The mould does not know about geography. Pass a land/sea mask as `"Walls"` for more realistic
+* The mold does not know about geography. Pass a land/sea mask as `"Walls"` for more realistic
   networks. The mask is stretched over the whole padded grid (for a `Graphics`, its `PlotRange` is
   the grid), so to place a wall in your own coordinates, use the padded bounding box of the points
   as the `PlotRange` (see the example below).
@@ -59,7 +59,7 @@ grows between them, and the network of strands that remains is the answer.
 | `"Size"` | 400 | number of grid cells along the longest side. Larger grids give more detail, and are slower. |
 | `"Steps"` | 2000 | number of simulation steps |
 | `"AgentDensity"` | 0.3 | agents per grid cell |
-| `"Species"` | Automatic | species (or list of species) for the mould. Automatic uses a fine-network species. |
+| `"Species"` | Automatic | species (or list of species) for the mold. Automatic uses a fine-network species. |
 | `"FoodRadius"` | Automatic | radius of each food source, in grid cells. Automatic is `Max[2, Size/130]`. |
 | `"FoodStrength"` | 300 | attractant given off by the food at every step |
 | `"Walls"` | None | impassable regions, as a mask covering the padded grid (see [PhysarumSimulation](PhysarumSimulation.md)) |
@@ -77,7 +77,7 @@ grows between them, and the network of strands that remains is the answer.
 | Value | Result |
 | --- | --- |
 | `"Graph"` | the transport network, as a `Graph` |
-| `"Image"` | the grown mould as an image, with the food sources highlighted |
+| `"Image"` | the grown mold as an image, with the food sources highlighted |
 | `"Simulation"` | the [PhysarumSimulationObject](PhysarumSimulationObject.md) after growing |
 | `"GeoGraphics"` | the network on a map (geographic input only) |
 | `"Association"` | `<\|"Graph", "Simulation", "Image", "Skeleton", "Food"\|>`, plus `"GeoGraphics"` for geographic input |
@@ -102,7 +102,7 @@ The network is an ordinary `Graph`:
 VertexList[g][[-3 ;;]]                 (* the food vertices come last: "Food12", "Food13", "Food14" *)
 ```
 
-### See the mould
+### See the mold
 
 ```wolfram
 PhysarumNetwork[pts, "Output" -> "Image"]
@@ -116,7 +116,7 @@ Keys[res]              (* {"Graph", "Simulation", "Image", "Skeleton", "Food"} *
 {res["Image"], res["Skeleton"], res["Graph"]}
 ```
 
-![Grown mould, extracted graph, backbone](../images/network.png)
+![Grown mold, extracted graph, backbone](../images/network.png)
 
 ### Only the backbone
 
@@ -129,9 +129,9 @@ PhysarumNetwork[pts, "Backbone" -> True]
 ### Compare with a minimum spanning tree
 
 ```wolfram
-mould = PhysarumNetwork[pts, "Backbone" -> True];
-Total[PropertyValue[{mould, #}, EdgeWeight] & /@ EdgeList[mould]]              (* the mould's total length *)
-tree = FindSpanningTree[mould];
+mold = PhysarumNetwork[pts, "Backbone" -> True];
+Total[PropertyValue[{mold, #}, EdgeWeight] & /@ EdgeList[mold]]              (* the mold's total length *)
+tree = FindSpanningTree[mold];
 Total[PropertyValue[{tree, #}, EdgeWeight] & /@ EdgeList[tree]]
 ```
 
@@ -140,9 +140,9 @@ Total[PropertyValue[{tree, #}, EdgeWeight] & /@ EdgeList[tree]]
 Food vertices are named `"Food1"`, `"Food2"`, ...:
 
 ```wolfram
-GraphDistance[mould, "Food1", "Food5"]            (* length along the mould *)
+GraphDistance[mold, "Food1", "Food5"]            (* length along the mold *)
 EuclideanDistance[pts[[1]], pts[[5]]]             (* straight line, for comparison *)
-FindShortestPath[mould, "Food1", "Food5"]
+FindShortestPath[mold, "Food1", "Food5"]
 ```
 
 ### Quality versus speed
@@ -155,7 +155,7 @@ PhysarumNetwork[pts, "Size" -> 200, "Steps" -> 800, "Output" -> "Image"]
 PhysarumNetwork[pts, "Size" -> 600, "Steps" -> 3000, "Output" -> "Image"]
 ```
 
-### Make the mould more or less thorough
+### Make the mold more or less thorough
 
 Stronger food and more agents connect more reliably. `"Resampling"` and `"Pruning"` change how the
 strands are read off:
@@ -194,13 +194,13 @@ cities = Entity["City", #] & /@ {
 PhysarumNetwork[cities, "Output" -> "GeoGraphics", "Backbone" -> True]
 ```
 
-![A slime-mould rail network for the Netherlands](../images/netherlands.png)
+![A slime-mold rail network for the Netherlands](../images/netherlands.png)
 
 The graph works with the entities as vertices:
 
 ```wolfram
 g = PhysarumNetwork[cities, "Backbone" -> True];
-GraphDistance[g, cities[[1]], cities[[8]]]     (* hops along the mould from Amsterdam to Maastricht *)
+GraphDistance[g, cities[[1]], cities[[8]]]     (* hops along the mold from Amsterdam to Maastricht *)
 ```
 
 `GeoPosition` values work the same way:

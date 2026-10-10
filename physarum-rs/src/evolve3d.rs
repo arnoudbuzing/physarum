@@ -8,11 +8,11 @@
 //! * `wall`    -- `{d, h, w}`: nonzero cells are obstacles
 //! * `params`  -- `{S, 9}`: as in 2D
 //!
-//! Each agent has a centre sensor along its heading and a ring of `RING` sensors tilted
+//! Each agent has a center sensor along its heading and a ring of `RING` sensors tilted
 //! away from it by the sensor angle. The ring is turned by a random phase every step, so
-//! that no direction is preferred. The agent keeps going if the centre smells strongest,
-//! turns by the rotation angle towards the strongest ring sensor otherwise, and picks a
-//! random ring sensor if the centre smells weakest of all (as the 2D model turns randomly).
+//! that no direction is preferred. The agent keeps going if the center smells strongest,
+//! turns by the rotation angle toward the strongest ring sensor otherwise, and picks a
+//! random ring sensor if the center smells weakest of all (as the 2D model turns randomly).
 
 use crate::{splitmix, unit, Species};
 use rayon::prelude::*;
@@ -56,7 +56,7 @@ fn perpendiculars(h: V3) -> (V3, V3) {
     (e1, cross(h, e1))
 }
 
-/// `h` tilted by `angle` towards the perpendicular unit vector `u`.
+/// `h` tilted by `angle` toward the perpendicular unit vector `u`.
 #[inline]
 fn tilt(h: V3, u: V3, angle: f64) -> V3 {
     normalize(add(scale(angle.cos(), h), scale(angle.sin(), u)))

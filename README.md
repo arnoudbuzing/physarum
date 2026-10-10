@@ -2,18 +2,18 @@
 
 ![Three competing species (the "Marble" preset)](images/hero.png)
 
-## A mini tutorial: the slime mould that solves problems
+## A mini tutorial: the slime mold that solves problems
 
 ### Meet *Physarum polycephalum*
 
-*Physarum polycephalum*, the "many-headed slime", is a **slime mould**. Despite the name, it
+*Physarum polycephalum*, the "many-headed slime", is a **slime mold**. Despite the name, it
 is not a fungus. It belongs to the Amoebozoa, single-celled organisms that are neither
 plants, animals nor fungi. It lives on the forest floor and on decaying wood, where it eats
 bacteria and fungal spores. In the lab it is happy with oat flakes.
 
 Its main life stage, the *plasmodium*, is remarkable in three ways:
 
-* **It is one single, enormous cell.** The bright yellow blob can grow to many centimetres
+* **It is one single, enormous cell.** The bright yellow blob can grow to many centimeters
   across, yet it is one cell with millions of nuclei, and no membranes separate them.
 * **Its body is a network of tubes.** Protoplasm sloshes back and forth through the tubes in
   a rhythm of a minute or two ("shuttle streaming"), carrying nutrients and signals around.
@@ -24,12 +24,12 @@ Its main life stage, the *plasmodium*, is remarkable in three ways:
 It has no brain and no neurons, yet this simple feedback lets it solve real problems:
 
 * **Mazes.** In 2000 Toshiyuki Nakagaki and colleagues filled a maze with plasmodium and put
-  oat flakes at the entrance and the exit. Within hours the mould had withdrawn from all dead
+  oat flakes at the entrance and the exit. Within hours the mold had withdrawn from all dead
   ends. The tube that remained ran along the shortest route
   (*Nature* 407, 470).
 * **Rail networks.** In 2010 Atsushi Tero and colleagues placed oat flakes in the pattern of
-  the cities around Tokyo, using bright light (which the mould avoids) to mark mountains and
-  sea. The network the mould grew was comparable to the real Tokyo rail system in
+  the cities around Tokyo, using bright light (which the mold avoids) to mark mountains and
+  sea. The network the mold grew was comparable to the real Tokyo rail system in
   efficiency, fault tolerance and cost (*Science* 327, 439).
 
 This paclet lets you grow such networks in the computer, using two classic models that
@@ -45,7 +45,7 @@ Physarum-like networks. Every agent repeats the same four steps:
 | 1. Sense | 2. Rotate | 3. Move | 4. Deposit |
 | :---: | :---: | :---: | :---: |
 | ![Sense](images/tutorial/step-sense.svg) | ![Rotate](images/tutorial/step-rotate.svg) | ![Move](images/tutorial/step-move.svg) | ![Deposit](images/tutorial/step-deposit.svg) |
-| Smell the trail at three sensors ahead. | Turn towards the strongest smell. | Take one step forward. | Leave a little trail behind. |
+| Smell the trail at three sensors ahead. | Turn toward the strongest smell. | Take one step forward. | Leave a little trail behind. |
 
 Then the whole trail map diffuses and decays.
 
@@ -69,11 +69,11 @@ to steer by except each other.
 
 **What is an agent?** An agent is a point-sized virtual particle, and it is not a piece of a
 real cell. The model does not simulate the plasmodium's tubes or nuclei. Instead it treats the
-mould as a crowd of "particles of plasmodium" (Jones's term), each so simple that on its own it
+mold as a crowd of "particles of plasmodium" (Jones's term), each so simple that on its own it
 only wanders and follows smells. Only the crowd, through its shared trail, behaves like the
-mould. You can read one agent as a small patch of protoplasm, and the trail as the
+mold. You can read one agent as a small patch of protoplasm, and the trail as the
 chemical signal that patches leave in their surroundings. The crowd's strands, not any
-single agent, correspond to the mould's veins.
+single agent, correspond to the mold's veins.
 
 **How is the number of agents determined?** The number of agents is chosen as a fraction of the grid
 area. The "Classic" preset uses an `"AgentDensity"` of 0.3 agents per pixel, so a 220×220
@@ -87,9 +87,9 @@ PhysarumSimulation["Classic", "Size" -> 220, "Agents" -> 5000]
 
 The pictures do not draw the agents themselves, which would be a haze of tiny dots. They
 show the **trail map**: the amount of chemical trail on every pixel, which is what the agents
-sense and what they add to. Black means no trail, and the colours run from purple through
+sense and what they add to. Black means no trail, and the colors run from purple through
 orange to pale yellow as the trail gets stronger. Bright strands are therefore places that
-many agents travel along, which is the closest thing to the mould's body in this picture. The
+many agents travel along, which is the closest thing to the mold's body in this picture. The
 darker haze around them is faint trail that is still fading.
 
 At first the trail is noise. Within a few dozen steps, little streams merge into strands.
@@ -103,7 +103,7 @@ food sources on top of the trail map.
 makes:
 
 * the *sensor angle*: how far apart the three sensors point (the arc in the picture),
-* the *rotation angle*: how sharply an agent turns towards the sensor that smells strongest.
+* the *rotation angle*: how sharply an agent turns toward the sensor that smells strongest.
 
 Each line of code below grows one simulation with its own pair of angles. `PhysarumArt` takes
 a *species* (an Association of agent parameters) in place of a preset name, and grows and
@@ -121,7 +121,7 @@ PhysarumArt[<|"SensorAngle" -> 90 Degree, "RotationAngle" -> 11.25 Degree|>, "Si
 
 ![Sensor angle and rotation angle](images/tutorial/angles.png)
 
-The three pictures, left to right (labelled SA for sensor angle and RA for rotation angle):
+The three pictures, left to right (labeled SA for sensor angle and RA for rotation angle):
 
 1. **SA 22.5°, RA 45°** (the defaults). The sensors look almost straight ahead and the turns
    are moderate, so agents follow long, smooth curves and gather into a few strong strands.
@@ -144,7 +144,7 @@ Table[
 
 ![Sensor distance sets the scale](images/tutorial/distance.png)
 
-**Memory.** The trail is the mould's external memory. The *decay* rate says how quickly it
+**Memory.** The trail is the mold's external memory. The *decay* rate says how quickly it
 forgets. With slow decay, old trails linger, and the network is smooth and slow to change.
 With fast decay, only constantly used paths survive, and the network is fine and restless:
 
@@ -186,7 +186,7 @@ Table[
 ### Model 2: tubes and flow (how the network *optimizes*)
 
 The agent model explains how networks form, but it has no notion of flow, and flow is what
-makes the real mould so good at shortest paths. Tero and colleagues (2007) modelled the
+makes the real mold so good at shortest paths. Tero and colleagues (2007) modeled the
 plasmodium as a network of tubes and applied the same rule over and over:
 
 1. Food at one place pumps protoplasm in, and food elsewhere drains it. Like electric
@@ -214,7 +214,7 @@ little, which gives them even less flow. That runaway effect leaves only the sho
 the same result Nakagaki saw in the real organism.
 
 **Building a transport network.** With many food sources, each step picks one source at
-random to pump and lets all the others drain. The mould then has to serve everyone.
+random to pump and lets all the others drain. The mold then has to serve everyone.
 `"Flux"` sets how much protoplasm flows. Low flux gives a lean, tree-like network: cheap,
 but one broken tube cuts it in two. High flux keeps extra cross-links: more tube, but more
 robust. That is the trade-off Tero *et al.* measured in their Tokyo experiment.
@@ -231,7 +231,7 @@ Table[PhysarumFlow[pts, "Flux" -> f, "Resolution" -> 80, RandomSeeding -> 1], {f
 | Biology | Agent model (`PhysarumSimulation`) | Flow model (`PhysarumFlow`) |
 | --- | --- | --- |
 | plasmodium | ~10⁵ agents | a network of tubes |
-| chemical traces | the trail map (deposit, diffuse, decay) | not modelled |
+| chemical traces | the trail map (deposit, diffuse, decay) | not modeled |
 | food | attractant sources (`"Food"`) | pumps and drains of protoplasm |
 | light, obstacles | `"Walls"` | walls of the maze / missing tubes |
 | tube growth | strands that attract more agents | conductivity grows with flow |
@@ -264,7 +264,7 @@ efficient networks.
 | `PhysarumArt` | grow and render an agent simulation in one call |
 | `PhysarumSimulation`, `PhysarumEvolve`, `PhysarumImage` | set up, advance and draw an agent simulation step by step |
 | `PhysarumAnimate` | turn a simulation into an animation or a video |
-| `PhysarumNetwork` | grow a mould between food sources and read it off as a `Graph` (also on a map) |
+| `PhysarumNetwork` | grow a mold between food sources and read it off as a `Graph` (also on a map) |
 | `PhysarumFlow` | tube-and-flow model: shortest paths and adaptive transport networks |
 | `PhysarumMaze` | generate a maze for the flow model to solve |
 | `PhysarumSimulation3D`, `PhysarumImage3D`, `PhysarumGraphics3D`, `PhysarumArt3D` | the agent model in 3D, drawn as a volume, a surface or a point cloud |
@@ -376,7 +376,7 @@ PhysarumArt["Classic", "Food" -> RandomReal[1, {12, 2}], "FoodStrength" -> 50, "
 PhysarumArt["Classic", "Walls" -> Graphics[{Disk[{0, 0}, 0.3], Disk[{0.6, 0.5}, 0.15]}, PlotRange -> {{-1, 1}, {-1, 1}}]]
 ```
 
-![Growing towards text](images/text.png)
+![Growing toward text](images/text.png)
 
 ![Growing around walls](images/walls.png)
 
@@ -420,8 +420,8 @@ All presets in 3D:
 
 ## Transport networks → `Graph`
 
-`PhysarumNetwork` works like the famous slime-mould experiments. It puts food at the given
-points, lets the mould grow between them, then reads the result off as a `Graph`:
+`PhysarumNetwork` works like the famous slime-mold experiments. It puts food at the given
+points, lets the mold grow between them, then reads the result off as a `Graph`:
 
 1. threshold the trail map (gamma-compressed so faint filaments survive), thin it to a skeleton;
 2. collapse junction pixel clusters into single nodes, and walk the pixel chains between them.
@@ -437,15 +437,15 @@ entity input).
 pts = RandomReal[1, {14, 2}];
 g = PhysarumNetwork[pts]
 
-PhysarumNetwork[pts, "Output" -> "Image"]         (* the grown mould, food highlighted *)
+PhysarumNetwork[pts, "Output" -> "Image"]         (* the grown mold, food highlighted *)
 PhysarumNetwork[pts, "Output" -> "Association"]   (* Graph, Simulation, Image, Skeleton, Food *)
 PhysarumNetwork[pts, "Backbone" -> True]          (* only edges on shortest food-to-food paths *)
 
-(* compare the mould with the minimum spanning tree *)
+(* compare the mold with the minimum spanning tree *)
 FindSpanningTree[PhysarumNetwork[pts, "Backbone" -> True]]
 ```
 
-![Grown mould, extracted graph, backbone](images/network.png)
+![Grown mold, extracted graph, backbone](images/network.png)
 
 Useful options: `"Size"` (grid resolution, default 400), `"Steps"` (2000),
 `"AgentDensity"` (0.3), `"FoodStrength"` (300), `"Walls"`, `"Species"`, and
@@ -467,14 +467,14 @@ cities = Entity["City", #] & /@ {
 PhysarumNetwork[cities, "Output" -> "GeoGraphics", "Backbone" -> True]
 
 g = PhysarumNetwork[cities, "Backbone" -> True];
-GraphDistance[g, cities[[1]], cities[[8]]]   (* hops along the mould from Amsterdam to Maastricht *)
+GraphDistance[g, cities[[1]], cities[[8]]]   (* hops along the mold from Amsterdam to Maastricht *)
 ```
 
 Here is a network for the 15 largest Dutch cities:
 
-![A slime-mould rail network for the Netherlands](images/netherlands.png)
+![A slime-mold rail network for the Netherlands](images/netherlands.png)
 
-The mould knows nothing about water: pass a land/sea mask as `"Walls"` for a more
+The mold knows nothing about water: pass a land/sea mask as `"Walls"` for a more
 realistic network. Occasionally a food source ends up with no strand to it (the
 graph is then not connected); a larger `"Steps"` or `"FoodStrength"` usually fixes that.
 

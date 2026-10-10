@@ -1,7 +1,7 @@
 (* ::Package:: *)
 
 (* ArnoudBuzing/Physarum
-   Slime-mould agent simulations (after J. Jones, "Characteristics of pattern formation and
+   Slime-mold agent simulations (after J. Jones, "Characteristics of pattern formation and
    evolution in approximations of Physarum transport networks", Artificial Life 16, 2010).
 
    The inner loop (sense / rotate / move / deposit / diffuse) runs in a small Rust library
@@ -10,7 +10,7 @@
 BeginPackage["ArnoudBuzing`Physarum`"];
 
 PhysarumSimulation::usage =
-  "PhysarumSimulation[] creates a new slime-mould simulation using the \"Classic\" preset.\n" <>
+  "PhysarumSimulation[] creates a new slime-mold simulation using the \"Classic\" preset.\n" <>
   "PhysarumSimulation[\"preset\"] uses a named preset from $PhysarumPresets.\n" <>
   "PhysarumSimulation[species] uses an Association (or a list of Associations) of species parameters.";
 
@@ -21,7 +21,7 @@ PhysarumEvolve::usage =
   "PhysarumEvolve[sim, n] advances the simulation sim (a PhysarumSimulationObject or PhysarumSimulation3DObject) by n steps and returns the new simulation object.";
 
 PhysarumSimulation3D::usage =
-  "PhysarumSimulation3D[] creates a new 3D slime-mould simulation using the \"Classic\" preset.\n" <>
+  "PhysarumSimulation3D[] creates a new 3D slime-mold simulation using the \"Classic\" preset.\n" <>
   "PhysarumSimulation3D[\"preset\"] uses a named preset from $PhysarumPresets.\n" <>
   "PhysarumSimulation3D[species] uses an Association (or a list of Associations) of species parameters.";
 
@@ -35,7 +35,7 @@ PhysarumGraphics3D::usage =
   "PhysarumGraphics3D[sim] renders a PhysarumSimulation3DObject as Graphics3D, with the network as a surface or the agents as points.";
 
 PhysarumArt3D::usage =
-  "PhysarumArt3D[] grows and renders a 3D slime mould with the \"Classic\" preset.\n" <>
+  "PhysarumArt3D[] grows and renders a 3D slime mold with the \"Classic\" preset.\n" <>
   "PhysarumArt3D[\"preset\"] grows and renders a named preset in 3D.\n" <>
   "PhysarumArt3D[spec, opts] accepts any PhysarumSimulation3D specification and options.";
 
@@ -46,12 +46,12 @@ PhysarumAnimate::usage =
   "PhysarumAnimate[sim, frames, steps] evolves sim for frames frames of steps steps each and returns the rendered frames.";
 
 PhysarumArt::usage =
-  "PhysarumArt[] grows and renders a slime-mould image with the \"Classic\" preset.\n" <>
+  "PhysarumArt[] grows and renders a slime-mold image with the \"Classic\" preset.\n" <>
   "PhysarumArt[\"preset\"] grows and renders a named preset.\n" <>
   "PhysarumArt[spec, opts] accepts any PhysarumSimulation specification and options.";
 
 PhysarumNetwork::usage =
-  "PhysarumNetwork[{p1, p2, ...}] lets a slime mould grow between the food sources pi and returns the resulting transport network as a Graph.\n" <>
+  "PhysarumNetwork[{p1, p2, ...}] lets a slime mold grow between the food sources pi and returns the resulting transport network as a Graph.\n" <>
   "PhysarumNetwork[{GeoPosition[...], ...}] works with geographic locations.";
 
 PhysarumFlow::usage =
@@ -237,7 +237,7 @@ foodMask[pts_?pointsQ, {w_, h_}, radius_] := Module[{grid, centers},
 foodMask[other_, size_, _] := toMask[other, size];
 
 (* ::Section:: *)
-(* Agent initialisation: {x, y, heading} triples in grid units *)
+(* Agent initialization: {x, y, heading} triples in grid units *)
 
 initAgents["Random", n_, {w_, h_}, _] :=
   Transpose[{RandomReal[w, n], RandomReal[h, n], RandomReal[2 Pi, n]}];
@@ -518,8 +518,8 @@ fromImage3DData[m_] := Reverse[m, {1, 2}];
 
 gray3D[img_Image3D] := ImageData[ColorConvert[RemoveAlphaChannel[img, White], "Grayscale"], "Real"];
 
-(* voxel centres {x, y, z} in the unit cube, flattened in storage order (z slowest) *)
-voxelCentres[{w_, h_, d_}] :=
+(* voxel centers {x, y, z} in the unit cube, flattened in storage order (z slowest) *)
+voxelCenters[{w_, h_, d_}] :=
   Tuples[{(Range[d] - 0.5)/d, (Range[h] - 0.5)/h, (Range[w] - 0.5)/w}][[All, {3, 2, 1}]];
 
 region3DQ[r_] := RegionQ[r] && RegionEmbeddingDimension[r] == 3;
@@ -531,7 +531,7 @@ toMask3D[m_ /; ArrayQ[m, 3, NumericQ], size_] := toMask3D[Image3D[N[m]], size];
    and testing each region of a list beats testing their RegionUnion. *)
 toMask3D[l : {__?region3DQ}, size_] := Fold[vmax, toMask3D[#, size] & /@ l];
 toMask3D[r_?region3DQ, {w_, h_, d_}] :=
-  ArrayReshape[N @ Boole[RegionMember[r][voxelCentres[{w, h, d}]]], {d, h, w}];
+  ArrayReshape[N @ Boole[RegionMember[r][voxelCenters[{w, h, d}]]], {d, h, w}];
 toMask3D[other_, _] := (Message[PhysarumSimulation3D::mask, Short[other]]; Throw[$Failed, $tag]);
 
 points3DQ[p_] := MatrixQ[p, NumericQ] && Last[Dimensions[p]] == 3;
@@ -709,7 +709,7 @@ Options[PhysarumImage3D] = {
   ImageSize -> Automatic
 };
 
-(* Colour a whole array through a 256-entry lookup table: one cf call per entry, not per voxel. *)
+(* Color a whole array through a 256-entry lookup table: one cf call per entry, not per voxel. *)
 colorize3D[m_, cf_String] := colorize3D[m, ColorData[cf]];
 colorize3D[m_, cf_] := With[{lut = rgb[cf[#]] & /@ Subdivide[0., 1., 255]},
   ArrayReshape[lut[[Flatten[Round[255 Clip[m, {0, 1}]]] + 1]], Append[Dimensions[m], 3]]];
@@ -732,11 +732,11 @@ PhysarumImage3D[PhysarumSimulation3DObject[a_Association], opts : OptionsPattern
   colors = Replace[OptionValue["Colors"], Automatic :> a["Colors"]];
   bg = opt[Background, Black];
 
-  (* colour from the trail, opacity from its strength *)
+  (* color from the trail, opacity from its strength *)
   If[Length[layers] == 1 && cf =!= None && OptionValue["Colors"] === Automatic,
     rgbData = colorize3D[First[layers], cf];
     alpha = First[layers],
-    (* species colours weighted by their share of the trail in each voxel *)
+    (* species colors weighted by their share of the trail in each voxel *)
     With[{total = Total[layers]},
       rgbData = Total[MapThread[TensorProduct, {layers, rgb /@ colors}]] / (total + $MachineEpsilon);
       alpha = Clip[total, {0, 1}]]
@@ -778,7 +778,7 @@ Options[PhysarumGraphics3D] = {
 
 (* Isosurface of a {d, h, w} array at level thr, as a GraphicsComplex in grid coordinates.
    On grayscale input ImageMesh picks its own threshold, so the values first go through a
-   steep sigmoid centred on thr: the surface then lands within about a voxel of thr and,
+   steep sigmoid centered on thr: the surface then lands within about a voxel of thr and,
    unlike a binarized volume, stays smooth. *)
 isoSurface[m_, thr_, smooth_] := Module[{v = m, mesh},
   If[smooth > 0, v = GaussianFilter[v, smooth]];
@@ -790,7 +790,7 @@ isoSurface[m_, thr_, smooth_] := Module[{v = m, mesh},
 PhysarumGraphics3D[PhysarumSimulation3DObject[a_Association], opts : OptionsPattern[{PhysarumGraphics3D, Graphics3D}]] := Module[
   {style = a["Style"], w, h, d, colors, bg, food, walls, prims, layers, thr, agents, extra},
   {w, h, d} = a["Size"];
-  (* a single species with a preset colour scheme takes a bright colour from that scheme *)
+  (* a single species with a preset color scheme takes a bright color from that scheme *)
   colors = Replace[OptionValue["Colors"], Automatic :>
     If[Length[a["Species"]] == 1 && KeyExistsQ[style, "ColorFunction"] && a["Species"][[1, "Color"]] === Automatic,
       {Replace[style["ColorFunction"], s_String :> ColorData[s]][0.75]},
@@ -799,7 +799,7 @@ PhysarumGraphics3D[PhysarumSimulation3DObject[a_Association], opts : OptionsPatt
   food = Normal[a["Stimulus"]];
   prims = Switch[OptionValue[Method],
     "Points",
-      (* each agent is coloured by its species, brighter where the trail is stronger *)
+      (* each agent is colored by its species, brighter where the trail is stronger *)
       agents = Normal[a["Agents"]];
       If[Length[agents] > OptionValue["MaxPoints"], agents = RandomSample[agents, OptionValue["MaxPoints"]]];
       layers = normalizeLayer[#, 0.995, 0.7] & /@ Normal[a["Trail"]];
@@ -1216,7 +1216,7 @@ PhysarumFlow[pts_?pointsQ, opts : OptionsPattern[]] := Catch[
   $tag
 ];
 
-(* --- mazes: every free pixel is a node, 4-neighbours are tubes --- *)
+(* --- mazes: every free pixel is a node, 4-neighbors are tubes --- *)
 
 PhysarumFlow[maze_Image, food_?pointsQ, opts : OptionsPattern[]] := Catch[
   Module[{m, h, w, free, nv, idx, pairs, b, near, fi, hist, render, out},

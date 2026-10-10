@@ -1,7 +1,7 @@
 # Function reference
 
 Reference pages for every symbol in the `ArnoudBuzing/Physarum` paclet. For an introduction to
-the slime mould and to the two models, see the main [README](../README.md).
+the slime mold and to the two models, see the main [README](../README.md).
 
 Load the paclet first:
 
@@ -20,7 +20,7 @@ Needs["ArnoudBuzing`Physarum`"]
 | [PhysarumEvolve](PhysarumEvolve.md) | advance a simulation by a number of steps |
 | [PhysarumImage](PhysarumImage.md) | render the trail map of a simulation as an image |
 | [PhysarumAnimate](PhysarumAnimate.md) | render a sequence of frames, an animation or a video |
-| [PhysarumNetwork](PhysarumNetwork.md) | grow a mould between food sources and read it off as a `Graph` |
+| [PhysarumNetwork](PhysarumNetwork.md) | grow a mold between food sources and read it off as a `Graph` |
 | [$PhysarumPresets](PhysarumPresets.md) | the named parameter sets |
 
 ## Agent model in 3D
@@ -52,7 +52,7 @@ Needs["ArnoudBuzing`Physarum`"]
 * **Points and regions in 3D** are in the *unit cube*, with *z pointing up*.
 * **Masks** (for `"Food"`, `"Walls"` and `"Initialization"`) can be given as a string, a
   `Graphics` object, an `Image`, or a matrix of values between 0 and 1. Strings are rendered in
-  bold Helvetica, cropped and centred. A `Graphics` object is stretched over the whole grid: its
+  bold Helvetica, cropped and centered. A `Graphics` object is stretched over the whole grid: its
   `PlotRange` is the grid, so give it an explicit `PlotRange` to control where things end up. A
   bare primitive such as `Disk[...]` is stretched so that it fills the grid.
 * **Reproducibility.** The agent model draws its random numbers from the kernel's random

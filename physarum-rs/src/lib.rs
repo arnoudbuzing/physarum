@@ -1,4 +1,4 @@
-//! Physarum (slime mould) transport-network simulation kernel.
+//! Physarum (slime mold) transport-network simulation kernel.
 //!
 //! This crate contains only the performance-critical inner loop of a
 //! multi-species Jones-style agent model. Everything else (setup, presets,

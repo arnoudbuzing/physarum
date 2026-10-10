@@ -15,12 +15,12 @@ faint trail is dim and see-through.
 
 * `PhysarumImage3D` is `Listable`: given a list of simulations it returns a list of `Image3D`
   objects, all drawn with the same options.
-* The result is an RGBA `Image3D` with the same dimensions as the grid. Colour comes from the trail,
+* The result is an RGBA `Image3D` with the same dimensions as the grid. Color comes from the trail,
   and opacity follows its strength.
 * Each species' trail is lightly blurred (`"Smoothing"`), normalized (`"Clip"`), and
   gamma-corrected (`"Gamma"`).
-* With **one species** and a `ColorFunction` (the presets have one), the colour function colours
-  the volume. Otherwise each species is drawn in its own colour (`"Colors"`, or the species'
+* With **one species** and a `ColorFunction` (the presets have one), the color function colors
+  the volume. Otherwise each species is drawn in its own color (`"Colors"`, or the species'
   `"Color"`), mixed in proportion to the species' share of the trail in each voxel.
 * The default `"Gamma"` is 1 for one species and 2.5 for several. Several species fill the volume
   with faint trail, and the higher gamma keeps their strands apart.
@@ -32,17 +32,17 @@ faint trail is dim and see-through.
 
 | Option | Default | Meaning |
 | --- | --- | --- |
-| `ColorFunction` | Automatic | colour function for a single species. Automatic uses the preset's, or None. |
-| `"Colors"` | Automatic | one colour per species |
-| `Background` | Automatic | background colour. Automatic uses the preset's, or black. |
+| `ColorFunction` | Automatic | color function for a single species. Automatic uses the preset's, or None. |
+| `"Colors"` | Automatic | one color per species |
+| `Background` | Automatic | background color. Automatic uses the preset's, or black. |
 | `"Gamma"` | Automatic | gamma applied after normalization |
 | `"Clip"` | Automatic | quantile of the trail that maps to full brightness (0.995) |
 | `"Opacity"` | 1 | overall opacity scale |
 | `"Smoothing"` | 2 | radius of the Gaussian blur applied first. 0 turns it off. |
 | `"ShowFood"` | False | whether to draw the food sources |
 | `"ShowWalls"` | True | whether to draw the walls (faint) |
-| `"WallColor"` | `GrayLevel[0.6]` | colour of the walls |
-| `"FoodColor"` | `RGBColor[1, 0.3, 0.35]` | colour of the food |
+| `"WallColor"` | `GrayLevel[0.6]` | color of the walls |
+| `"FoodColor"` | `RGBColor[1, 0.3, 0.35]` | color of the food |
 | `ImageSize` | Automatic | display size |
 
 ## Examples

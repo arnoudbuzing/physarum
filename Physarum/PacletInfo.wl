@@ -3,7 +3,7 @@
 PacletObject[
   <|
     "Name" -> "ArnoudBuzing/Physarum",
-    "Description" -> "Slime-mould (Physarum polycephalum) agent simulations",
+    "Description" -> "Slime-mold (Physarum polycephalum) agent simulations",
     "Creator" -> "Arnoud Buzing",
     "License" -> "MIT",
     "PublisherID" -> "ArnoudBuzing",

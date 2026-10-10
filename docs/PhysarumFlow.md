@@ -1,6 +1,6 @@
 # PhysarumFlow
 
-Runs the tube-and-flow model of the slime mould (Tero *et al.*): protoplasm flows through a network
+Runs the tube-and-flow model of the slime mold (Tero *et al.*): protoplasm flows through a network
 of tubes, tubes that carry more flow become thicker, and tubes that carry little wither. It solves
 mazes and grows adaptive transport networks.
 
@@ -32,13 +32,13 @@ mazes and grows adaptive transport networks.
 
 ### The three forms
 
-* **Maze image.** Free (black) pixels are nodes and neighbouring free pixels are joined by tubes.
+* **Maze image.** Free (black) pixels are nodes and neighboring free pixels are joined by tubes.
   White pixels are walls. The food points are in the unit square with y pointing up (`{0, 0}` is the
   bottom left). Each food point is moved to the nearest free pixel. Make mazes with
   [PhysarumMaze](PhysarumMaze.md).
 * **Points.** A lattice (with diagonals) is laid over the points, with 8% padding.
   `"Resolution"` sets the number of lattice nodes along the longest side, and each point is moved to
-  its nearest node. The mould then grows through the lattice, and the result is a graph of the
+  its nearest node. The mold then grows through the lattice, and the result is a graph of the
   surviving tubes.
 * **Graph.** The food sources are vertices of the graph. Tube lengths are the `EdgeWeight`s if the
   graph is weighted, else the distances between the `VertexCoordinates` if you set them,
