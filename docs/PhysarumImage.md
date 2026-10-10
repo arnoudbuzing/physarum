@@ -8,9 +8,12 @@ Renders the trail map of a simulation as an `Image`.
 | --- | --- |
 | `PhysarumImage[sim]` | renders the [PhysarumSimulationObject](PhysarumSimulationObject.md) `sim` |
 | `PhysarumImage[sim, opts]` | renders it with the given options |
+| `PhysarumImage[{sim1, sim2, ...}, opts]` | renders each simulation in the list |
 
 ## Details
 
+* `PhysarumImage` is `Listable`: given a list of simulations it returns a list of images, all
+  drawn with the same options.
 * The picture shows the **trail**, not the agents. Bright places are places where many agents have
   travelled, so the strands of the network show up as bright lines. See the
   [mini tutorial](../README.md#model-1-many-simple-agents-how-the-network-forms) for how to read it.

@@ -69,6 +69,12 @@ VerificationTest[
 ];
 
 VerificationTest[
+  ImageDimensions /@ PhysarumImage[{sim2, sim2}, "Glow" -> 0],
+  {{80, 60}, {80, 60}},
+  TestID -> "ImageListable"
+];
+
+VerificationTest[
   m = PhysarumSimulation["Marble", "Size" -> 64, "Agents" -> 900];
   {Dimensions[m["Trail"]], Sort[DeleteDuplicates[m["Agents"][[All, 4]]]], ImageQ[PhysarumImage[PhysarumEvolve[m, 5]]]},
   {{3, 64, 64}, {0., 1., 2.}, True},
@@ -242,6 +248,12 @@ VerificationTest[
     Head[PhysarumImage3D[m3]], ImageQ[e3["Projection"]]},
   {Image3D, {40, 30, 20}, 4, Image3D, True},
   TestID -> "Image3D"
+];
+
+VerificationTest[
+  ImageDimensions /@ PhysarumImage3D[{e3, e3}],
+  {{40, 30, 20}, {40, 30, 20}},
+  TestID -> "Image3DListable"
 ];
 
 VerificationTest[

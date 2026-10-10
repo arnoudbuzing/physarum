@@ -29,7 +29,7 @@ PhysarumSimulation3DObject::usage =
   "PhysarumSimulation3DObject[...] represents the state of a 3D Physarum simulation.";
 
 PhysarumImage3D::usage =
-  "PhysarumImage3D[sim] renders the trail map of a PhysarumSimulation3DObject as a volume Image3D.";
+  "PhysarumImage3D[sim] renders the trail map of a PhysarumSimulation3DObject as a volume Image3D.\nPhysarumImage3D[{sim1, sim2, ...}] renders each simulation in the list.";
 
 PhysarumGraphics3D::usage =
   "PhysarumGraphics3D[sim] renders a PhysarumSimulation3DObject as Graphics3D, with the network as a surface or the agents as points.";
@@ -40,7 +40,7 @@ PhysarumArt3D::usage =
   "PhysarumArt3D[spec, opts] accepts any PhysarumSimulation3D specification and options.";
 
 PhysarumImage::usage =
-  "PhysarumImage[sim] renders the trail map of a PhysarumSimulationObject as an Image.";
+  "PhysarumImage[sim] renders the trail map of a PhysarumSimulationObject as an Image.\nPhysarumImage[{sim1, sim2, ...}] renders each simulation in the list.";
 
 PhysarumAnimate::usage =
   "PhysarumAnimate[sim, frames, steps] evolves sim for frames frames of steps steps each and returns the rendered frames.";
@@ -390,6 +390,8 @@ evolveData[lib_, a_Association, n_] := Module[{res, dims, na, cols},
 (* ::Section:: *)
 (* PhysarumImage *)
 
+SetAttributes[PhysarumImage, Listable];
+
 Options[PhysarumImage] = {
   ColorFunction -> Automatic,
   "Colors" -> Automatic,
@@ -689,6 +691,8 @@ PhysarumSimulation3DObject /: MakeBoxes[obj : PhysarumSimulation3DObject[a_Assoc
     fmt];
 
 (* --- PhysarumImage3D: volume rendering with opacity following trail strength --- *)
+
+SetAttributes[PhysarumImage3D, Listable];
 
 Options[PhysarumImage3D] = {
   ColorFunction -> Automatic,

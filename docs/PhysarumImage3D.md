@@ -9,9 +9,12 @@ faint trail is dim and see-through.
 | --- | --- |
 | `PhysarumImage3D[sim]` | the volume rendering of the [PhysarumSimulation3DObject](PhysarumSimulation3DObject.md) `sim` |
 | `PhysarumImage3D[sim, opts]` | with options |
+| `PhysarumImage3D[{sim1, sim2, ...}, opts]` | renders each simulation in the list |
 
 ## Details
 
+* `PhysarumImage3D` is `Listable`: given a list of simulations it returns a list of `Image3D`
+  objects, all drawn with the same options.
 * The result is an RGBA `Image3D` with the same dimensions as the grid. Colour comes from the trail,
   and opacity follows its strength.
 * Each species' trail is lightly blurred (`"Smoothing"`), normalized (`"Clip"`), and
