@@ -352,10 +352,10 @@ PhysarumSimulationObject /: MakeBoxes[obj : PhysarumSimulationObject[a_Associati
     Quiet @ Check[PhysarumImage[obj, ImageSize -> 48, "Glow" -> 0], None],
     {
       BoxForm`SummaryItem[{"Step: ", a["Step"]}],
-      BoxForm`SummaryItem[{"Size: ", Row[a["Size"], "\[Times]"]}]
+      BoxForm`SummaryItem[{"Size: ", Row[a["Size"], "\[Times]"]}],
+      BoxForm`SummaryItem[{"Agents: ", First[Dimensions[a["Agents"]]]}]
     },
     {
-      BoxForm`SummaryItem[{"Agents: ", First[Dimensions[a["Agents"]]]}],
       BoxForm`SummaryItem[{"Species: ", Length[a["Species"]]}],
       BoxForm`SummaryItem[{"Wrap: ", a["Wrap"]}]
     },
@@ -681,10 +681,10 @@ PhysarumSimulation3DObject /: MakeBoxes[obj : PhysarumSimulation3DObject[a_Assoc
     Quiet @ Check[Image[projection3D[a], ImageSize -> 48], None],
     {
       BoxForm`SummaryItem[{"Step: ", a["Step"]}],
-      BoxForm`SummaryItem[{"Size: ", Row[a["Size"], "\[Times]"]}]
+      BoxForm`SummaryItem[{"Size: ", Row[a["Size"], "\[Times]"]}],
+      BoxForm`SummaryItem[{"Agents: ", First[Dimensions[a["Agents"]]]}]
     },
     {
-      BoxForm`SummaryItem[{"Agents: ", First[Dimensions[a["Agents"]]]}],
       BoxForm`SummaryItem[{"Species: ", Length[a["Species"]]}],
       BoxForm`SummaryItem[{"Wrap: ", a["Wrap"]}]
     },
