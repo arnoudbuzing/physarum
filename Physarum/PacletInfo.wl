@@ -14,9 +14,27 @@ PacletObject[
       {
         "Kernel",
         "Root" -> "Kernel",
-        "Context" -> "ArnoudBuzing`Physarum`"
+        "Context" -> {"ArnoudBuzing`Physarum`"},
+        "Symbols" -> {
+          "ArnoudBuzing`Physarum`$PhysarumPresets",
+          "ArnoudBuzing`Physarum`PhysarumAnimate",
+          "ArnoudBuzing`Physarum`PhysarumArt",
+          "ArnoudBuzing`Physarum`PhysarumArt3D",
+          "ArnoudBuzing`Physarum`PhysarumEvolve",
+          "ArnoudBuzing`Physarum`PhysarumFlow",
+          "ArnoudBuzing`Physarum`PhysarumGraphics3D",
+          "ArnoudBuzing`Physarum`PhysarumImage",
+          "ArnoudBuzing`Physarum`PhysarumImage3D",
+          "ArnoudBuzing`Physarum`PhysarumMaze",
+          "ArnoudBuzing`Physarum`PhysarumNetwork",
+          "ArnoudBuzing`Physarum`PhysarumSimulation",
+          "ArnoudBuzing`Physarum`PhysarumSimulation3D",
+          "ArnoudBuzing`Physarum`PhysarumSimulation3DObject",
+          "ArnoudBuzing`Physarum`PhysarumSimulationObject"
+        }
       },
-      {"LibraryLink", "Root" -> "LibraryResources"}
+      {"LibraryLink", "Root" -> "LibraryResources"},
+      {"Documentation", "Language" -> "English", "MainPage" -> "Guides/Physarum"}
     },
     "Keywords" -> {
       "physarum",

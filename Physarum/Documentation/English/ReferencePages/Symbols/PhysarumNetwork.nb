@@ -1,0 +1,1146 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 15.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     46871,       1137]
+NotebookOptionsPosition[     41414,       1028]
+NotebookOutlinePosition[     43349,       1073]
+CellTagsIndexPosition[     43306,       1070]
+WindowTitle->PhysarumNetwork
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[GridBox[{
+   {GridBox[{
+      {
+       ItemBox[Cell[BoxData[
+         RowBox[{
+          TemplateBox[{12},
+           "Spacer1"], Cell["ARNOUD BUZING/ PHYSARUM SYMBOL", "PacletNameCell",
+           TextAlignment->Center,ExpressionUUID->
+           "88b799ed-54ef-4c90-8f68-4037f5276666"], 
+          TemplateBox[{8},
+           "Spacer1"]}]],
+         TextAlignment->Center,ExpressionUUID->
+         "212e0e39-b0bd-46e9-9f13-72935848f94d"],
+        Background->LightDarkSwitched[
+          RGBColor[0.490196, 0.576471, 0.690196]],
+        ItemSize->Full], ""}
+     },
+     GridBoxAlignment->{"Rows" -> {{Center}}},
+     GridBoxItemSize->{"Columns" -> {Full, 
+         Scaled[0.02]}, "Rows" -> {{2.5}}}], Cell[TextData[{
+     Cell[BoxData[
+      TagBox[
+       ActionMenuBox[
+        FrameBox[Cell[TextData[{
+          "See Also",
+          " ",
+          Cell[BoxData[
+           GraphicsBox[
+            {GrayLevel[0.66667], Thickness[0.13], 
+             LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+            AspectRatio->1,
+            ImageSize->20,
+            PlotRange->{{-3, 4}, {-1, 1}}]],ExpressionUUID->
+           "b0fc9434-93a3-41b2-b6f6-16cfb2884d4d"]
+         }],ExpressionUUID->"31548b73-b404-4262-b301-c71ac8041785"],
+         StripOnInput->False],{
+        StyleBox["\"PhysarumFlow\"", "SeeAlsoRelated", StripOnInput -> False] :> 
+         Documentation`HelpLookup[
+          "paclet:ArnoudBuzing/Physarum/ref/PhysarumFlow"], 
+         StyleBox[
+          "\"PhysarumSimulation\"", "SeeAlsoRelated", StripOnInput -> False] :> 
+         Documentation`HelpLookup[
+          "paclet:ArnoudBuzing/Physarum/ref/PhysarumSimulation"], 
+         StyleBox[
+          "\"PhysarumImage\"", "SeeAlsoRelated", StripOnInput -> False] :> 
+         Documentation`HelpLookup[
+          "paclet:ArnoudBuzing/Physarum/ref/PhysarumImage"]},
+        Appearance->None,
+        MenuAppearance->Automatic,
+        MenuStyle->"SeeAlso"],
+       MouseAppearanceTag["LinkHand"]]],
+      LineSpacing->{1.4, 0},ExpressionUUID->
+      "bffd98bd-b613-4383-94b8-b09d9937a352"],
+     "\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\
+\[ThickSpace]",
+     Cell[BoxData[
+      TagBox[
+       ActionMenuBox[
+        FrameBox[Cell[TextData[{
+          "Related Guides",
+          " ",
+          Cell[BoxData[
+           GraphicsBox[
+            {GrayLevel[0.66667], Thickness[0.13], 
+             LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+            AspectRatio->1,
+            ImageSize->20,
+            PlotRange->{{-3, 4}, {-1, 1}}]],ExpressionUUID->
+           "ab941015-e069-41d2-848a-aac5c9ec4efd"]
+         }],ExpressionUUID->"d398f4e7-2ba7-4b28-be92-d7dfec344f40"],
+         StripOnInput->False],{
+        "\"Physarum\"" :> 
+         Documentation`HelpLookup[
+          "paclet:ArnoudBuzing/Physarum/guide/Physarum"]},
+        Appearance->None,
+        MenuAppearance->Automatic,
+        MenuStyle->"MoreAbout"],
+       MouseAppearanceTag["LinkHand"]]],
+      LineSpacing->{1.4, 0},ExpressionUUID->
+      "8cd1d9bd-cd13-41d8-9e63-a6d216b56b2e"],
+     "\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\
+\[ThickSpace]",
+     Cell[BoxData[
+      TagBox[
+       ActionMenuBox[
+        FrameBox[Cell[TextData[{
+          "URL",
+          " ",
+          Cell[BoxData[
+           GraphicsBox[
+            {GrayLevel[0.66667], Thickness[0.13], 
+             LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+            AspectRatio->1,
+            ImageSize->20,
+            PlotRange->{{-3, 4}, {-1, 1}}]],ExpressionUUID->
+           "5e7cd5ca-5aea-481f-95bf-eb0a319bf912"]
+         }],ExpressionUUID->"29bd899a-b315-4f90-a1a7-1e214c8163cb"],
+         StripOnInput->False],{
+        "\"ArnoudBuzing/Physarum/ref/PhysarumNetwork\"" :> None, 
+         "\"Copy Wolfram Documentation Center URL\"" :> 
+         CopyToClipboard["ArnoudBuzing/Physarum/ref/PhysarumNetwork"], 
+         Delimiter, "\"Copy web URL\"" :> 
+         Module[{DocumentationSearch`Private`nb$}, 
+           DocumentationSearch`Private`nb$ = 
+            NotebookPut[
+             Notebook[{
+               Cell[BoxData[
+                 MakeBoxes[
+                  Hyperlink[
+                   "http://reference.wolfram.com/language/ArnoudBuzing/\
+Physarum/ref/PhysarumNetwork.html"], StandardForm]], "Input", 
+                 TextClipboardType -> "PlainText"]}, Visible -> False]]; 
+           SelectionMove[DocumentationSearch`Private`nb$, All, Notebook]; 
+           FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
+           NotebookClose[DocumentationSearch`Private`nb$]; Null], 
+         "\"Go to web URL\"" :> 
+         FrontEndExecute[{
+           NotebookLocate[{
+             URL[If[TrueQ[False], 
+                 "http://reference.wolfram.com/system-modeler/", 
+                 "http://reference.wolfram.com/language/"] <> 
+               "ArnoudBuzing/Physarum/ref/PhysarumNetwork" <> ".html"], 
+              None}]}]},
+        Appearance->None,
+        MenuAppearance->Automatic,
+        MenuStyle->"URLMenu"],
+       MouseAppearanceTag["LinkHand"]]],
+      LineSpacing->{1.4, 0},ExpressionUUID->
+      "d84d6522-3907-40a7-bab8-dc73e8927bec"]
+    }], "AnchorBar",
+     CacheGraphics->False,ExpressionUUID->
+     "f7ec46db-2c97-4576-9dbe-38801115af62"]}
+  }]], "AnchorBarGrid",
+ CellID->1,ExpressionUUID->"37404abb-64ae-495e-ae4a-bd1d89c1fc41"],
+
+Cell["ArnoudBuzing`Physarum`", "ContextNameCell",ExpressionUUID->"13374680-8780-4080-8be8-5f407bc6fdaf"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     Cell[
+     "PhysarumNetwork", "ObjectName",ExpressionUUID->
+      "7ed43ff9-fe72-4947-adee-904867cb7112"],
+     Cell[BoxData[
+      TemplateBox[{8},
+       "Spacer1"]],ExpressionUUID->"b6988dbf-ec76-416e-aa3e-49a63ae19691"],
+     Cell[BoxData[
+     ""], "ObjectNameTranslation",ExpressionUUID->
+      "9027586a-34f0-408a-898a-c77fa049fdc9"]
+    }],ExpressionUUID->"a4437b72-792e-46cf-8cb7-de49b2bf201b"], 
+    "\[SpanFromLeft]"}
+  }]], "ObjectNameGrid",ExpressionUUID->"09f67736-3ca6-4cb6-a582-\
+9801ab0e925b"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[BoxData[
+      RowBox[{"PhysarumNetwork", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         SubscriptBox[
+          StyleBox["p", "TI"], 
+          StyleBox["1", "TR"]], ",", " ", 
+         SubscriptBox[
+          StyleBox["p", "TI"], 
+          StyleBox["2", "TR"]], ",", " ", "\[Ellipsis]"}], "}"}], "]"}]], 
+      "InlineFormula",
+      FontFamily->"Source Sans Pro",
+      FontSize->0.9 Inherited,ExpressionUUID->
+      "e5835605-a6d1-41bf-8735-03a70762ec70"],
+     "\[LineSeparator]",
+     "grows a slime mold between the 2D points ",
+     StyleBox["p", "TI"],
+     Cell[BoxData[
+      SubscriptBox["", 
+       RowBox[{"*", "i", "*"}]]], "InlineFormula",
+      FontFamily->"Source Sans Pro",ExpressionUUID->
+      "ee7f6cc2-b696-4b0c-be8f-019682da6704"],
+     " and returns the resulting transport network as a ",
+     Cell[BoxData[
+      TemplateBox[{
+        Cell[
+         TextData["Graph"]], "paclet:ref/Graph"},
+       "RefLink",
+       BaseStyle->"InlineFormula"]], "InlineFormula",
+      FontFamily->"Source Sans Pro",ExpressionUUID->
+      "a5cb0ef7-02d1-44ad-8e93-91ed867363c6"],
+     "."
+    }],ExpressionUUID->"b2e87b8c-c0d7-4197-a469-60bf040a4b43"]},
+   {"", Cell[TextData[{
+     Cell[BoxData[
+      RowBox[{"PhysarumNetwork", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         SubscriptBox[
+          StyleBox["geo", "TI"], 
+          StyleBox["1", "TR"]], ",", " ", 
+         SubscriptBox[
+          StyleBox["geo", "TI"], 
+          StyleBox["2", "TR"]], ",", " ", "\[Ellipsis]"}], "}"}], "]"}]], 
+      "InlineFormula",
+      FontFamily->"Source Sans Pro",
+      FontSize->0.9 Inherited,ExpressionUUID->
+      "6f92726f-c434-4a47-b8f7-37271fb771e7"],
+     "\[LineSeparator]",
+     "grows a transport network between ",
+     Cell[BoxData[
+      TemplateBox[{
+        Cell[
+         TextData["GeoPosition"]], "paclet:ref/GeoPosition"},
+       "RefLink",
+       BaseStyle->"InlineFormula"]], "InlineFormula",
+      FontFamily->"Source Sans Pro",ExpressionUUID->
+      "760901b9-2397-41f4-b350-2bd7cfbaffe3"],
+     " or geographic ",
+     Cell[BoxData[
+      TemplateBox[{
+        Cell[
+         TextData["Entity"]], "paclet:ref/Entity"},
+       "RefLink",
+       BaseStyle->"InlineFormula"]], "InlineFormula",
+      FontFamily->"Source Sans Pro",ExpressionUUID->
+      "76a9e4ed-ba62-4749-a42a-443ef19725c2"],
+     " locations."
+    }],ExpressionUUID->"b68b476f-ff0d-48ac-bc24-227d307e5c7d"]},
+   {"", Cell[TextData[{
+     Cell[BoxData[
+      RowBox[{"PhysarumNetwork", "[", 
+       RowBox[{
+        StyleBox["pts", "TI"], ",", " ", 
+        StyleBox["opts", "TI"]}], "]"}]], "InlineFormula",
+      FontFamily->"Source Sans Pro",
+      FontSize->0.9 Inherited,ExpressionUUID->
+      "929c1241-7558-49ff-8337-fee4f04b0602"],
+     "\[LineSeparator]",
+     "grows a network with the given options."
+    }],ExpressionUUID->"ba6498d0-cd96-4c90-977b-859bc90bc0db"]}
+  }]], "Usage",
+ CellID->329621944,ExpressionUUID->"c57635b2-c9ac-436f-b1d9-9507887686f1"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[Cell[TextData[{
+  Cell[BoxData[
+   DynamicBox[ToBoxes[
+     If[CurrentValue[
+        EvaluationCell[], "CellGroupOpen"] =!= Closed, 
+      Style[
+       Graphics[{
+         Thickness[0.18], 
+         RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+         Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+        PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+       0.68 Inherited], 
+      Rotate[
+       Style[
+        Graphics[{
+          Thickness[0.18], 
+          RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+          Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+         PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+        0.68 Inherited], Rational[1, 2] Pi, {-1.65, -1}]]]]],ExpressionUUID->
+   "10b69ac9-b5c6-46bd-a918-3ed299385d0a"],
+  Cell[BoxData[
+   TemplateBox[{1},
+    "Spacer1"]],ExpressionUUID->"44f9045d-6437-41b2-9d96-903ab6b8211e"],
+  "Details and Options"
+ }], "NotesFrameText",ExpressionUUID->
+  "4c1f98da-10cc-447a-a5d3-c9915e783b8e"]],ExpressionUUID->"0edd25ed-ce20-\
+42e2-8729-56511caae1fe"]], "NotesSection",
+ ShowGroupOpener->"Thumbnail",
+ WholeCellGroupOpener->True,
+ CellGroupingRules->{"SectionGrouping", 50},
+ CacheGraphics->False,
+ CellID->636869825,ExpressionUUID->"2542df37-f3f5-4b8f-9fe0-9f0e179f2171"],
+
+Cell[TextData[{
+ Cell[BoxData["PhysarumNetwork"], "InlineFormula",
+  FontFamily->"Source Sans Pro",
+  FontSize->0.9 Inherited,ExpressionUUID->
+  "bbac5397-a1c7-4477-b3fb-71218ac484cd"],
+ " runs an agent simulation with food placed at the input locations, \
+thresholds and thins the resulting trail map into a 1-pixel skeleton, and \
+traces the skeleton into a weighted ",
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["Graph"]], "paclet:ref/Graph"},
+   "RefLink",
+   BaseStyle->"InlineFormula"]], "InlineFormula",
+  FontFamily->"Source Sans Pro",ExpressionUUID->
+  "151bac6c-20b5-46a3-afcf-98f471afe1e6"],
+ " with ",
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["EuclideanDistance"]], "paclet:ref/EuclideanDistance"},
+   "RefLink",
+   BaseStyle->"InlineFormula"]], "InlineFormula",
+  FontFamily->"Source Sans Pro",ExpressionUUID->
+  "c4645b1d-4eeb-4ad3-8bfb-3d455072fa20"],
+ " edge weights."
+}], "Notes",
+ CellID->515379898,ExpressionUUID->"aa4f878f-a7fd-45af-b8ae-f4e7e0c60da5"],
+
+Cell[TextData[{
+ "Geographic inputs (",
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["GeoPosition"]], "paclet:ref/GeoPosition"},
+   "RefLink",
+   BaseStyle->"InlineFormula"]], "InlineFormula",
+  FontFamily->"Source Sans Pro",ExpressionUUID->
+  "0391e3f7-1a0e-4f31-a794-1bf0bafe0b72"],
+ " or ",
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["Entity"]], "paclet:ref/Entity"},
+   "RefLink",
+   BaseStyle->"InlineFormula"]], "InlineFormula",
+  FontFamily->"Source Sans Pro",ExpressionUUID->
+  "247af390-3ce6-4628-ac67-db58798ce3a3"],
+ " values such as cities) are projected using an equirectangular projection \
+at the mean latitude and attached as vertices of the resulting graph."
+}], "Notes",
+ CellID->604760901,ExpressionUUID->"760a99b3-61c4-4de2-a240-c6b8784978fb"],
+
+Cell[TextData[{
+ Cell[BoxData["PhysarumNetwork"], "InlineFormula",
+  FontFamily->"Source Sans Pro",
+  FontSize->0.9 Inherited,ExpressionUUID->
+  "795b9525-a861-4b45-b7cc-5c4ca40c63ba"],
+ " accepts the following options:"
+}], "Notes",
+ CellID->1476799103,ExpressionUUID->"839fdfea-6275-41d5-8579-f242d47a17c4"],
+
+Cell[BoxData[GridBox[{
+   {Cell["      ", "TableRowIcon",ExpressionUUID->
+     "aa34d6c0-f358-42aa-8afb-5629aedc19f3"], Cell["Option", "TableText",
+     FontWeight->Bold,ExpressionUUID->"48e8d1e1-ef31-4dc6-8d5e-f054468cff82"],
+     Cell["Default", "TableText",
+     FontWeight->Bold,ExpressionUUID->"fee62b05-5a69-4e04-8065-550cdb850ca7"],
+     Cell["Description", "TableText",
+     FontWeight->Bold,ExpressionUUID->"cf604d83-569e-405f-8359-981d45e01e0a"]},
+   {Cell["      ", "TableRowIcon",ExpressionUUID->
+     "9398d3c4-6662-4d53-be6c-ed3733f59a26"], Cell[TextData[Cell[
+    BoxData["\"\<Size\>\""], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "4e0dd2ef-0bee-4003-8907-5b8d139d2dd5"]], "TableText",ExpressionUUID->
+     "0d5d0606-423e-422b-a560-bbaee93c873a"], Cell[TextData[Cell[BoxData[
+    "400"], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "a683806e-a03a-4e6e-ba86-1d489c8e1332"]], "TableText",ExpressionUUID->
+     "cc382f60-0a3a-423e-b82b-8f12035ae734"], Cell[
+    "grid resolution along the longest side", "TableText",ExpressionUUID->
+     "313e8d15-993c-4367-9911-c50e1c89835c"]},
+   {Cell["      ", "TableRowIcon",ExpressionUUID->
+     "efb1225d-80ec-4e8e-948a-196d05d3e8d6"], Cell[TextData[Cell[
+    BoxData["\"\<Steps\>\""], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "e47b8e3d-fc4c-40d6-8c35-c8eb10589589"]], "TableText",ExpressionUUID->
+     "7e5f856f-9982-41e5-8a2a-610c03c43355"], Cell[TextData[Cell[BoxData[
+    "2000"], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "25ec9f54-e066-4450-a34e-ec9ced084222"]], "TableText",ExpressionUUID->
+     "7dd1945f-65b7-41eb-a1a7-374c672f805b"], Cell[
+    "number of simulation steps", "TableText",ExpressionUUID->
+     "1b5966da-e3d3-4756-953d-40c7ad5ec50f"]},
+   {Cell["      ", "TableRowIcon",ExpressionUUID->
+     "6c06edfa-ede0-4936-a8e3-5816f3cad986"], Cell[TextData[Cell[
+    BoxData["\"\<AgentDensity\>\""], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "acd1485d-0069-4857-bbb8-891f4a26ea95"]], "TableText",ExpressionUUID->
+     "f15921b6-686e-4666-ae00-4498d5c75f63"], Cell[TextData[Cell[BoxData[
+    "0.3"], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "daa5b242-7df3-4a95-86de-c57fa5bf8b66"]], "TableText",ExpressionUUID->
+     "0faa45f6-ef10-446b-81bf-892f81cb8017"], Cell[
+    "agents per grid cell", "TableText",ExpressionUUID->
+     "7f4ea940-0da5-4873-b3fd-8891a373e89a"]},
+   {Cell["      ", "TableRowIcon",ExpressionUUID->
+     "3e9dda96-3e5d-467b-aef7-c293a1a180ca"], Cell[TextData[Cell[
+    BoxData["\"\<Species\>\""], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "a3d701bf-365b-417e-87ed-5eba0d9f81b4"]], "TableText",ExpressionUUID->
+     "10bb267e-fdc9-4d68-8822-c20e377d2eda"], Cell[TextData[Cell[BoxData[
+     TemplateBox[{
+       Cell[
+        TextData["Automatic"]], "paclet:ref/Automatic"},
+      "RefLink",
+      BaseStyle->"InlineFormula"]], "InlineFormula",
+     FontFamily->"Source Sans Pro",ExpressionUUID->
+     "bd8957c3-0113-4a10-94f6-954d1b09e241"]], "TableText",ExpressionUUID->
+     "cde4e2b1-c1f5-4e5c-a68c-3eb8521e1bf4"], Cell[
+    "species specification used to grow the network", "TableText",
+     ExpressionUUID->"b0189ed8-1314-44d4-bee1-b76807e318ff"]},
+   {Cell["      ", "TableRowIcon",ExpressionUUID->
+     "170ed7d8-370e-4dd8-9cda-788fa4caf7c4"], Cell[TextData[Cell[
+    BoxData["\"\<FoodRadius\>\""], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "9cbef9e2-42b6-46c8-abd9-a116c01c3e6f"]], "TableText",ExpressionUUID->
+     "e00fca76-11f5-4f47-b2d4-4879d6cadf73"], Cell[TextData[Cell[BoxData[
+     TemplateBox[{
+       Cell[
+        TextData["Automatic"]], "paclet:ref/Automatic"},
+      "RefLink",
+      BaseStyle->"InlineFormula"]], "InlineFormula",
+     FontFamily->"Source Sans Pro",ExpressionUUID->
+     "02dd151a-d309-4331-b333-30acbbdf7a0d"]], "TableText",ExpressionUUID->
+     "d49e96cc-bd8e-4173-8b67-c01fa34827bc"], Cell[
+    "radius of each food source in cells", "TableText",ExpressionUUID->
+     "04f3dfe8-c3b4-4a5c-91eb-a3006b42e14c"]},
+   {Cell["      ", "TableRowIcon",ExpressionUUID->
+     "10d51c09-3c68-4bd7-abe0-a64a712b2ea7"], Cell[TextData[Cell[
+    BoxData["\"\<FoodStrength\>\""], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "0f3c2aa9-281a-4da3-8b05-732947be79a8"]], "TableText",ExpressionUUID->
+     "40151be7-6ee3-4a70-b0c7-1973f349082d"], Cell[TextData[Cell[BoxData[
+    "300"], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "946fefce-e5ac-407a-a7c3-363da7640638"]], "TableText",ExpressionUUID->
+     "e5497728-ef73-480c-b141-5b0ab3fb41c4"], Cell[
+    "attractant added per step at each food source", "TableText",
+     ExpressionUUID->"a515b2b6-8ae3-42eb-a7b4-028a60a7b0a3"]},
+   {Cell["      ", "TableRowIcon",ExpressionUUID->
+     "49794d2e-5735-492d-91cb-61e8534d0ed3"], Cell[TextData[Cell[
+    BoxData["\"\<Walls\>\""], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "125d24ce-998c-4a87-b447-1c6749a36819"]], "TableText",ExpressionUUID->
+     "3308555a-a98a-43db-b130-0e574eb419fb"], Cell[TextData[Cell[BoxData[
+     TemplateBox[{
+       Cell[
+        TextData["None"]], "paclet:ref/None"},
+      "RefLink",
+      BaseStyle->"InlineFormula"]], "InlineFormula",
+     FontFamily->"Source Sans Pro",ExpressionUUID->
+     "31649458-c92d-43e1-9e8e-97bdaeb65d1c"]], "TableText",ExpressionUUID->
+     "4b4862dd-a7cc-44ea-9715-5058699a1d58"], Cell[
+    "obstacle mask that agents cannot cross", "TableText",ExpressionUUID->
+     "d9200be9-0f68-4909-961e-e0ad473d86e4"]},
+   {Cell["      ", "TableRowIcon",ExpressionUUID->
+     "da57b25c-9450-42e7-bea2-f1b979a5cb8e"], Cell[TextData[Cell[
+    BoxData["\"\<Padding\>\""], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "17ac1b81-f0e4-4173-ac6d-ae4f8611eca8"]], "TableText",ExpressionUUID->
+     "fb2db8a6-b384-4e84-83da-d7acb10ea1a5"], Cell[TextData[Cell[BoxData[
+    "0.15"], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "325f9736-4343-4a90-b596-ff59e13150d3"]], "TableText",ExpressionUUID->
+     "d10ebb55-66b9-4f8a-ae8c-225a9b738d54"], Cell["\<\
+fractional margin added around the bounding box of the points\
+\>", "TableText",ExpressionUUID->"7d8ff7bd-7727-4533-bb5f-8cbf050b1567"]},
+   {Cell["      ", "TableRowIcon",ExpressionUUID->
+     "7ab7c298-37e8-486b-a54a-3d4c4305c691"], Cell[TextData[Cell[
+    BoxData["\"\<DeleteDeadEnds\>\""], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "521d4ac0-2799-4c61-81f0-b342ef0c25ae"]], "TableText",ExpressionUUID->
+     "57340612-d19e-4bf9-ab20-a8878969db4f"], Cell[TextData[Cell[BoxData[
+     TemplateBox[{
+       Cell[
+        TextData["True"]], "paclet:ref/True"},
+      "RefLink",
+      BaseStyle->"InlineFormula"]], "InlineFormula",
+     FontFamily->"Source Sans Pro",ExpressionUUID->
+     "f7903271-9aa5-4b8c-9e8c-d01de2982c5d"]], "TableText",ExpressionUUID->
+     "2f97959a-8072-4b18-a189-08e68e047d90"], Cell[
+    "whether to prune branches that do not connect food sources", "TableText",
+     ExpressionUUID->"8c8c9269-79ad-4b16-8ce0-eb01bbaf82d4"]},
+   {Cell["      ", "TableRowIcon",ExpressionUUID->
+     "9c580715-7a0f-42eb-b038-60b29d6bdaf1"], Cell[TextData[Cell[
+    BoxData["\"\<Backbone\>\""], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "5adf0a8d-1773-4ed1-8627-984761890ca7"]], "TableText",ExpressionUUID->
+     "b3ca0d16-436d-4086-98d2-135567c58a12"], Cell[TextData[Cell[BoxData[
+     TemplateBox[{
+       Cell[
+        TextData["False"]], "paclet:ref/False"},
+      "RefLink",
+      BaseStyle->"InlineFormula"]], "InlineFormula",
+     FontFamily->"Source Sans Pro",ExpressionUUID->
+     "b2b56fee-2d79-4472-89d8-bc5171b3db9c"]], "TableText",ExpressionUUID->
+     "f3a9cd29-5a5d-42ae-b761-88252494782b"], Cell["\<\
+whether to keep only edges lying on shortest paths between food pairs\
+\>", "TableText",ExpressionUUID->"29f5ee68-6706-4762-9f90-d3470ee2f8af"]},
+   {Cell["      ", "TableRowIcon",ExpressionUUID->
+     "5e264cc6-f79b-4f8c-b9e9-2e1de5b088be"], Cell[TextData[Cell[
+    BoxData["\"\<Threshold\>\""], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "6ed5c132-d5ac-4571-b550-6bc594e13751"]], "TableText",ExpressionUUID->
+     "2c77e1d4-8624-4cd3-9756-0637de5c6ec4"], Cell[TextData[Cell[BoxData[
+     TemplateBox[{
+       Cell[
+        TextData["Automatic"]], "paclet:ref/Automatic"},
+      "RefLink",
+      BaseStyle->"InlineFormula"]], "InlineFormula",
+     FontFamily->"Source Sans Pro",ExpressionUUID->
+     "28a002fa-ff49-4ec3-95c4-02288ba946d5"]], "TableText",ExpressionUUID->
+     "ae0eb827-89f4-4dc0-a5aa-2b520004e21b"], Cell[TextData[{
+     "binarization threshold (",
+     Cell[BoxData[
+      TemplateBox[{
+        Cell[
+         TextData["Automatic"]], "paclet:ref/Automatic"},
+       "RefLink",
+       BaseStyle->"InlineFormula"]], "InlineFormula",
+      FontFamily->"Source Sans Pro",ExpressionUUID->
+      "d6b3b547-c3c4-450f-b692-dd8dad45634a"],
+     " uses Otsu's method)"
+    }], "TableText",ExpressionUUID->"aa81dc69-c53e-44a4-ab4f-228ec84c20fe"]},
+   {Cell["      ", "TableRowIcon",ExpressionUUID->
+     "daced153-b04c-49e2-a5e1-fbc6ce359b4d"], Cell[TextData[Cell[
+    BoxData["\"\<Pruning\>\""], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "0ee98ce8-262f-4615-b74f-fd5042467c73"]], "TableText",ExpressionUUID->
+     "a040df6c-738b-4368-8987-26495219e437"], Cell[TextData[Cell[BoxData[
+     TemplateBox[{
+       Cell[
+        TextData["Automatic"]], "paclet:ref/Automatic"},
+      "RefLink",
+      BaseStyle->"InlineFormula"]], "InlineFormula",
+     FontFamily->"Source Sans Pro",ExpressionUUID->
+     "6dad12e6-6dfd-4426-94b9-4a6f512c42c5"]], "TableText",ExpressionUUID->
+     "2b3d3a6c-0cd9-4a0f-b08d-9c8d01265543"], Cell[
+    "skeleton spur-pruning length in pixels", "TableText",ExpressionUUID->
+     "f14c9d53-d1c5-44c8-a387-e635bc373c59"]},
+   {Cell["      ", "TableRowIcon",ExpressionUUID->
+     "b1fc980d-9c6b-4887-9661-d86c987547e0"], Cell[TextData[Cell[
+    BoxData["\"\<Resampling\>\""], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "473269d8-f1a2-4d42-b31f-c026bd6d938d"]], "TableText",ExpressionUUID->
+     "5583d880-fa8a-4463-9e53-7a2318008b60"], Cell[TextData[Cell[BoxData[
+    "6"], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "a143dfd9-f5d5-4150-aa29-de084086e9b9"]], "TableText",ExpressionUUID->
+     "f27e045c-7d28-4575-b6c5-0402539b61b4"], Cell["\<\
+pixel spacing used when resampling curved skeleton chains into graph edges\
+\>", "TableText",ExpressionUUID->"813d38e9-e1f5-4d19-a55d-7d2a2d6227e2"]},
+   {Cell["      ", "TableRowIcon",ExpressionUUID->
+     "cb93514c-5d97-4810-ba4c-1f35ec660ab0"], Cell[TextData[Cell[
+    BoxData["\"\<Initialization\>\""], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "b111ef2f-af90-47e0-937d-1856705daca8"]], "TableText",ExpressionUUID->
+     "ed0cd366-1339-4262-bcc2-79519adcf12c"], Cell[TextData[Cell[
+    BoxData["\"\<Random\>\""], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "bce99b13-1c70-4da9-a7e9-09ff30cc3752"]], "TableText",ExpressionUUID->
+     "a540d498-812b-410b-b104-3cad3bc88bf8"], Cell[
+    "initial agent placement", "TableText",ExpressionUUID->
+     "03783d13-7d85-4cf7-b7aa-e5998ca2b168"]},
+   {Cell["      ", "TableRowIcon",ExpressionUUID->
+     "aac7dae7-bf5b-47c3-bcee-10528ad2a13a"], Cell[TextData[Cell[
+    BoxData["\"\<Output\>\""], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "de00c86d-af1d-4a4a-90c6-568f071dfab6"]], "TableText",ExpressionUUID->
+     "c7553255-b92d-4af5-adaa-12eb979d7fbd"], Cell[TextData[Cell[
+    BoxData["\"\<Graph\>\""], "InlineFormula",
+     FontFamily->"Source Sans Pro",
+     FontSize->0.9 Inherited,ExpressionUUID->
+     "3c95e316-578b-4491-939b-8c1b11505223"]], "TableText",ExpressionUUID->
+     "d3e12e99-25e5-4f90-9116-7c51bfe42ee4"], Cell[TextData[{
+     "return format: ",
+     Cell[BoxData["\"\<Graph\>\""], "InlineFormula",
+      FontFamily->"Source Sans Pro",
+      FontSize->0.9 Inherited,ExpressionUUID->
+      "e3647461-5ef3-493e-beca-714005089c41"],
+     ", ",
+     Cell[BoxData["\"\<Image\>\""], "InlineFormula",
+      FontFamily->"Source Sans Pro",
+      FontSize->0.9 Inherited,ExpressionUUID->
+      "1e620781-9118-4d62-b762-e393332f0113"],
+     ", ",
+     Cell[BoxData["\"\<Simulation\>\""], "InlineFormula",
+      FontFamily->"Source Sans Pro",
+      FontSize->0.9 Inherited,ExpressionUUID->
+      "adb48f2f-573f-4877-8321-0e93650b8ed8"],
+     ", ",
+     Cell[BoxData["\"\<GeoGraphics\>\""], "InlineFormula",
+      FontFamily->"Source Sans Pro",
+      FontSize->0.9 Inherited,ExpressionUUID->
+      "dbee0689-109e-4b27-a481-515f7f52a711"],
+     " or ",
+     Cell[BoxData["\"\<Association\>\""], "InlineFormula",
+      FontFamily->"Source Sans Pro",
+      FontSize->0.9 Inherited,ExpressionUUID->
+      "29e9e798-1c92-4c3c-b2af-4f0d0fa75f00"]
+    }], "TableText",ExpressionUUID->"45697d40-a7ce-46a0-b0e7-1d99ef5e9c2f"]}
+  }]], "3ColumnTableMod",
+ GridBoxOptions->{
+ GridBoxBackground->{
+  "Columns" -> {{None}}, 
+   "Rows" -> {
+    None, None, None, None, None, None, None, None, None, None, None, None, 
+     None, None, None, {None}}},
+ GridBoxDividers->{
+  "Rows" -> {{
+     True, True, True, True, True, True, True, True, True, True, True, True, 
+      True, True, True, True, True}}}},
+ CellID->448336599,ExpressionUUID->"2ac79dcb-8fd3-47bd-9de5-1cff8f6dc197"]
+}, Closed]],
+
+Cell["", "PageDelimiter",ExpressionUUID->"a09589e0-fb89-4e40-be03-2503533c3e10"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ Cell[BoxData[
+  DynamicBox[ToBoxes[
+    If[
+     MatchQ[
+      CurrentValue[
+       EvaluationNotebook[], {
+       TaggingRules, "Openers", "PrimaryExamplesSection"}, Open], 
+      Alternatives[True, Open]], 
+     Style[
+      Graphics[{
+        Thickness[0.18], 
+        RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+        Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+       PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+      0.68 Inherited], 
+     Rotate[
+      Style[
+       Graphics[{
+         Thickness[0.18], 
+         RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+         Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+        PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+       0.68 Inherited], Rational[1, 2] Pi, {-1.65, -1}]]]]],ExpressionUUID->
+  "0485fb58-36ec-40fa-9f28-b15d47c99323"],
+ Cell[BoxData[
+  TemplateBox[{1},
+   "Spacer1"]],ExpressionUUID->"9b22101a-7ff9-4057-9caa-9baf1c2d9ff0"],
+ "Examples",
+ "\[NonBreakingSpace]\[NonBreakingSpace]",
+ Cell["(5)", "ExampleCount",ExpressionUUID->
+  "82e1ee2e-bcb0-48bf-ba9f-92514fd5a881"]
+}], "PrimaryExamplesSection",
+ WholeCellGroupOpener->True,
+ CacheGraphics->False,
+ CellID->812652127,ExpressionUUID->"23a173b1-6d23-44c2-bd9b-7fcaf4bf2b71"],
+
+Cell[BoxData[
+ RowBox[{"Needs", "[", "\"\<ArnoudBuzing`Physarum`\>\"", "]"}]], "Input", \
+"ExampleInitialization",
+ CellLabel->"In[1]:=",
+ CellID->1969679695,ExpressionUUID->"c992b74f-41f9-457c-93c8-5cde643b96d8"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ Cell[BoxData[
+  DynamicBox[ToBoxes[
+    If[CurrentValue[
+       EvaluationCell[], "CellGroupOpen"] =!= Closed, 
+     Style[
+      Graphics[{
+        Thickness[0.18], 
+        RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+        Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+       PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+      0.68 Inherited], 
+     Rotate[
+      Style[
+       Graphics[{
+         Thickness[0.18], 
+         RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+         Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+        PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+       0.68 Inherited], Rational[1, 2] Pi, {-1.65, -1}]]]]],ExpressionUUID->
+  "49306576-a948-42da-8c06-f380621c11ac"],
+ Cell[BoxData[
+  TemplateBox[{1},
+   "Spacer1"]],ExpressionUUID->"6d6a6d13-18ad-49de-a23d-f60dd37865f4"],
+ "Basic Examples",
+ "\[NonBreakingSpace]\[NonBreakingSpace]",
+ Cell["(2)", "ExampleCount",ExpressionUUID->
+  "69bb30c6-8e8f-4ed9-99d7-74b21d0552dc"]
+}], "ExampleSection", "ExampleSection",
+ WholeCellGroupOpener->True,
+ CacheGraphics->False,
+ CellID->248303569,ExpressionUUID->"59f16180-44c6-4006-9312-b7164a47323e"],
+
+Cell["\<\
+Grow a transport network connecting 14 random points in the plane:\
+\>", "ExampleText",
+ CellID->542889645,ExpressionUUID->"c570bdad-3b3e-4d4c-b6d7-4e29b6fd1fd0"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SeedRandom", "[", "3", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"pts", " ", "=", " ", 
+   RowBox[{"RandomReal", "[", 
+    RowBox[{"1", ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"14", ",", " ", "2"}], "}"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{"g", " ", "=", " ", 
+  RowBox[{"PhysarumNetwork", "[", "pts", "]"}]}]}], "Input",
+ CellProlog:>Needs["ArnoudBuzing`Physarum`"],
+ CellLabel->"In[1]:=",
+ CellID->61003822,ExpressionUUID->"b87d994e-aac7-4bab-9a5b-35af7068d0f2"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "\t", "ExampleDelimiter",ExpressionUUID->
+   "71279e19-1e0b-4128-9b2f-9c1427cd0165"],
+  $Line = 0; Null]], "ExampleDelimiter",
+ CellID->984535207,ExpressionUUID->"fc48603e-119e-44f0-872c-9dc946f0163e"],
+
+Cell["\<\
+Inspect the vertex count, edge count and connectivity of the extracted graph:\
+\
+\>", "ExampleText",
+ CellID->2091929370,ExpressionUUID->"4acacd63-e2aa-449d-b81d-0e9cba8ef1c6"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"VertexCount", "[", "g", "]"}], ",", " ", 
+   RowBox[{"EdgeCount", "[", "g", "]"}], ",", " ", 
+   RowBox[{"ConnectedGraphQ", "[", "g", "]"}]}], "}"}]], "Input",
+ CellProlog:>Needs["ArnoudBuzing`Physarum`"],
+ CellLabel->"In[1]:=",
+ CellID->420599448,ExpressionUUID->"4c3c874f-896f-4d30-8d2b-1d407c1d98de"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ Cell[BoxData[
+  DynamicBox[ToBoxes[
+    If[CurrentValue[
+       EvaluationCell[], "CellGroupOpen"] =!= Closed, 
+     Style[
+      Graphics[{
+        Thickness[0.18], 
+        RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+        Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+       PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+      0.68 Inherited], 
+     Rotate[
+      Style[
+       Graphics[{
+         Thickness[0.18], 
+         RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+         Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+        PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+       0.68 Inherited], Rational[1, 2] Pi, {-1.65, -1}]]]]],ExpressionUUID->
+  "b03336ce-f7e7-4b1e-a853-b71a9602de5f"],
+ Cell[BoxData[
+  TemplateBox[{1},
+   "Spacer1"]],ExpressionUUID->"2ddbf6cb-8f42-4c71-baa2-83578f27212f"],
+ "Scope",
+ "\[NonBreakingSpace]\[NonBreakingSpace]",
+ Cell["(1)", "ExampleCount",ExpressionUUID->
+  "270362b2-6097-4f67-8d62-0ff929bee6d8"]
+}], "ExampleSection", "ExampleSection",
+ WholeCellGroupOpener->True,
+ CacheGraphics->False,
+ CellID->1293636265,ExpressionUUID->"ee832667-4db9-4db6-951b-82fcb58eb9f5"],
+
+Cell["\<\
+Grow a rail-like network between Dutch cities and display it on a map:\
+\>", "ExampleText",
+ CellID->1245349523,ExpressionUUID->"880bdb0a-ca10-4e92-b0b7-e20775af82b7"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"cities", " ", "=", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Entity", "[", 
+      RowBox[{"\"\<City\>\"", ",", " ", "#"}], "]"}], " ", "&"}], " ", "/@", 
+    " ", 
+    RowBox[{"{", "\n", "    ", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"\"\<Amsterdam\>\"", ",", " ", "\"\<NoordHolland\>\"", ",", 
+        " ", "\"\<Netherlands\>\""}], "}"}], ",", "\n", "    ", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Rotterdam\>\"", ",", " ", "\"\<ZuidHolland\>\"", ",", 
+        " ", "\"\<Netherlands\>\""}], "}"}], ",", "\n", "    ", 
+      RowBox[{"{", 
+       RowBox[{"\"\<TheHague\>\"", ",", " ", "\"\<ZuidHolland\>\"", ",", 
+        " ", "\"\<Netherlands\>\""}], "}"}], ",", "\n", "    ", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Utrecht\>\"", ",", " ", "\"\<Utrecht\>\"", ",", 
+        " ", "\"\<Netherlands\>\""}], "}"}], ",", "\n", "    ", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Eindhoven\>\"", ",", " ", "\"\<NoordBrabant\>\"", ",", 
+        " ", "\"\<Netherlands\>\""}], "}"}], ",", "\n", "    ", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Groningen\>\"", ",", " ", "\"\<Groningen\>\"", ",", 
+        " ", "\"\<Netherlands\>\""}], "}"}], ",", "\n", "    ", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Zwolle\>\"", ",", " ", "\"\<Overijssel\>\"", ",", 
+        " ", "\"\<Netherlands\>\""}], "}"}], ",", "\n", "    ", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Maastricht\>\"", ",", " ", "\"\<Limburg\>\"", ",", 
+        " ", "\"\<Netherlands\>\""}], "}"}]}], "\n", "}"}]}]}], ";"}], "\n", 
+ RowBox[{"PhysarumNetwork", "[", 
+  RowBox[{"cities", ",", " ", 
+   RowBox[{"\"\<Output\>\"", " ", "->", " ", "\"\<GeoGraphics\>\""}], ",", 
+   " ", 
+   RowBox[{"\"\<Backbone\>\"", " ", "->", " ", "True"}]}], "]"}]}], "Input",
+ CellProlog:>Needs["ArnoudBuzing`Physarum`"],
+ CellLabel->"In[1]:=",
+ CellID->374439187,ExpressionUUID->"648b93c0-f618-4038-a5f3-4eb375532f9c"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ Cell[BoxData[
+  DynamicBox[ToBoxes[
+    If[CurrentValue[
+       EvaluationCell[], "CellGroupOpen"] =!= Closed, 
+     Style[
+      Graphics[{
+        Thickness[0.18], 
+        RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+        Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+       PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+      0.68 Inherited], 
+     Rotate[
+      Style[
+       Graphics[{
+         Thickness[0.18], 
+         RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+         Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+        PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+       0.68 Inherited], Rational[1, 2] Pi, {-1.65, -1}]]]]],ExpressionUUID->
+  "b1c31eee-242d-4b4e-8b8d-a96ca88019d0"],
+ Cell[BoxData[
+  TemplateBox[{1},
+   "Spacer1"]],ExpressionUUID->"77b5c55e-3be7-452e-b3a6-30a72a57e42b"],
+ "Options",
+ "\[NonBreakingSpace]\[NonBreakingSpace]",
+ Cell["(2)", "ExampleCount",ExpressionUUID->
+  "18b3db60-f996-48e2-8955-23091aa3b943"]
+}], "ExampleSection", "ExampleSection",
+ WholeCellGroupOpener->True,
+ CacheGraphics->False,
+ CellID->2061341341,ExpressionUUID->"3fd576dd-3181-49bc-b4e9-1a639e53fa77"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ Cell[BoxData[
+  DynamicBox[ToBoxes[
+    If[CurrentValue[
+       EvaluationCell[], "CellGroupOpen"] =!= Closed, 
+     Style[
+      Graphics[{
+        Thickness[0.18], 
+        RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+        Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+       PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+      0.68 Inherited], 
+     Rotate[
+      Style[
+       Graphics[{
+         Thickness[0.18], 
+         RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+         Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+        PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+       0.68 Inherited], Rational[1, 2] Pi, {-1.65, -1}]]]]],ExpressionUUID->
+  "b3605fad-9d15-4c94-a0d3-b9ef2a503bca"],
+ Cell[BoxData[
+  TemplateBox[{1},
+   "Spacer1"]],ExpressionUUID->"56e330bb-3f77-42ff-a63f-d8234e7bbfeb"],
+ "\nCell[BoxData[\"\\\"Output\\\"\"], \"InlineFormula\", FontSize -> 0.9 \
+Inherited, ExpressionUUID -> \"f103ac12-68f6-4009-a2da-90472daecd63\", \
+FontFamily -> \"Source Sans Pro\"]"
+}], "\[NonBreakingSpace]\[NonBreakingSpace]", "ExampleSubsection", \
+"ExampleSubsection",
+ WholeCellGroupOpener->True,
+ CellID->774517536,ExpressionUUID->"822c534d-d437-4245-a288-05bb8b7cedb6"],
+
+Cell[BoxData[
+ CacheGraphics -> False], "Input",ExpressionUUID->"76d4d148-e809-463f-a6a0-6d5c3768eeab"],
+
+Cell[TextData[{
+ "Return the grown trail image, thinned skeleton and extracted graph together \
+using ",
+ Cell[BoxData[
+  RowBox[{"\"\<Output\>\"", " ", "->", " ", "\"\<Association\>\""}]], 
+  "InlineFormula",
+  FontFamily->"Source Sans Pro",
+  FontSize->0.9 Inherited,ExpressionUUID->
+  "aa41f0f8-5881-4d0f-847f-172b5add3438"],
+ ":"
+}], "ExampleText",
+ CellID->1184240770,ExpressionUUID->"53f34f93-be14-4ef9-a04d-5e2e1189abe7"],
+
+Cell["Closed", "Input",ExpressionUUID->"bf9af731-5b57-4bdf-b857-4fd5c0e21983"],
+
+Cell[BoxData["Closed"], "Input",ExpressionUUID->"f4175302-faa6-4a49-a401-bb201a4c5651"]
+}, Closed]]
+}, Closed]]
+}, Open  ]],
+
+Cell[BoxData[GridBox[{
+   {
+    DynamicBox[FEPrivate`ImportImage[
+      FrontEnd`FileName[{"Documentation", "FooterIcons"}, 
+       "RelatedFunction.png"]],
+     ImageSizeCache->{50., {26.47265625, 33.52734375}}], GridBox[{
+      {
+       StyleBox[
+        RowBox[{"See", " ", "Also"}], "SeeAlsoSection"]},
+      {Cell[TextData[{
+        Cell[BoxData[
+         TemplateBox[{
+           Cell[
+            TextData["PhysarumFlow"]], 
+           "paclet:ArnoudBuzing/Physarum/ref/PhysarumFlow", 
+           "ArnoudBuzing/Physarum Package Symbol"},
+          "PackageLink",
+          BaseStyle->"InlineFormula"]], "InlineFormula",
+         FontFamily->"Source Sans Pro",ExpressionUUID->
+         "ccdcab37-4b79-4e9f-ba63-9f5ac00f13a5"],
+        "\[NonBreakingSpace]",
+        StyleBox[
+        "\[MediumSpace]\[FilledVerySmallSquare]\[MediumSpace]", 
+         "InlineSeparator"],
+        " ",
+        Cell[BoxData[
+         TemplateBox[{
+           Cell[
+            TextData["PhysarumSimulation"]], 
+           "paclet:ArnoudBuzing/Physarum/ref/PhysarumSimulation", 
+           "ArnoudBuzing/Physarum Package Symbol"},
+          "PackageLink",
+          BaseStyle->"InlineFormula"]], "InlineFormula",
+         FontFamily->"Source Sans Pro",ExpressionUUID->
+         "07c610e0-6a61-45c5-8201-68d05c14842a"],
+        "\[NonBreakingSpace]",
+        StyleBox[
+        "\[MediumSpace]\[FilledVerySmallSquare]\[MediumSpace]", 
+         "InlineSeparator"],
+        " ",
+        Cell[BoxData[
+         TemplateBox[{
+           Cell[
+            TextData["PhysarumImage"]], 
+           "paclet:ArnoudBuzing/Physarum/ref/PhysarumImage", 
+           "ArnoudBuzing/Physarum Package Symbol"},
+          "PackageLink",
+          BaseStyle->"InlineFormula"]], "InlineFormula",
+         FontFamily->"Source Sans Pro",ExpressionUUID->
+         "292fe75c-3e9f-452d-9cec-ac2d594c38eb"]
+       }], "SeeAlso",ExpressionUUID->"cce77d8e-1971-41d1-8996-2836606071db"]}
+     }]}
+  }]], "SeeAlsoSection",ExpressionUUID->"5b528f17-ebd4-4d7a-8b3d-\
+e48447b578ce"],
+
+Cell[BoxData[GridBox[{
+   {
+    DynamicBox[FEPrivate`ImportImage[
+      FrontEnd`FileName[{"Documentation", "FooterIcons"}, "RelatedGuide.png"]],
+     ImageSizeCache->{50., {26.47265625, 33.52734375}}], GridBox[{
+      {
+       StyleBox[
+        RowBox[{"Related", " ", "Guides"}], "MoreAboutSection"]},
+      {
+       RowBox[{"\[FilledVerySmallSquare]", Cell[BoxData[
+         TemplateBox[{
+           Cell[
+            TextData["Physarum"]], 
+           "paclet:ArnoudBuzing/Physarum/guide/Physarum"},
+          "RefLinkPlain",
+          BaseStyle->{"MoreAbout"}]], "MoreAbout",ExpressionUUID->
+         "f086cabb-9a71-497f-ba7c-448153a70fc5"]}]}
+     }]}
+  }]], "MoreAboutSection",ExpressionUUID->"8c1d7ff6-b66d-4706-a244-\
+8de97a00bd67"]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{900, 830},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"PhysarumNetwork",
+Visible->True,
+TaggingRules->{
+ "ModificationHighlight" -> False, "ColorType" -> "", "LinkTrails" -> "", 
+  "ExampleCounter" -> 1, 
+  "Openers" -> {
+   "PrimaryExamplesSection" -> Open, "ExampleSection" -> {"0" -> Open}, 
+    "AllOptsTable" -> Closed}, "NewStyles" -> True, 
+  "CitationPopupData" -> $Failed, "ShowCitation" -> False, "HasOptions" -> 
+  True, "RootCaptions" -> "", "HeaderCoreAreaLink" -> {}, 
+  "Metadata" -> {
+   "built" -> "{2026, 10, 30, 14, 24, 52.332223}", 
+    "history" -> {"XX", "", "", ""}, "context" -> "ArnoudBuzing`Physarum`", 
+    "keywords" -> {}, "specialkeywords" -> {}, 
+    "tutorialcollectionlinks" -> {}, "index" -> True, "label" -> 
+    "Arnoud Buzing/ Physarum Symbol", "language" -> "en", "paclet" -> 
+    "ArnoudBuzing/Physarum", "status" -> "None", "summary" -> 
+    "PhysarumNetwork[{p1, p2, ...}] grows a slime mold between the 2D points \
+p *i* and returns the resulting transport network as a Graph. \
+PhysarumNetwork[{geo1, geo2, ...}] grows a transport network between \
+GeoPosition or geographic Entity locations. PhysarumNetwork[pts, opts] grows \
+a network with the given options.", "synonyms" -> {}, "tabletags" -> {}, 
+    "title" -> "PhysarumNetwork", "titlemodifier" -> "", "metadescription" -> 
+    "", "windowtitle" -> "PhysarumNetwork", "type" -> "Symbol", "uri" -> 
+    "ArnoudBuzing/Physarum/ref/PhysarumNetwork"}},
+CellContext->CellGroup,
+ShowAutoSpellCheck->False,
+FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (July 2, 2026)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb"],
+ExpressionUUID->"731cb1a7-9e1d-4e32-8483-a7a30debdd1c"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[583, 21, 5379, 133, 70, "AnchorBarGrid",ExpressionUUID->"37404abb-64ae-495e-ae4a-bd1d89c1fc41",
+ CellID->1],
+Cell[5965, 156, 104, 0, 70, "ContextNameCell",ExpressionUUID->"13374680-8780-4080-8be8-5f407bc6fdaf"],
+Cell[CellGroupData[{
+Cell[6094, 160, 558, 14, 70, "ObjectNameGrid",ExpressionUUID->"09f67736-3ca6-4cb6-a582-9801ab0e925b"],
+Cell[6655, 176, 3030, 84, 70, "Usage",ExpressionUUID->"c57635b2-c9ac-436f-b1d9-9507887686f1",
+ CellID->329621944]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9722, 265, 1354, 32, 70, "NotesSection",ExpressionUUID->"2542df37-f3f5-4b8f-9fe0-9f0e179f2171",
+ CellGroupingRules->{"SectionGrouping", 50},
+ CellID->636869825],
+Cell[11079, 299, 998, 27, 70, "Notes",ExpressionUUID->"aa4f878f-a7fd-45af-b8ae-f4e7e0c60da5",
+ CellID->515379898],
+Cell[12080, 328, 785, 22, 70, "Notes",ExpressionUUID->"760a99b3-61c4-4de2-a240-c6b8784978fb",
+ CellID->604760901],
+Cell[12868, 352, 309, 7, 70, "Notes",ExpressionUUID->"839fdfea-6275-41d5-8579-f242d47a17c4",
+ CellID->1476799103],
+Cell[13180, 361, 14355, 283, 70, "3ColumnTableMod",ExpressionUUID->"2ac79dcb-8fd3-47bd-9de5-1cff8f6dc197",
+ CellID->448336599]
+}, Closed]],
+Cell[27550, 647, 80, 0, 70, "PageDelimiter",ExpressionUUID->"a09589e0-fb89-4e40-be03-2503533c3e10"],
+Cell[CellGroupData[{
+Cell[27655, 651, 1316, 35, 70, "PrimaryExamplesSection",ExpressionUUID->"23a173b1-6d23-44c2-bd9b-7fcaf4bf2b71",
+ CellID->812652127],
+Cell[28974, 688, 213, 4, 70, "Input",ExpressionUUID->"c992b74f-41f9-457c-93c8-5cde643b96d8",
+ CellID->1969679695],
+Cell[CellGroupData[{
+Cell[29212, 696, 1235, 31, 70, "ExampleSection",ExpressionUUID->"59f16180-44c6-4006-9312-b7164a47323e",
+ CellID->248303569],
+Cell[30450, 729, 172, 3, 70, "ExampleText",ExpressionUUID->"c570bdad-3b3e-4d4c-b6d7-4e29b6fd1fd0",
+ CellID->542889645],
+Cell[30625, 734, 503, 13, 70, "Input",ExpressionUUID->"b87d994e-aac7-4bab-9a5b-35af7068d0f2",
+ CellID->61003822],
+Cell[CellGroupData[{
+Cell[31153, 751, 242, 5, 70, "ExampleDelimiter",ExpressionUUID->"fc48603e-119e-44f0-872c-9dc946f0163e",
+ CellID->984535207],
+Cell[31398, 758, 186, 4, 70, "ExampleText",ExpressionUUID->"4acacd63-e2aa-449d-b81d-0e9cba8ef1c6",
+ CellID->2091929370],
+Cell[31587, 764, 355, 8, 70, "Input",ExpressionUUID->"4c3c874f-896f-4d30-8d2b-1d407c1d98de",
+ CellID->420599448]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[31991, 778, 1227, 31, 70, "ExampleSection",ExpressionUUID->"ee832667-4db9-4db6-951b-82fcb58eb9f5",
+ CellID->1293636265],
+Cell[33221, 811, 177, 3, 70, "ExampleText",ExpressionUUID->"880bdb0a-ca10-4e92-b0b7-e20775af82b7",
+ CellID->1245349523],
+Cell[33401, 816, 1898, 41, 70, "Input",ExpressionUUID->"648b93c0-f618-4038-a5f3-4eb375532f9c",
+ CellID->374439187]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[35336, 862, 1229, 31, 70, "ExampleSection",ExpressionUUID->"3fd576dd-3181-49bc-b4e9-1a639e53fa77",
+ CellID->2061341341],
+Cell[CellGroupData[{
+Cell[36590, 897, 1297, 30, 70, "\[NonBreakingSpace]\[NonBreakingSpace]",ExpressionUUID->"822c534d-d437-4245-a288-05bb8b7cedb6",
+ CellID->774517536],
+Cell[37890, 929, 103, 1, 70, "Input",ExpressionUUID->"76d4d148-e809-463f-a6a0-6d5c3768eeab"],
+Cell[37996, 932, 428, 11, 70, "ExampleText",ExpressionUUID->"53f34f93-be14-4ef9-a04d-5e2e1189abe7",
+ CellID->1184240770],
+Cell[38427, 945, 78, 0, 70, "Input",ExpressionUUID->"bf9af731-5b57-4bdf-b857-4fd5c0e21983"],
+Cell[38508, 947, 87, 0, 70, "Input",ExpressionUUID->"f4175302-faa6-4a49-a401-bb201a4c5651"]
+}, Closed]]
+}, Closed]]
+}, Open  ]],
+Cell[38634, 952, 2032, 53, 70, "SeeAlsoSection",ExpressionUUID->"5b528f17-ebd4-4d7a-8b3d-e48447b578ce"],
+Cell[40669, 1007, 741, 19, 70, "MoreAboutSection",ExpressionUUID->"8c1d7ff6-b66d-4706-a244-8de97a00bd67"]
+}
+]
+*)
+
+(* End of internal cache information *)

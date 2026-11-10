@@ -1,119 +1,94 @@
-# PhysarumSimulationObject
+---
+Template: Symbol
+Name: PhysarumSimulationObject
+Context: ArnoudBuzing`Physarum`
+Paclet: ArnoudBuzing/Physarum
+URI: ArnoudBuzing/Physarum/ref/PhysarumSimulationObject
+Keywords: [physarum, slime mold, simulation object, state, trail, agents]
+SeeAlso: [PhysarumSimulation, PhysarumEvolve, PhysarumImage, PhysarumSimulation3DObject]
+RelatedGuides: [Physarum]
+---
 
-The state of a Physarum agent simulation. You do not build one directly. Create one with
-[PhysarumSimulation](PhysarumSimulation.md), advance it with [PhysarumEvolve](PhysarumEvolve.md), and
-read its contents with the properties below.
+## Usage
 
-## Syntax
+<code>PhysarumSimulationObject[*assoc*]</code> represents the state of a 2D Physarum simulation.
 
-| Form | Meaning |
+<code>*sim*["*prop*"]</code> extracts the property *prop* from the simulation object *sim*.
+
+## Details & Options
+
+- Create a [PhysarumSimulationObject]() with [PhysarumSimulation]() and advance it with [PhysarumEvolve]().
+- Simulation objects are **immutable values**: [PhysarumEvolve]() returns a new [PhysarumSimulationObject]() and leaves the original unchanged.
+- In a notebook, a [PhysarumSimulationObject]() formats as a compact summary box with a thumbnail preview and key metadata (`"Size"`, `"Agents"` and `"Step"`).
+- The following properties can be extracted with `*sim*["*prop*"]`:
+
+| Property | Description |
 | --- | --- |
-| `sim["property"]` | the value of a property |
-| `sim["Properties"]` | the list of standard properties |
-
-## Details
-
-* A simulation object is an **immutable value**. [PhysarumEvolve](PhysarumEvolve.md) returns a new
-  object and leaves the original alone, so you can keep earlier states (for example with `FoldList`).
-* Objects display as a summary box with a thumbnail of the trail map, the step count, the grid size,
-  the number of agents and species, and whether the grid wraps.
-* `PhysarumImage[sim]` renders the object. `sim["Image"]` is a shortcut for the same thing.
-* Row and column conventions follow Wolfram Language arrays: in `"Trail"`, `"Stimulus"` and `"Walls"`
-  the first index is the row, counted from the *top* of the image.
-
-## Properties
-
-| Property | Value |
-| --- | --- |
-| `"Step"` | the number of steps the simulation has been evolved |
+| `"Step"` | number of steps the simulation has been evolved |
 | `"Size"` | `{width, height}` of the grid in cells |
-| `"AgentCount"` | the total number of agents |
-| `"Agents"` | an `n × 4` matrix with one row `{x, y, heading, species}` per agent |
-| `"Trail"` | the trail map, an array of dimensions `{species, height, width}` |
-| `"Stimulus"` | the food attractant added at every step, a `height × width` matrix |
-| `"Walls"` | the wall mask, a `height × width` matrix of 0 and 1 |
-| `"Species"` | the list of complete species Associations, with all defaults filled in |
-| `"Wrap"` | `True` if the grid is a torus |
-| `"Image"` | the rendered trail map, as from `PhysarumImage[sim]` |
-| `"Properties"` | the list of the standard properties above |
+| `"AgentCount"` | total number of agents |
+| `"Agents"` | $n \times 4$ matrix with rows `{x, y, heading, species}` |
+| `"Trail"` | 3D array of dimensions `{species, height, width}` holding the chemoattractant trail |
+| `"Stimulus"` | `height × width` matrix of food attractant added each step |
+| `"Walls"` | `height × width` binary obstacle mask (`0` or `1`) |
+| `"Species"` | list of complete species [Association]()s |
+| `"Wrap"` | [True]() if the grid wraps around its borders |
+| `"Image"` | rendered trail image, equivalent to <code>PhysarumImage[*sim*]</code> |
+| `"Properties"` | list of standard property names |
+| `"Data"` | the underlying [Association]() |
 
-The following properties also work, although they are not listed by `"Properties"`:
+- In `"Agents"`, `x` runs from `0` to `width`, `y` runs from `0` (top) to `height` (bottom), `heading` is in radians in $[0, 2\pi)$, and `species` is the 0-based species index.
 
-| Property | Value |
-| --- | --- |
-| `"Colors"` | the color of each species |
-| `"Steps"` | the suggested number of steps from the specification (used by [PhysarumArt](PhysarumArt.md)) |
-| `"Style"` | the default rendering style taken from the preset |
-| `"Parameters"` | the numeric species parameter matrix given to the simulation library |
-| `"Data"` | the whole underlying Association |
+## Basic Examples
 
-### Agents
+Create a simulation and query its properties:
 
-Each row of `"Agents"` is `{x, y, heading, species}`:
-
-* `x` runs from 0 to the width and `y` from 0 to the height. `y` is measured *down* from the top
-  of the image, in the same direction as the rows of `"Trail"`.
-* `heading` is an angle in radians.
-* `species` is the index of the species, counted from **0**.
-
-## Examples
-
-### Look inside a simulation
-
-```wolfram
-sim = PhysarumSimulation["Classic", "Size" -> {80, 60}, "Agents" -> 500]
-```
-
-```wolfram
-sim["Step"]                 (* 0 *)
-sim["Size"]                 (* {80, 60} *)
-sim["AgentCount"]           (* 500 *)
-Dimensions[sim["Agents"]]   (* {500, 4} *)
-Dimensions[sim["Trail"]]    (* {1, 60, 80}: one species, 60 rows, 80 columns *)
+```wl
+sim = PhysarumSimulation["Classic", "Size" -> {80, 60}, "Agents" -> 500];
 sim["Properties"]
 ```
 
-### The trail changes as the simulation runs
+---
 
-The trail starts empty, and every step adds to it:
+Inspect the step count, grid dimensions, agent count and array shapes:
 
-```wolfram
-Total[sim["Trail"], 3]                             (* 0. *)
-Total[PhysarumEvolve[sim, 25]["Trail"], 3] > 0     (* True *)
+```wl
+{sim["Step"], sim["Size"], sim["AgentCount"], Dimensions[sim["Agents"]], Dimensions[sim["Trail"]]}
 ```
 
-### Plot the agents themselves
+## Scope
 
-The images made by [PhysarumImage](PhysarumImage.md) show the trail. To see where the agents are,
-plot the rows of `"Agents"`. The `y` axis is flipped so that the picture matches the image:
+The trail map starts at zero and accumulates as the simulation runs:
 
-```wolfram
+```wl
+{Total[sim["Trail"], 3], Total[PhysarumEvolve[sim, 25]["Trail"], 3] > 0}
+```
+
+---
+
+Plot the agent positions directly with [ListPlot]():
+
+```wl
 evolved = PhysarumEvolve[PhysarumSimulation["Classic", "Size" -> 200], 300];
 {w, h} = evolved["Size"];
 ListPlot[{#[[1]], h - #[[2]]} & /@ evolved["Agents"],
-  PlotStyle -> {PointSize[0.003], Black}, AspectRatio -> h/w, PlotRange -> {{0, w}, {0, h}}]
+    PlotStyle -> {PointSize[0.003], Black}, AspectRatio -> h/w, PlotRange -> {{0, w}, {0, h}}]
 ```
 
-### Compare species
+---
 
-```wolfram
-sim = PhysarumEvolve[PhysarumSimulation["Rivals", "Size" -> 200], 300];
-Counts[sim["Agents"][[All, 4]]]          (* agents per species (species indices start at 0) *)
-Total /@ Flatten /@ sim["Trail"]         (* how much trail each species has laid down *)
-sim["Species"][[All, "SensorDistance"]]
+Compare agent counts and total trail across competing species:
+
+```wl
+rivals = PhysarumEvolve[PhysarumSimulation["Rivals", "Size" -> 200], 300];
+{Counts[rivals["Agents"][[All, 4]]], Total /@ Flatten /@ rivals["Trail"]}
 ```
 
-### Keep every state
+## Applications
 
-Because objects are immutable, you can keep all the intermediate states:
+Keep intermediate states along a run with [FoldList]():
 
-```wolfram
+```wl
 states = FoldList[PhysarumEvolve, PhysarumSimulation["Classic", "Size" -> 200], {5, 20, 100}];
-#["Step"] & /@ states           (* {0, 5, 25, 125} *)
+#["Step"] & /@ states
 ```
-
-## See also
-
-[PhysarumSimulation](PhysarumSimulation.md) ·
-[PhysarumEvolve](PhysarumEvolve.md) ·
-[PhysarumImage](PhysarumImage.md)

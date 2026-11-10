@@ -21,7 +21,7 @@ Needs["ArnoudBuzing`Physarum`"]
 | [PhysarumImage](PhysarumImage.md) | render the trail map of a simulation as an image |
 | [PhysarumAnimate](PhysarumAnimate.md) | render a sequence of frames, an animation or a video |
 | [PhysarumNetwork](PhysarumNetwork.md) | grow a mold between food sources and read it off as a `Graph` |
-| [$PhysarumPresets](PhysarumPresets.md) | the named parameter sets |
+| [$PhysarumPresets]($PhysarumPresets.md) | the named parameter sets |
 
 ## Agent model in 3D
 

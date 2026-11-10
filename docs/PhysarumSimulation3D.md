@@ -1,122 +1,83 @@
-# PhysarumSimulation3D
+---
+Template: Symbol
+Name: PhysarumSimulation3D
+Context: ArnoudBuzing`Physarum`
+Paclet: ArnoudBuzing/Physarum
+URI: ArnoudBuzing/Physarum/ref/PhysarumSimulation3D
+Keywords: [physarum, slime mold, 3D, voxel, volume, simulation, agents]
+SeeAlso: [PhysarumSimulation3DObject, PhysarumEvolve, PhysarumImage3D, PhysarumGraphics3D, PhysarumArt3D, PhysarumSimulation, $PhysarumPresets]
+RelatedGuides: [Physarum]
+---
 
-Creates a new 3D slime-mold agent simulation: the same model as
-[PhysarumSimulation](PhysarumSimulation.md), with agents moving through a volume instead of over a plane.
+## Usage
 
-## Syntax
+<code>PhysarumSimulation3D[]</code> creates a new 3D slime-mold simulation using the `"Classic"` preset.
 
-| Form | Meaning |
-| --- | --- |
-| `PhysarumSimulation3D[]` | a simulation with the `"Classic"` preset |
-| `PhysarumSimulation3D["preset"]` | a simulation with a named preset from [$PhysarumPresets](PhysarumPresets.md) |
-| `PhysarumSimulation3D[species]` | a simulation with one species, given as an Association of parameters |
-| `PhysarumSimulation3D[{species1, species2, ...}]` | several competing species |
-| `PhysarumSimulation3D[<\|"Species" -> {...}, ...\|>]` | a full specification, as for [PhysarumSimulation](PhysarumSimulation.md) |
-| `PhysarumSimulation3D[spec, opts]` | with options |
+<code>PhysarumSimulation3D["*preset*"]</code> uses a named preset from [$PhysarumPresets]().
 
-## Details
+<code>PhysarumSimulation3D[*species*]</code> uses an [Association]() (or a list of associations) of species parameters.
 
-* The result is a [PhysarumSimulation3DObject](PhysarumSimulation3DObject.md). Advance it with
-  [PhysarumEvolve](PhysarumEvolve.md) and draw it with [PhysarumImage3D](PhysarumImage3D.md) or
-  [PhysarumGraphics3D](PhysarumGraphics3D.md). [PhysarumArt3D](PhysarumArt3D.md) does all three in one call.
-* Specifications, presets and species parameters are the same as in 2D, and mean the same thing.
-  `"AgentDensity"` is agents per **voxel**, so a 96 × 96 × 96 grid with density 0.3 has about
-  265,000 agents.
-* **How a 3D agent senses.** Each agent has a heading in space, one sensor straight ahead, and a
-  ring of four sensors tilted away from the heading by `"SensorAngle"`. The ring is turned by a
-  random amount every step, so no direction in the grid is preferred. The agent goes straight on if
-  the center smells strongest, turns by `"RotationAngle"` toward the strongest ring sensor
-  otherwise, and turns toward a random ring sensor if the center smells weakest of all.
-  `"Jitter"` tilts the heading by a random angle of up to `Jitter`/2 in a random direction.
-* The trail diffuses over the 3 × 3 × 3 neighborhood of each voxel.
-* **Coordinates.** Food points and wall regions are given in the **unit cube**: `{0, 0, 0}` is the
-  bottom front left corner and `{1, 1, 1}` the top back right, with *z pointing up*.
-* **Masks** for `"Food"`, `"Walls"` and `"Initialization"` can be:
-  * a 3D region or primitive (`Ball`, `Cuboid`, `Cylinder`, `Ellipsoid`, `ImplicitRegion`, ...) in
-    unit-cube coordinates, or a list of them,
-  * an `Image3D`, stretched over the grid,
-  * a 3D array of values between 0 and 1, read as `Image3D[array]` would show it.
-* Text and 2D graphics are not accepted as masks in 3D.
-* Grids grow quickly with size: 128³ is 2.1 million voxels. The default size of 96 keeps the
-  presets to a few seconds per 300 steps.
-* `"Steps"` (used by [PhysarumArt3D](PhysarumArt3D.md)) is 300 for every preset unless the
-  specification has a `"Steps3D"` key.
+<code>PhysarumSimulation3D[*spec*, *opts*]</code> creates a 3D simulation with the given options.
 
-## Options
+## Details & Options
 
-| Option | Default | Meaning |
+- [PhysarumSimulation3D]() returns a [PhysarumSimulation3DObject]() in its initial state (step 0). Advance it with [PhysarumEvolve]() and render it with [PhysarumImage3D]() or [PhysarumGraphics3D]().
+- Each 3D agent has a 3D position and unit heading vector, senses along its heading plus a randomly rotated ring of four sensors tilted by `"SensorAngle"`, turns by `"RotationAngle"` toward the strongest reading, moves by `"StepSize"`, and deposits `"Deposit"` into the voxel grid.
+- The trail map diffuses over the $3 \times 3 \times 3$ neighborhood of each voxel and decays by `"Decay"` at every step.
+- Food points and wall regions are specified in the **unit cube** $[0, 1]^3$ with $z$ pointing up.
+- Masks for `"Food"`, `"Walls"` and `"Initialization"` can be 3D regions or primitives ([Ball](), [Cuboid](), [Cylinder](), [Ellipsoid](), [ImplicitRegion](), etc.), an [Image3D](), or a 3D numeric array in $[0, 1]$.
+- [PhysarumSimulation3D]() accepts the following options:
+
+| Option | Default | Description |
 | --- | --- | --- |
-| `"Size"` | 96 | grid size in voxels. A number `n` gives an `n × n × n` grid, and `{w, h, d}` a box. |
-| `"Agents"` | Automatic | exact number of agents. Automatic uses `AgentDensity × w × h × d`. |
-| `"Initialization"` | Automatic | how agents are placed. Automatic uses the specification's value, or `"Random"`. |
-| `"Food"` | None | food sources: points in the unit cube, or a mask |
-| `"FoodStrength"` | Automatic | attractant added per step at full food intensity. Automatic is the largest species `"Deposit"`. |
-| `"FoodRadius"` | 2 | radius in voxels of each food point. Applies to point input only. |
-| `"Walls"` | None | impassable regions, as any mask |
-| `"Wrap"` | Automatic | whether the grid is periodic in all three directions. Automatic is `True` unless food or walls are given. |
+| `"Size"` | `96` | grid size in voxels (`n` for $n \times n \times n$, or `{w, h, d}`) |
+| `"Agents"` | [Automatic]() | exact agent count; [Automatic]() uses $\text{AgentDensity} \times w \times h \times d$ |
+| `"Initialization"` | [Automatic]() | initial agent placement: `"Random"`, `"Ball"`, `"Shell"`, `"Burst"`, `"Food"` or a 3D mask |
+| `"Food"` | [None]() | 3D food points in the unit cube or a 3D mask |
+| `"FoodStrength"` | [Automatic]() | attractant added per step at full food intensity |
+| `"FoodRadius"` | `2` | Gaussian radius in voxels for point food sources |
+| `"Walls"` | [None]() | impassable 3D regions or mask |
+| `"Wrap"` | [Automatic]() | whether the volume wraps periodically in all three axes |
 
-### Initialization
+## Basic Examples
 
-| Value | Agents start |
-| --- | --- |
-| `"Random"` | uniformly over the volume, with random headings |
-| `"Ball"` | uniformly inside a ball in the middle of the grid (`"Disk"` also works) |
-| `"Shell"` | on a sphere, heading inward (`"Ring"` also works) |
-| `"Burst"` | in a tiny ball in the center, heading outward |
-| `"Food"` | placed over the food, in proportion to its intensity. Needs `"Food"`, else falls back to `"Random"`. |
-| a mask | placed over the mask, in proportion to its value |
+Create a 3D simulation with the `"Classic"` preset, evolve it for 300 steps and render the surface:
 
-## Examples
-
-### Grow and look
-
-```wolfram
+```wl
 SeedRandom[1];
-sim = PhysarumSimulation3D["Classic"];
+sim = PhysarumSimulation3D["Classic", "Size" -> 64];
 sim = PhysarumEvolve[sim, 300];
-{PhysarumImage3D[sim], PhysarumGraphics3D[sim], PhysarumGraphics3D[sim, Method -> "Points"]}
-```
-
-![Volume, surface and point views of one simulation](../images/3d/views.png)
-
-### Foraging in 3D
-
-```wolfram
-SeedRandom[5];
-food = RandomReal[{0.15, 0.85}, {8, 3}];                (* points in the unit cube *)
-sim = PhysarumEvolve[PhysarumSimulation3D["Classic", "Food" -> food, "FoodStrength" -> 50], 400];
 PhysarumGraphics3D[sim]
 ```
 
-### Walls
+## Scope
 
-```wolfram
-walls = {Ball[{0.5, 0.5, 0.5}, 0.25], Cylinder[{{0.5, 0.5, 0}, {0.5, 0.5, 1}}, 0.08]};
-PhysarumGraphics3D[PhysarumEvolve[PhysarumSimulation3D["Classic", "Walls" -> walls, "Wrap" -> True], 300]]
+Compare volume rendering, isosurface rendering and agent point-cloud rendering of the same simulation:
+
+```wl
+{PhysarumImage3D[sim], PhysarumGraphics3D[sim], PhysarumGraphics3D[sim, Method -> "Points"]}
 ```
 
-![Foraging, food in the volume view, and walls](../images/3d/food-walls.png)
+## Options
 
-### Competing species
+### `"Food"` and `"Walls"`
 
-```wolfram
-PhysarumGraphics3D[PhysarumEvolve[PhysarumSimulation3D["Rivals", "Size" -> 80], 300]]
+Grow a 3D network between random food points around a spherical obstacle in the center of the unit cube:
+
+```wl
+SeedRandom[5];
+food = RandomReal[{0.15, 0.85}, {8, 3}];
+sim = PhysarumSimulation3D["Classic", "Size" -> 64,
+    "Food" -> food, "FoodStrength" -> 50,
+    "Walls" -> Ball[{0.5, 0.5, 0.5}, 0.22]];
+PhysarumGraphics3D[PhysarumEvolve[sim, 400]]
 ```
 
-## Messages
+### `"Initialization"`
 
-| Message | Meaning |
-| --- | --- |
-| `PhysarumSimulation::spec` | the specification is not a preset name or valid species |
-| `PhysarumSimulation3D::size` | `"Size"` is not a positive integer or a list of three |
-| `PhysarumSimulation3D::mask` | a `"Food"`, `"Walls"` or `"Initialization"` value cannot be turned into a 3D mask |
-| `PhysarumSimulation::nolib` | the compiled simulation library could not be loaded |
+Start agents on a spherical shell heading inward:
 
-## See also
-
-[PhysarumSimulation3DObject](PhysarumSimulation3DObject.md) ·
-[PhysarumEvolve](PhysarumEvolve.md) ·
-[PhysarumImage3D](PhysarumImage3D.md) ·
-[PhysarumGraphics3D](PhysarumGraphics3D.md) ·
-[PhysarumArt3D](PhysarumArt3D.md) ·
-[PhysarumSimulation](PhysarumSimulation.md)
+```wl
+sim = PhysarumEvolve[PhysarumSimulation3D["Classic", "Size" -> 64, "Initialization" -> "Shell", "Wrap" -> False], 200];
+PhysarumGraphics3D[sim]
+```

@@ -1,64 +1,64 @@
-# PhysarumGraphics3D
+---
+Template: Symbol
+Name: PhysarumGraphics3D
+Context: ArnoudBuzing`Physarum`
+Paclet: ArnoudBuzing/Physarum
+URI: ArnoudBuzing/Physarum/ref/PhysarumGraphics3D
+Keywords: [physarum, slime mold, 3D, Graphics3D, isosurface, mesh, point cloud]
+SeeAlso: [PhysarumImage3D, PhysarumArt3D, PhysarumSimulation3D, PhysarumSimulation3DObject]
+RelatedGuides: [Physarum]
+---
 
-Renders a 3D simulation as `Graphics3D`: the network as a smooth surface, or the agents as a point
-cloud.
+## Usage
 
-## Syntax
+<code>PhysarumGraphics3D[*sim*]</code> renders a [PhysarumSimulation3DObject]() *sim* as a 3D isosurface in [Graphics3D]().
 
-| Form | Meaning |
-| --- | --- |
-| `PhysarumGraphics3D[sim]` | the network of the [PhysarumSimulation3DObject](PhysarumSimulation3DObject.md) `sim` as a surface |
-| `PhysarumGraphics3D[sim, Method -> "Points"]` | the agents as a point cloud |
-| `PhysarumGraphics3D[sim, opts]` | with options |
+<code>PhysarumGraphics3D[*sim*, *opts*]</code> renders *sim* with the given options.
 
-## Details
+## Details & Options
 
-* **`Method -> "Surface"`** (the default) draws, for each species, the surface where the normalized
-  trail equals `"Threshold"`. The trail is blurred by `"Smoothing"` first. Raise the threshold for
-  thinner strands, lower it for thicker ones.
-* **`Method -> "Points"`** draws up to `"MaxPoints"` agents (a random sample if there are more),
-  colored by species, and brighter where the trail is strong. It is the fastest view.
-* Coordinates are grid units: the plot range is `{{0, w}, {0, h}, {0, d}}`, with z up.
-* Food is drawn as red surfaces and walls as translucent gray surfaces.
-* A single species with a preset color scheme takes a bright color from that scheme. Otherwise
-  each species has its own color.
-* Unknown options are passed to `Graphics3D`, so `ViewPoint`, `Boxed`, `Lighting` and so on work.
+- With `Method -> "Surface"` (the default), each species' normalized trail volume is smoothed and converted to a triangle mesh at level `"Threshold"` via marching cubes.
+- With `Method -> "Points"`, up to `"MaxPoints"` agents are drawn as colored 3D points shaded by trail strength.
+- Additional [Graphics3D]() options such as [ViewPoint](), [Boxed]() and [Lighting]() are passed through.
+- [PhysarumGraphics3D]() accepts the following options:
+
+| Option | Default | Description |
+| --- | --- | --- |
+| [Method]() | `"Surface"` | rendering method: `"Surface"` or `"Points"` |
+| `"Colors"` | [Automatic]() | list of colors, one per species |
+| [Background]() | [Automatic]() | background color (preset default, or [Black]()) |
+| `"Threshold"` | [Automatic]() | isosurface level in $[0, 1]$ of the normalized trail (default `0.3`) |
+| `"Smoothing"` | `1` | Gaussian blur radius in voxels before surface extraction |
+| `"MaxPoints"` | `50000` | maximum number of agents plotted when `Method -> "Points"` |
+| `"ShowFood"` | [True]() | whether to render food sources as red surfaces |
+| `"ShowWalls"` | [True]() | whether to render walls as translucent gray surfaces |
+| `"WallColor"` | `GrayLevel[0.6]` | color used for walls |
+| `"FoodColor"` | `RGBColor[1, 0.3, 0.35]` | color used for food sources |
+| [ImageSize]() | [Automatic]() | display size |
+
+## Basic Examples
+
+Render the 3D trail network as a surface:
+
+```wl
+sim = PhysarumEvolve[PhysarumSimulation3D["Classic", "Size" -> 64], 300];
+PhysarumGraphics3D[sim]
+```
 
 ## Options
 
-| Option | Default | Meaning |
-| --- | --- | --- |
-| `Method` | `"Surface"` | `"Surface"` or `"Points"` |
-| `"Colors"` | Automatic | one color per species |
-| `Background` | Automatic | background color. Automatic uses the preset's, or black. |
-| `"Threshold"` | Automatic | surface level, between 0 and 1, of the normalized trail (0.3) |
-| `"Smoothing"` | 1 | radius of the Gaussian blur applied before the surface is found |
-| `"MaxPoints"` | 50000 | the most agents drawn with `Method -> "Points"` |
-| `"ShowFood"` | True | whether to draw the food |
-| `"ShowWalls"` | True | whether to draw the walls |
-| `"WallColor"` | `GrayLevel[0.6]` | color of the walls |
-| `"FoodColor"` | `RGBColor[1, 0.3, 0.35]` | color of the food |
-| `ImageSize` | Automatic | display size |
+### `Method`
 
-## Examples
+Render the agents directly as a 3D point cloud:
 
-```wolfram
-sim = PhysarumEvolve[PhysarumSimulation3D["Classic"], 300];
-PhysarumGraphics3D[sim]
-PhysarumGraphics3D[sim, Method -> "Points", "MaxPoints" -> 200000]
-PhysarumGraphics3D[sim, "Threshold" -> 0.5, Boxed -> False]
+```wl
+PhysarumGraphics3D[sim, Method -> "Points", "MaxPoints" -> 100000]
 ```
 
-All presets, as surfaces:
+### `"Threshold"`
 
-```wolfram
-Table[PhysarumArt3D[name, "Output" -> "Graphics3D"], {name, Keys[$PhysarumPresets]}]
+Raise `"Threshold"` to keep only the thickest core tubes:
+
+```wl
+{PhysarumGraphics3D[sim, "Threshold" -> 0.2], PhysarumGraphics3D[sim, "Threshold" -> 0.5]}
 ```
-
-![All presets in 3D](../images/3d/presets.png)
-
-## See also
-
-[PhysarumImage3D](PhysarumImage3D.md) ·
-[PhysarumArt3D](PhysarumArt3D.md) ·
-[PhysarumSimulation3D](PhysarumSimulation3D.md)

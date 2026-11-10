@@ -1,45 +1,63 @@
-# PhysarumArt3D
+---
+Template: Symbol
+Name: PhysarumArt3D
+Context: ArnoudBuzing`Physarum`
+Paclet: ArnoudBuzing/Physarum
+URI: ArnoudBuzing/Physarum/ref/PhysarumArt3D
+Keywords: [physarum, slime mold, 3D, generative art, Image3D, Graphics3D]
+SeeAlso: [PhysarumSimulation3D, PhysarumImage3D, PhysarumGraphics3D, PhysarumArt, $PhysarumPresets]
+RelatedGuides: [Physarum]
+---
 
-Grows a 3D slime-mold simulation and renders it in one call.
+## Usage
 
-## Syntax
+<code>PhysarumArt3D[]</code> grows and renders a 3D slime mold with the `"Classic"` preset.
 
-| Form | Meaning |
-| --- | --- |
-| `PhysarumArt3D[]` | grows and renders the `"Classic"` preset |
-| `PhysarumArt3D["preset"]` | grows and renders a named preset from [$PhysarumPresets](PhysarumPresets.md) |
-| `PhysarumArt3D[spec]` | grows and renders any specification accepted by [PhysarumSimulation3D](PhysarumSimulation3D.md) |
-| `PhysarumArt3D[spec, opts]` | with options |
+<code>PhysarumArt3D["*preset*"]</code> grows and renders a named preset from [$PhysarumPresets]() in 3D.
 
-## Details
+<code>PhysarumArt3D[*spec*, *opts*]</code> grows and renders any [PhysarumSimulation3D]() specification with the given options.
 
-* `PhysarumArt3D[spec, opts]` is shorthand for:
+## Details & Options
 
-  ```wolfram
-  sim = PhysarumSimulation3D[spec, (simulation options)];
-  sim = PhysarumEvolve[sim, steps];
-  PhysarumImage3D[sim, (image options)]      (* or PhysarumGraphics3D *)
-  ```
-* `"Output"` chooses the result: `"Image3D"` (the default), `"Graphics3D"`, or `"Simulation"` for the
-  evolved [PhysarumSimulation3DObject](PhysarumSimulation3DObject.md) itself.
-* It accepts the options of [PhysarumSimulation3D](PhysarumSimulation3D.md), of
-  [PhysarumImage3D](PhysarumImage3D.md) and of [PhysarumGraphics3D](PhysarumGraphics3D.md), plus
-  `"Steps"` and `"Output"`.
-* The default `"Steps"` is 300.
-* Use `SeedRandom[n]` before the call to get a repeatable result.
+- `PhysarumArt3D[spec, opts]` creates a simulation with [PhysarumSimulation3D](), evolves it for `"Steps"` steps with [PhysarumEvolve](), and renders it according to `"Output"`.
+- It accepts all options of [PhysarumSimulation3D](), [PhysarumImage3D]() and [PhysarumGraphics3D](), plus:
 
-## Examples
+| Option | Default | Description |
+| --- | --- | --- |
+| `"Steps"` | [Automatic]() | number of evolution steps (default `300`) |
+| `"Output"` | `"Image3D"` | return format: `"Image3D"`, `"Graphics3D"` or `"Simulation"` |
 
-```wolfram
-PhysarumArt3D[]
-PhysarumArt3D["Rivals", "Output" -> "Graphics3D"]
-PhysarumArt3D["Classic", "Output" -> "Graphics3D", Method -> "Points"]
-PhysarumArt3D[<|"SensorAngle" -> 45 Degree, "SensorDistance" -> 12|>, "Size" -> 80, "Steps" -> 400]
+## Basic Examples
+
+Grow and render a 3D simulation as a volume [Image3D]():
+
+```wl
+PhysarumArt3D["Classic", "Size" -> 64]
 ```
 
-## See also
+---
 
-[PhysarumSimulation3D](PhysarumSimulation3D.md) ·
-[PhysarumImage3D](PhysarumImage3D.md) ·
-[PhysarumGraphics3D](PhysarumGraphics3D.md) ·
-[PhysarumArt](PhysarumArt.md)
+Render two competing species as a 3D surface:
+
+```wl
+PhysarumArt3D["Rivals", "Size" -> 64, "Output" -> "Graphics3D"]
+```
+
+## Options
+
+### `"Output"` and `Method`
+
+Render the grown simulation as a 3D agent point cloud:
+
+```wl
+PhysarumArt3D["Classic", "Size" -> 64, "Output" -> "Graphics3D", Method -> "Points"]
+```
+
+### Custom species parameters
+
+Grow a custom 3D species specification:
+
+```wl
+PhysarumArt3D[<|"SensorAngle" -> 45 Degree, "SensorDistance" -> 12|>,
+    "Size" -> 64, "Steps" -> 300, "Output" -> "Graphics3D"]
+```

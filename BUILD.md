@@ -47,10 +47,42 @@ PacletDirectoryLoad["/path/to/physarum/Physarum"];
 Needs["ArnoudBuzing`Physarum`"]
 ```
 
+## Documentation build
+
+Documentation is authored in structured markdown under `docs/` and built into
+standard Wolfram Language notebook documentation using `MarkdownToNotebook` and `PacletBuild`:
+
+```sh
+/Applications/Wolfram/15.0/Wolfram.app/Contents/MacOS/wolfram -script scripts/build-docs.wl
+```
+
+This converts each `docs/*.md` into authoring notebooks (`Documentation/English/ReferencePages/Symbols/`
+and `Documentation/English/Guides/Physarum.nb`) and builds the documentation search and spell indexes
+(`Index`, `SearchIndex`, `SpellIndex`).
+
+## Paclet archive and install
+
+```sh
+/Applications/Wolfram/15.0/Wolfram.app/Contents/MacOS/wolfram -script scripts/paclet-build.wl
+/Applications/Wolfram/15.0/Wolfram.app/Contents/MacOS/wolfram -script scripts/paclet-install.wl
+```
+
+The first creates `build/ArnoudBuzing__Physarum-<version>.paclet` (run `./scripts/build.sh`
+first so the library is current). The second installs that archive with `PacletInstall`,
+loads it and runs a quick smoke test. After installing, `Needs["ArnoudBuzing`Physarum`"]`
+works without `PacletDirectoryLoad`.
+
 ## Tests
 
 ```sh
-wolframscript -code 'TestReport["Tests/Physarum.wlt"]'
+/Applications/Wolfram/15.0/Wolfram.app/Contents/MacOS/wolfram -script scripts/report.wl
+```
+
+This runs every `.wlt` file under `Tests/` and prints one line per test. To run a single
+file, pass it as an argument:
+
+```sh
+/Applications/Wolfram/15.0/Wolfram.app/Contents/MacOS/wolfram -script scripts/report.wl Tests/Physarum.wlt
 ```
 
 ## Performance

@@ -1,64 +1,67 @@
-# PhysarumImage3D
+---
+Template: Symbol
+Name: PhysarumImage3D
+Context: ArnoudBuzing`Physarum`
+Paclet: ArnoudBuzing/Physarum
+URI: ArnoudBuzing/Physarum/ref/PhysarumImage3D
+Keywords: [physarum, slime mold, 3D, volume, Image3D, visualization]
+SeeAlso: [PhysarumGraphics3D, PhysarumArt3D, PhysarumSimulation3D, PhysarumSimulation3DObject, PhysarumImage]
+RelatedGuides: [Physarum]
+---
 
-Renders the trail map of a 3D simulation as a volume `Image3D`: strong trail is bright and opaque,
-faint trail is dim and see-through.
+## Usage
 
-## Syntax
+<code>PhysarumImage3D[*sim*]</code> renders the trail map of a [PhysarumSimulation3DObject]() *sim* as a volume [Image3D]().
 
-| Form | Meaning |
-| --- | --- |
-| `PhysarumImage3D[sim]` | the volume rendering of the [PhysarumSimulation3DObject](PhysarumSimulation3DObject.md) `sim` |
-| `PhysarumImage3D[sim, opts]` | with options |
-| `PhysarumImage3D[{sim1, sim2, ...}, opts]` | renders each simulation in the list |
+<code>PhysarumImage3D[*sim*, *opts*]</code> renders *sim* with the given options.
 
-## Details
+<code>PhysarumImage3D[{*sim*<sub>1</sub>, *sim*<sub>2</sub>, …}, *opts*]</code> renders each 3D simulation in the list.
 
-* `PhysarumImage3D` is `Listable`: given a list of simulations it returns a list of `Image3D`
-  objects, all drawn with the same options.
-* The result is an RGBA `Image3D` with the same dimensions as the grid. Color comes from the trail,
-  and opacity follows its strength.
-* Each species' trail is lightly blurred (`"Smoothing"`), normalized (`"Clip"`), and
-  gamma-corrected (`"Gamma"`).
-* With **one species** and a `ColorFunction` (the presets have one), the color function colors
-  the volume. Otherwise each species is drawn in its own color (`"Colors"`, or the species'
-  `"Color"`), mixed in proportion to the species' share of the trail in each voxel.
-* The default `"Gamma"` is 1 for one species and 2.5 for several. Several species fill the volume
-  with faint trail, and the higher gamma keeps their strands apart.
-* Unknown options are passed to `Image3D`, so `ViewPoint`, `Boxed`, `BoxRatios` and so on work.
-* Volume rendering is the most faithful view of the trail, but it is slow to rotate for large grids.
-  [PhysarumGraphics3D](PhysarumGraphics3D.md) is lighter.
+## Details & Options
+
+- [PhysarumImage3D]() is listable over a list of [PhysarumSimulation3DObject]() expressions.
+- The result is an RGBA [Image3D]() with voxel opacity proportional to trail strength.
+- Additional [Image3D]() options such as [ViewPoint](), [Boxed]() and [BoxRatios]() are passed through.
+- [PhysarumImage3D]() accepts the following options:
+
+| Option | Default | Description |
+| --- | --- | --- |
+| [ColorFunction]() | [Automatic]() | color function for a single species |
+| `"Colors"` | [Automatic]() | list of colors, one per species |
+| [Background]() | [Automatic]() | background color (preset default, or [Black]()) |
+| `"Gamma"` | [Automatic]() | gamma exponent applied after normalization (`1` for one species, `2.5` for multiple) |
+| `"Clip"` | [Automatic]() | quantile mapped to full intensity (default `0.995`) |
+| `"Opacity"` | `1` | overall voxel opacity scale |
+| `"Smoothing"` | `2` | Gaussian blur radius in voxels (`0` disables smoothing) |
+| `"ShowFood"` | [False]() | whether to render food sources |
+| `"ShowWalls"` | [True]() | whether to render walls |
+| `"WallColor"` | `GrayLevel[0.6]` | color used for walls |
+| `"FoodColor"` | `RGBColor[1, 0.3, 0.35]` | color used for food sources |
+| [ImageSize]() | [Automatic]() | display size |
+
+## Basic Examples
+
+Render a 3D simulation as a volume [Image3D]():
+
+```wl
+sim = PhysarumEvolve[PhysarumSimulation3D["Classic", "Size" -> 64], 300];
+PhysarumImage3D[sim]
+```
 
 ## Options
 
-| Option | Default | Meaning |
-| --- | --- | --- |
-| `ColorFunction` | Automatic | color function for a single species. Automatic uses the preset's, or None. |
-| `"Colors"` | Automatic | one color per species |
-| `Background` | Automatic | background color. Automatic uses the preset's, or black. |
-| `"Gamma"` | Automatic | gamma applied after normalization |
-| `"Clip"` | Automatic | quantile of the trail that maps to full brightness (0.995) |
-| `"Opacity"` | 1 | overall opacity scale |
-| `"Smoothing"` | 2 | radius of the Gaussian blur applied first. 0 turns it off. |
-| `"ShowFood"` | False | whether to draw the food sources |
-| `"ShowWalls"` | True | whether to draw the walls (faint) |
-| `"WallColor"` | `GrayLevel[0.6]` | color of the walls |
-| `"FoodColor"` | `RGBColor[1, 0.3, 0.35]` | color of the food |
-| `ImageSize` | Automatic | display size |
+### `ColorFunction` and `"Opacity"`
 
-## Examples
+Customize the color function and overall opacity:
 
-```wolfram
-sim = PhysarumEvolve[PhysarumSimulation3D["Classic"], 300];
-PhysarumImage3D[sim]
+```wl
 PhysarumImage3D[sim, ColorFunction -> "SunsetColors", "Opacity" -> 0.5]
-PhysarumImage3D[sim, ViewPoint -> Top, Boxed -> False]
-
-PhysarumImage3D[PhysarumEvolve[PhysarumSimulation3D["Marble", "Size" -> 80], 300]]
 ```
 
-## See also
+### `Image3D` options
 
-[PhysarumGraphics3D](PhysarumGraphics3D.md) ·
-[PhysarumArt3D](PhysarumArt3D.md) ·
-[PhysarumSimulation3D](PhysarumSimulation3D.md) ·
-[PhysarumImage](PhysarumImage.md)
+Pass standard [Image3D]() options such as [ViewPoint]() and [Boxed]():
+
+```wl
+PhysarumImage3D[sim, ViewPoint -> Top, Boxed -> False]
+```

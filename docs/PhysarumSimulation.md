@@ -1,203 +1,158 @@
-# PhysarumSimulation
+---
+Template: Symbol
+Name: PhysarumSimulation
+Context: ArnoudBuzing`Physarum`
+Paclet: ArnoudBuzing/Physarum
+URI: ArnoudBuzing/Physarum/ref/PhysarumSimulation
+Keywords: [physarum, slime mold, simulation, agents, trail, chemotaxis, emergence]
+SeeAlso: [PhysarumSimulationObject, PhysarumEvolve, PhysarumImage, PhysarumArt, PhysarumAnimate, $PhysarumPresets, PhysarumSimulation3D]
+RelatedGuides: [Physarum]
+---
 
-Creates a slime-mold agent simulation. It returns a
-[PhysarumSimulationObject](PhysarumSimulationObject.md) in its starting state (step 0). Advance it
-with [PhysarumEvolve](PhysarumEvolve.md) and draw it with [PhysarumImage](PhysarumImage.md).
+## Usage
 
-## Syntax
+<code>PhysarumSimulation[]</code> creates a new slime-mold simulation using the `"Classic"` preset.
 
-| Form | Meaning |
-| --- | --- |
-| `PhysarumSimulation[]` | a simulation using the `"Classic"` preset |
-| `PhysarumSimulation["preset"]` | a simulation using a named preset from [$PhysarumPresets](PhysarumPresets.md) |
-| `PhysarumSimulation[species]` | a simulation of a single species given as an Association of parameters |
-| `PhysarumSimulation[{species1, species2, ...}]` | a simulation of several competing species |
-| `PhysarumSimulation[<\|"Species" -> {...}, ...\|>]` | a full specification, in the same form as a preset |
-| `PhysarumSimulation[spec, opts]` | any of the above, with options |
+<code>PhysarumSimulation["*preset*"]</code> uses a named preset from [$PhysarumPresets]().
 
-## Details
+<code>PhysarumSimulation[*species*]</code> uses an [Association]() (or a list of associations) of species parameters.
 
-* An **agent** is a point-sized particle with a position and a heading. Agents sense the trail
-  map, turn, move, and deposit more trail. See the
-  [mini tutorial](../README.md#model-1-many-simple-agents-how-the-network-forms) for the picture.
-* A **species** is an Association of parameters. Keys you leave out take the defaults below.
-* A full specification (the form used by presets) is an Association that may contain these keys:
+<code>PhysarumSimulation[*spec*, *opts*]</code> creates a simulation with the given options.
 
-| Key | Default | Meaning |
+## Details & Options
+
+- [PhysarumSimulation]() returns a [PhysarumSimulationObject]() in its initial state (step 0). Advance it with [PhysarumEvolve]() and render it with [PhysarumImage]().
+- An **agent** is a point-sized particle with a 2D position and a heading angle. At each step, agents sense the trail map at three sensors ahead, turn toward the strongest concentration, move forward, and deposit trail.
+- A **species** is an [Association]() of parameters. Omitted keys use the defaults below:
+
+| Key | Default | Description |
 | --- | --- | --- |
-| `"Species"` | (required) | a species, or a list of species |
-| `"AgentDensity"` | 0.5 | agents per grid cell, so the agent count is `density × width × height` |
-| `"Steps"` | 500 | suggested number of steps, used by [PhysarumArt](PhysarumArt.md) |
-| `"Initialization"` | `"Random"` | default for the `"Initialization"` option |
-| `"Wrap"` | Automatic | default for the `"Wrap"` option |
-| `"ColorFunction"`, `"Background"`, `"Gamma"`, `"Glow"`, `"Clip"` | | default rendering style, used by [PhysarumImage](PhysarumImage.md) |
+| `"SensorAngle"` | `22.5 Degree` | angle between the forward sensor and each side sensor |
+| `"SensorDistance"` | `9` | distance ahead at which sensors sample the trail, in grid cells |
+| `"RotationAngle"` | `45 Degree` | turning angle toward the strongest sensor per step |
+| `"StepSize"` | `1` | distance moved per step, in grid cells |
+| `"Deposit"` | `5` | trail added per agent per step |
+| `"Decay"` | `0.1` | fraction of trail lost per step (`0` to `1`) |
+| `"Diffusion"` | `1` | blending weight for the $3 \times 3$ box blur per step (`0` to `1`) |
+| `"Jitter"` | `0` | random heading noise per step, in radians |
+| `"Repulsion"` | `0` | avoidance weight for other species' trail layers |
+| `"Fraction"` | `1` | relative share of agents assigned to this species |
+| `"Color"` | [Automatic]() | display color when multiple species are rendered |
 
-* A species Association passed on its own (or in a list) cannot carry these extra keys. Wrap it
-  as `<|"Species" -> species, "AgentDensity" -> 1|>` to set them.
-* With several species, each species has its **own trail layer**. Species sense their own trail,
-  and `"Repulsion"` makes them avoid the trails of the others.
-* Food adds attractant to the trail map at every step. Agents that can smell it are drawn
-  toward it, so strands that reach food are reinforced.
-* Walls are impassable. Agents cannot enter them or see through them, and a wall pixel never
-  receives trail. Agents that would start inside a wall are moved to a random free cell.
-* The random number generator is the kernel's. Use `SeedRandom` to get repeatable initial layouts.
+- A full specification (the form stored in [$PhysarumPresets]()) is an [Association]() with `"Species"` and optional keys `"AgentDensity"`, `"Steps"`, `"Initialization"`, `"Wrap"`, `"ColorFunction"`, `"Background"`, `"Gamma"`, `"Glow"` and `"Clip"`.
+- With multiple species, each species deposits into its own trail layer and is repelled by the sum of the other layers weighted by `"Repulsion"`.
+- [PhysarumSimulation]() accepts the following options:
 
-### Species parameters
-
-| Key | Default | Meaning |
+| Option | Default | Description |
 | --- | --- | --- |
-| `"SensorAngle"` | `22.5 Degree` | angle between the forward sensor and each of the two side sensors |
-| `"SensorDistance"` | 9 | how far ahead the sensors smell, in grid cells. It sets the scale of the network. |
-| `"RotationAngle"` | `45 Degree` | how far an agent turns toward the strongest sensor in one step |
-| `"StepSize"` | 1 | distance moved per step, in grid cells |
-| `"Deposit"` | 5 | trail laid down per agent per step |
-| `"Decay"` | 0.1 | fraction of trail lost per step (0 to 1). It is the mold's memory. |
-| `"Diffusion"` | 1 | how much the trail spreads per step. 0 is no blur, 1 is a full 3×3 blur. |
-| `"Jitter"` | 0 | random wiggle added to the heading each step, in radians (uniform in ±`Jitter`/2) |
-| `"Repulsion"` | 0 | how strongly the species avoids other species' trails. Ignored with a single species. |
-| `"Fraction"` | 1 | this species' share of the agents, relative to the other species |
-| `"Color"` | Automatic | color used when several species are drawn. Automatic cycles through a palette. |
+| `"Size"` | `512` | grid size in cells (`n` for $n \times n$, or `{w, h}`) |
+| `"Agents"` | [Automatic]() | exact agent count; [Automatic]() uses $\text{AgentDensity} \times w \times h$ |
+| `"Initialization"` | [Automatic]() | initial agent layout: `"Random"`, `"Disk"`, `"Ring"`, `"Burst"`, `"Food"` or a mask |
+| `"Food"` | [None]() | food sources as 2D points in the unit square or any mask |
+| `"FoodStrength"` | [Automatic]() | attractant added per step at full food intensity |
+| `"FoodRadius"` | `3` | Gaussian radius in cells for point food sources |
+| `"Walls"` | [None]() | impassable obstacles given as a string, [Graphics](), [Region](), [Image]() or matrix |
+| `"Wrap"` | [Automatic]() | whether boundaries wrap around; [Automatic]() is [True]() unless food or walls are present |
 
-The default species does not give the `"Classic"` look. With slow decay and strong diffusion it
-makes thick loops. Most presets use `"Deposit" -> 1`, `"Decay" -> 0.3` and `"Diffusion" -> 0.1`
-instead, for finer networks.
+- Use [SeedRandom]() before calling [PhysarumSimulation]() for reproducible initial agent positions.
 
-## Options
+## Basic Examples
 
-| Option | Default | Meaning |
-| --- | --- | --- |
-| `"Size"` | 512 | grid size in cells. A number `n` gives an `n × n` grid, and `{w, h}` a rectangle. |
-| `"Agents"` | Automatic | exact number of agents. Automatic uses `AgentDensity × w × h`. |
-| `"Initialization"` | Automatic | how agents are placed. Automatic uses the specification's value, or `"Random"`. |
-| `"Food"` | None | food sources: points in the unit square, or a mask (text, graphics, image, ...) |
-| `"FoodStrength"` | Automatic | attractant added per step at full food intensity. Automatic is the largest species `"Deposit"`. |
-| `"FoodRadius"` | 3 | radius in cells of each food point. Applies to point input only. |
-| `"Walls"` | None | impassable regions, as any mask |
-| `"Wrap"` | Automatic | whether the grid is a torus. Automatic is `True` unless food or walls are given. |
+Create a simulation with the default `"Classic"` preset:
 
-### `"Initialization"` values
-
-| Value | Layout |
-| --- | --- |
-| `"Random"` | uniformly over the grid, with random headings |
-| `"Disk"` | uniformly inside a disk in the middle of the grid |
-| `"Ring"` | on a circle, heading inward |
-| `"Burst"` | in a tiny cluster in the center, heading outward |
-| `"Food"` | placed over the food, in proportion to its intensity. Needs `"Food"`, else falls back to `"Random"`. |
-| any mask | placed in proportion to the brightness of a string, `Graphics`, `Image`, ... |
-
-## Examples
-
-### The basics
-
-```wolfram
-sim = PhysarumSimulation[]                          (* "Classic" preset, 512 × 512 *)
-sim = PhysarumSimulation["Marble", "Size" -> 300]   (* a preset with three competing species *)
+```wl
+sim = PhysarumSimulation[]
 ```
 
-Simulations are immutable values. Evolve one to get the next state:
+---
 
-```wolfram
+Advance the simulation by 300 steps and render the trail map:
+
+```wl
 sim = PhysarumSimulation["Classic", "Size" -> 220];
 sim = PhysarumEvolve[sim, 300];
 PhysarumImage[sim]
 ```
 
-### An exact number of agents
+## Scope
 
-```wolfram
-sim = PhysarumSimulation["Classic", "Size" -> {80, 60}, "Agents" -> 500];
-sim["AgentCount"]      (* 500 *)
-sim["Size"]            (* {80, 60} *)
+Use a named multi-species preset from [$PhysarumPresets]():
+
+```wl
+PhysarumSimulation["Marble", "Size" -> 300]
 ```
 
-### Your own species
+---
 
-Only the keys you give are changed. Everything else keeps its default:
+Specify custom species angles while leaving other parameters at their defaults:
 
-```wolfram
+```wl
 PhysarumSimulation[<|"SensorAngle" -> 90 Degree, "RotationAngle" -> 11.25 Degree|>, "Size" -> 220]
 ```
 
-### Several species
+---
 
-Species are numbered in the order given. `"Fraction"` sets their relative sizes, so here the
-second species gets twice as many agents as the first:
+Create a simulation with two competing species of different sensor distances and agent fractions:
 
-```wolfram
+```wl
 sim = PhysarumSimulation[<|
-   "Species" -> {
-     <|"SensorDistance" -> 12, "Decay" -> 0.3, "Diffusion" -> 0.1, "Deposit" -> 1, "Repulsion" -> 2, "Color" -> Orange|>,
-     <|"SensorDistance" -> 25, "Decay" -> 0.3, "Diffusion" -> 0.1, "Deposit" -> 1, "Repulsion" -> 2, "Color" -> Cyan, "Fraction" -> 2|>},
-   "AgentDensity" -> 1|>, "Size" -> 300];
-Dimensions[sim["Trail"]]      (* {2, 300, 300}: one trail layer per species *)
-Counts[sim["Agents"][[All, 4]]]
+    "Species" -> {
+        <|"SensorDistance" -> 12, "Decay" -> 0.3, "Diffusion" -> 0.1, "Deposit" -> 1, "Repulsion" -> 2, "Color" -> Orange|>,
+        <|"SensorDistance" -> 25, "Decay" -> 0.3, "Diffusion" -> 0.1, "Deposit" -> 1, "Repulsion" -> 2, "Color" -> Cyan, "Fraction" -> 2|>
+    },
+    "AgentDensity" -> 1|>, "Size" -> 300];
+Dimensions[sim["Trail"]]
 ```
 
-### Food
+## Options
 
-Food points are in the unit square, with y pointing up. Giving food (or walls) switches
-`"Wrap"` off automatically, so agents cannot slip around the edges:
+### `"Size"` and `"Agents"`
 
-```wolfram
+Set rectangular grid dimensions and an exact number of agents:
+
+```wl
+sim = PhysarumSimulation["Classic", "Size" -> {80, 60}, "Agents" -> 500];
+{sim["Size"], sim["AgentCount"]}
+```
+
+### `"Food"`
+
+Place food sources in the unit square (which automatically disables boundary wrapping):
+
+```wl
 SeedRandom[5];
 food = RandomReal[{0.15, 0.85}, {9, 2}];
 sim = PhysarumSimulation["Classic", "Size" -> 220, "Food" -> food, "FoodStrength" -> 50];
-sim["Wrap"]       (* False *)
 PhysarumImage[PhysarumEvolve[sim, 500], "ShowFood" -> True]
 ```
 
-Food can also be text, graphics or an image. Starting the agents on the food makes the letters
-fill up quickly:
+---
 
-```wolfram
+Use a text string as both the food mask and initial agent distribution:
+
+```wl
 sim = PhysarumSimulation["Filaments", "Size" -> {600, 200}, "Food" -> "PHYSARUM",
-   "FoodStrength" -> 5, "Initialization" -> "Food"];
+    "FoodStrength" -> 5, "Initialization" -> "Food"];
 PhysarumImage[PhysarumEvolve[sim, 400], "ShowFood" -> True]
 ```
 
-![Growing toward text](../images/text.png)
+### `"Walls"`
 
-### Walls
+Add circular obstacles with an explicit [PlotRange]():
 
-```wolfram
+```wl
 walls = Graphics[{Disk[{0, 0}, 0.3], Disk[{0.6, 0.5}, 0.15]}, PlotRange -> {{-1, 1}, {-1, 1}}];
 PhysarumImage[PhysarumEvolve[PhysarumSimulation["Classic", "Size" -> 300, "Walls" -> walls], 500]]
 ```
 
-![Growing around walls](../images/walls.png)
+### `"Initialization"`
 
-The `PlotRange` of the `Graphics` is what is mapped onto the grid, so give it explicitly. Here the
-grid is the unit square, and the wall is a disk in its middle:
+Start agents in a central disk, an outward burst, or shaped like a word:
 
-```wolfram
-disk = Graphics[Disk[{0.5, 0.5}, 0.25], PlotRange -> {{0, 1}, {0, 1}}];
-PhysarumSimulation["Classic", "Size" -> 200, "Walls" -> disk]
+```wl
+{
+    PhysarumSimulation["Classic", "Initialization" -> "Disk", "Wrap" -> False],
+    PhysarumSimulation["Classic", "Initialization" -> "Burst", "Wrap" -> False],
+    PhysarumSimulation["Classic", "Initialization" -> "PHYSARUM"]
+}
 ```
-
-Without a `PlotRange`, the `Graphics` is stretched so that its contents fill the whole grid. A lone
-`Disk` would then cover nearly all of it.
-
-### Starting layouts
-
-```wolfram
-PhysarumSimulation["Classic", "Initialization" -> "Disk", "Wrap" -> False]
-PhysarumSimulation["Classic", "Initialization" -> "Burst", "Wrap" -> False]
-PhysarumSimulation["Classic", "Initialization" -> "PHYSARUM"]     (* agents start in the shape of the word *)
-```
-
-## Messages
-
-| Message | Cause |
-| --- | --- |
-| `PhysarumSimulation::spec` | the specification is not a preset name, a species or a list of species, or a parameter is not a real number |
-| `PhysarumSimulation::mask` | a `"Food"`, `"Walls"` or `"Initialization"` value could not be turned into a mask |
-| `PhysarumSimulation::nolib` | the compiled simulation library was not found. See [BUILD.md](../BUILD.md). |
-
-## See also
-
-[PhysarumSimulationObject](PhysarumSimulationObject.md) ·
-[PhysarumEvolve](PhysarumEvolve.md) ·
-[PhysarumImage](PhysarumImage.md) ·
-[PhysarumArt](PhysarumArt.md) ·
-[$PhysarumPresets](PhysarumPresets.md)

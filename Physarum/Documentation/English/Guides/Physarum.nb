@@ -1,0 +1,592 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 15.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     21717,        583]
+NotebookOptionsPosition[     16883,        487]
+NotebookOutlinePosition[     18860,        533]
+CellTagsIndexPosition[     18817,        530]
+WindowTitle->Physarum
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[GridBox[{
+   {GridBox[{
+      {
+       ItemBox[Cell[BoxData[
+         RowBox[{
+          TemplateBox[{12},
+           "Spacer1"], Cell[
+          "ARNOUD BUZING/ PHYSARUM GUIDE", "PacletNameCell",
+           TextAlignment->Center,ExpressionUUID->
+           "20d425bc-30fe-46bf-9734-6062a37852ff"], 
+          TemplateBox[{8},
+           "Spacer1"]}]],
+         TextAlignment->Center,ExpressionUUID->
+         "710fcc25-2e57-4138-81a3-518b980ceb0d"],
+        Background->LightDarkSwitched[
+          RGBColor[0.85098, 0.396078, 0]],
+        ItemSize->Full], ""}
+     },
+     GridBoxAlignment->{"Rows" -> {{Center}}},
+     GridBoxItemSize->{"Columns" -> {Full, 
+         Scaled[0.02]}, "Rows" -> {{2.5}}}], Cell[TextData[{
+     Cell[BoxData[
+      TagBox[
+       ActionMenuBox[
+        FrameBox[Cell[TextData[{
+          "Related Guides",
+          " ",
+          Cell[BoxData[
+           GraphicsBox[
+            {GrayLevel[0.66667], Thickness[0.13], 
+             LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+            AspectRatio->1,
+            ImageSize->20,
+            PlotRange->{{-3, 4}, {-1, 1}}]],ExpressionUUID->
+           "7327a28e-bb2c-48b8-b22f-c869d9499548"]
+         }],ExpressionUUID->"2e2f0878-f60d-4e4c-8446-a2b7e3a5a169"],
+         StripOnInput->False],{
+        "\"Graph And Networks\"" :> 
+         Documentation`HelpLookup[
+          "paclet:ArnoudBuzing/Physarum/guide/GraphAndNetworks"], 
+         "\"Image Processing & Analysis\"" :> 
+         Documentation`HelpLookup["paclet:guide/ImageProcessing"], 
+         "\"Cellular Automata\"" :> 
+         Documentation`HelpLookup[
+          "paclet:ArnoudBuzing/Physarum/guide/CellularAutomata"]},
+        Appearance->None,
+        MenuAppearance->Automatic,
+        MenuStyle->"GuideMoreAbout"],
+       MouseAppearanceTag["LinkHand"]]],
+      LineSpacing->{1.4, 0},ExpressionUUID->
+      "0f64024f-c681-4371-9963-07392c738ed0"],
+     "\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\
+\[ThickSpace]",
+     Cell[BoxData[
+      TagBox[
+       ActionMenuBox[
+        FrameBox[Cell[TextData[{
+          "URL",
+          " ",
+          Cell[BoxData[
+           GraphicsBox[
+            {GrayLevel[0.66667], Thickness[0.13], 
+             LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+            AspectRatio->1,
+            ImageSize->20,
+            PlotRange->{{-3, 4}, {-1, 1}}]],ExpressionUUID->
+           "2c2e2549-2cf6-4857-a837-af7f1915e944"]
+         }],ExpressionUUID->"d97482ac-78a1-4219-a643-1aeefc836977"],
+         StripOnInput->False],{
+        "\"ArnoudBuzing/Physarum/guide/Physarum\"" :> None, 
+         "\"Copy Wolfram Documentation Center URL\"" :> 
+         CopyToClipboard["ArnoudBuzing/Physarum/guide/Physarum"], Delimiter, 
+         "\"Copy web URL\"" :> 
+         Module[{DocumentationSearch`Private`nb$}, 
+           DocumentationSearch`Private`nb$ = 
+            NotebookPut[
+             Notebook[{
+               Cell[BoxData[
+                 MakeBoxes[
+                  Hyperlink[
+                   "http://reference.wolfram.com/language/ArnoudBuzing/\
+Physarum/guide/Physarum.html"], StandardForm]], "Input", TextClipboardType -> 
+                 "PlainText"]}, Visible -> False]]; 
+           SelectionMove[DocumentationSearch`Private`nb$, All, Notebook]; 
+           FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
+           NotebookClose[DocumentationSearch`Private`nb$]; Null], 
+         "\"Go to web URL\"" :> 
+         FrontEndExecute[{
+           NotebookLocate[{
+             URL[If[TrueQ[False], 
+                 "http://reference.wolfram.com/system-modeler/", 
+                 "http://reference.wolfram.com/language/"] <> 
+               "ArnoudBuzing/Physarum/guide/Physarum" <> ".html"], None}]}]},
+        Appearance->None,
+        MenuAppearance->Automatic,
+        MenuStyle->"URLMenu"],
+       MouseAppearanceTag["LinkHand"]]],
+      LineSpacing->{1.4, 0},ExpressionUUID->
+      "8c7a7f57-d52f-4523-a976-f26fcb5cd018"]
+    }], "AnchorBar",
+     CacheGraphics->False,ExpressionUUID->
+     "83ed28bd-a215-414a-89c3-721a4a734330"]}
+  }]], "AnchorBarGrid",
+ GridBoxOptions->{GridBoxItemSize->{"Columns" -> {
+     Scaled[0.65], {
+      Scaled[0.34]}}, "ColumnsIndexed" -> {}, "Rows" -> {{1.}}, 
+   "RowsIndexed" -> {}}},
+ CellID->1,ExpressionUUID->"c8247fc2-78bc-4632-9263-3622c82ff70f"],
+
+Cell[CellGroupData[{
+
+Cell["Physarum", "GuideTitle",
+ CellID->942062912,ExpressionUUID->"a577d308-e80a-483e-99a5-dd9472f11f97"],
+
+Cell[TextData[{
+ Cell["ArnoudBuzing/Physarum", "InlineCode",
+  FontFamily->"Source Sans Pro",ExpressionUUID->
+  "ba65d47d-05dd-4047-a992-c540a5523c61"],
+ " simulates the slime mold ",
+ StyleBox["Physarum polycephalum", "TI"],
+ " using two classic models: Jeff Jones's multi-agent trail model (in 2D and \
+3D) for emergent pattern formation and generative art, and Tero ",
+ StyleBox["et al.", "TI"],
+ "'s adaptive tube-flow model for maze solving and transport networks."
+}], "GuideAbstract",
+ CellID->329621944,ExpressionUUID->"306980bd-6d90-4b1a-912c-402fbbb3392a"],
+
+Cell["\t", "GuideDelimiterSubsection",ExpressionUUID->"e0de6a71-ba99-47f2-90c6-fa35d1d89da7"],
+
+Cell[CellGroupData[{
+
+Cell["2D Agent Simulations", "GuideFunctionsSubsection",
+ CellID->510245036,ExpressionUUID->"a0cb67a3-e9bc-45fd-99fa-82c0838408e2"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["PhysarumArt"]], "paclet:ArnoudBuzing/Physarum/ref/PhysarumArt",
+     "ArnoudBuzing/Physarum Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFormula"]], "InlineFunctionSansUnlinked",ExpressionUUID->
+  "1880309d-ac70-4b6e-aef4-aacf442972da"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "grow and render a 2D slime-mold simulation in one call"
+}], "GuideText",
+ CellID->1885175719,ExpressionUUID->"fc64818a-cffc-4ce8-84ce-1c81c7e9d00d"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["PhysarumSimulation"]], 
+    "paclet:ArnoudBuzing/Physarum/ref/PhysarumSimulation", 
+    "ArnoudBuzing/Physarum Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFormula"]], "InlineFunctionSansUnlinked",ExpressionUUID->
+  "85e4779d-a8b5-4636-9c31-0c92b654395e"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "create a 2D multi-agent simulation with species, food and walls"
+}], "GuideText",
+ CellID->264545953,ExpressionUUID->"36e503cf-4b95-4fb7-a50e-650910676d35"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["PhysarumSimulationObject"]], 
+    "paclet:ArnoudBuzing/Physarum/ref/PhysarumSimulationObject", 
+    "ArnoudBuzing/Physarum Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFormula"]], "InlineFunctionSansUnlinked",ExpressionUUID->
+  "7af76bba-ba9b-4056-b860-4da50d432cbb"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "represent the state of a 2D simulation"
+}], "GuideText",
+ CellID->117495636,ExpressionUUID->"0358cef3-2e8c-4a8b-a33f-da422bdc5c67"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["PhysarumEvolve"]], 
+    "paclet:ArnoudBuzing/Physarum/ref/PhysarumEvolve", 
+    "ArnoudBuzing/Physarum Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFormula"]], "InlineFunctionSansUnlinked",ExpressionUUID->
+  "e4376115-2884-442f-95cb-2d071637323c"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "advance a 2D or 3D simulation by a number of steps"
+}], "GuideText",
+ CellID->909380698,ExpressionUUID->"13b668e7-2d4a-4979-944b-ab07cc76662c"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["PhysarumImage"]], 
+    "paclet:ArnoudBuzing/Physarum/ref/PhysarumImage", 
+    "ArnoudBuzing/Physarum Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFormula"]], "InlineFunctionSansUnlinked",ExpressionUUID->
+  "e7f1fda8-ee23-44ff-a01f-1130a43c27bf"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "render the trail map of a 2D simulation as an ",
+ Cell["Image", "InlineFunctionSansUnlinked",
+  FontSize->0.9 Inherited,ExpressionUUID->
+  "5612062c-07b3-4b98-a700-5b61632c2965"]
+}], "GuideText",
+ CellID->1749936716,ExpressionUUID->"981dc5c0-91d4-4277-a589-ac38b2e7e9c3"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["PhysarumAnimate"]], 
+    "paclet:ArnoudBuzing/Physarum/ref/PhysarumAnimate", 
+    "ArnoudBuzing/Physarum Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFormula"]], "InlineFunctionSansUnlinked",ExpressionUUID->
+  "e643d0d0-2db2-4ab5-901b-85e6b71cc2c5"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "evolve a simulation and return frames, an animation or a ",
+ Cell["Video", "InlineFunctionSansUnlinked",
+  FontSize->0.9 Inherited,ExpressionUUID->
+  "9aaa5ffc-a2c9-4069-af3e-786d75b4b8d3"]
+}], "GuideText",
+ CellID->1821852175,ExpressionUUID->"d4c639af-0303-495b-b1ab-828a6a74228a"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["$PhysarumPresets"]], 
+    "paclet:ArnoudBuzing/Physarum/ref/$PhysarumPresets", 
+    "ArnoudBuzing/Physarum Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFormula"]], "InlineFunctionSansUnlinked",ExpressionUUID->
+  "cfa9f636-6e9a-4d80-bd83-e3f43062f970"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "association of named species and rendering presets"
+}], "GuideText",
+ CellID->1323053982,ExpressionUUID->"7315a1c4-425c-468e-a5cb-df0724a7bbd6"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3D Agent Simulations", "GuideFunctionsSubsection",
+ CellID->1144192954,ExpressionUUID->"3f651b47-a1fd-4faa-9144-976aa7fe7051"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["PhysarumArt3D"]], 
+    "paclet:ArnoudBuzing/Physarum/ref/PhysarumArt3D", 
+    "ArnoudBuzing/Physarum Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFormula"]], "InlineFunctionSansUnlinked",ExpressionUUID->
+  "52389f54-23e2-42b5-8b14-86b5fd3a7c46"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "grow and render a 3D slime-mold simulation in one call"
+}], "GuideText",
+ CellID->1812565958,ExpressionUUID->"69f743af-f874-49be-a1da-624c1b2bca42"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["PhysarumSimulation3D"]], 
+    "paclet:ArnoudBuzing/Physarum/ref/PhysarumSimulation3D", 
+    "ArnoudBuzing/Physarum Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFormula"]], "InlineFunctionSansUnlinked",ExpressionUUID->
+  "40cd4318-b829-47db-b0d2-0f82673a8595"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "create a 3D multi-agent simulation in a voxel volume"
+}], "GuideText",
+ CellID->1674030030,ExpressionUUID->"84a4eb41-745d-4544-9297-0e9bcbce80fe"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["PhysarumSimulation3DObject"]], 
+    "paclet:ArnoudBuzing/Physarum/ref/PhysarumSimulation3DObject", 
+    "ArnoudBuzing/Physarum Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFormula"]], "InlineFunctionSansUnlinked",ExpressionUUID->
+  "b024154d-2653-4aa5-a083-7a6b124946ed"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "represent the state of a 3D simulation"
+}], "GuideText",
+ CellID->226213643,ExpressionUUID->"8f0b8300-57bf-47ec-8858-186e24ce5799"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["PhysarumImage3D"]], 
+    "paclet:ArnoudBuzing/Physarum/ref/PhysarumImage3D", 
+    "ArnoudBuzing/Physarum Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFormula"]], "InlineFunctionSansUnlinked",ExpressionUUID->
+  "323a386f-dfae-4233-a04a-54b7d155bf98"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "render the 3D trail map as a volume ",
+ Cell["Image3D", "InlineFunctionSansUnlinked",
+  FontSize->0.9 Inherited,ExpressionUUID->
+  "4d0a92e6-09cb-4714-bf5f-17dd637cd45b"]
+}], "GuideText",
+ CellID->955925492,ExpressionUUID->"3f4ca650-a1ba-423e-8602-3b5e57ddc1b4"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["PhysarumGraphics3D"]], 
+    "paclet:ArnoudBuzing/Physarum/ref/PhysarumGraphics3D", 
+    "ArnoudBuzing/Physarum Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFormula"]], "InlineFunctionSansUnlinked",ExpressionUUID->
+  "bd1ec2cc-0255-4cc2-b578-532f083f8ed9"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "render the 3D network as an isosurface or agent point cloud"
+}], "GuideText",
+ CellID->1730714281,ExpressionUUID->"ea1eb054-19ef-49c3-9dba-4ff45e66b49b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Transport Networks & Flow Model", "GuideFunctionsSubsection",
+ CellID->1354807534,ExpressionUUID->"6331fae7-44bb-4f00-a40d-f3e6e5509158"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["PhysarumNetwork"]], 
+    "paclet:ArnoudBuzing/Physarum/ref/PhysarumNetwork", 
+    "ArnoudBuzing/Physarum Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFormula"]], "InlineFunctionSansUnlinked",ExpressionUUID->
+  "86340598-b782-4884-b1aa-3f2aecf57986"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "grow an agent trail between points or ",
+ Cell["GeoPosition", "InlineFunctionSansUnlinked",
+  FontSize->0.9 Inherited,ExpressionUUID->
+  "c23ce6db-6cfa-45a9-bad0-5454ee937cc8"],
+ " locations and extract a ",
+ Cell["Graph", "InlineFunctionSansUnlinked",
+  FontSize->0.9 Inherited,ExpressionUUID->
+  "74ed141a-2333-4357-bdda-8485afe455af"]
+}], "GuideText",
+ CellID->1491006849,ExpressionUUID->"1631ae48-00e7-4532-8825-3764227f1088"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["PhysarumFlow"]], 
+    "paclet:ArnoudBuzing/Physarum/ref/PhysarumFlow", 
+    "ArnoudBuzing/Physarum Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFormula"]], "InlineFunctionSansUnlinked",ExpressionUUID->
+  "ef9815b5-a43e-4047-9cdb-3adcbf6dce20"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "run the Tero current-reinforcement flow model on a maze, point set or ",
+ Cell["Graph", "InlineFunctionSansUnlinked",
+  FontSize->0.9 Inherited,ExpressionUUID->
+  "8d2859be-4991-4db6-ad3d-9781ed80db98"]
+}], "GuideText",
+ CellID->1661384961,ExpressionUUID->"6571116d-1058-4727-97c6-c7ad514c0a59"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["PhysarumMaze"]], 
+    "paclet:ArnoudBuzing/Physarum/ref/PhysarumMaze", 
+    "ArnoudBuzing/Physarum Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFormula"]], "InlineFunctionSansUnlinked",ExpressionUUID->
+  "6320904a-0c1c-42f9-95f4-6522e1fab2ef"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " ",
+ "generate a 2D maze ",
+ Cell["Image", "InlineFunctionSansUnlinked",
+  FontSize->0.9 Inherited,ExpressionUUID->
+  "117f613b-ce6a-4246-9ef6-4161017e22c0"],
+ " with optional loops"
+}], "GuideText",
+ CellID->1212309981,ExpressionUUID->"c8562693-bd32-4cae-8a08-457b32054470"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[BoxData[GridBox[{
+   {
+    DynamicBox[FEPrivate`ImportImage[
+      FrontEnd`FileName[{"Documentation", "FooterIcons"}, "RelatedGuide.png"]],
+     ImageSizeCache->{50., {26.47265625, 33.52734375}}], GridBox[{
+      {
+       StyleBox[
+        RowBox[{"Related", " ", "Guides"}], "GuideMoreAboutSection"]},
+      {
+       RowBox[{"\[FilledVerySmallSquare]", Cell[BoxData[
+         TemplateBox[{
+           Cell[
+            TextData["Graph And Networks"]], 
+           "paclet:ArnoudBuzing/Physarum/guide/GraphAndNetworks"},
+          "RefLinkPlain",
+          BaseStyle->{"GuideMoreAbout"}]], "GuideMoreAbout",ExpressionUUID->
+         "fd448fe8-3a00-41da-a6d3-aa52169b800d"]}]},
+      {
+       RowBox[{"\[FilledVerySmallSquare]", Cell[BoxData[
+         TemplateBox[{
+           Cell[
+            TextData["Image Processing & Analysis"]], 
+           "paclet:guide/ImageProcessing"},
+          "RefLinkPlain",
+          BaseStyle->{"GuideMoreAbout"}]], "GuideMoreAbout",ExpressionUUID->
+         "5a440203-8a8d-45c1-a913-b7a946fb2518"]}]},
+      {
+       RowBox[{"\[FilledVerySmallSquare]", Cell[BoxData[
+         TemplateBox[{
+           Cell[
+            TextData["Cellular Automata"]], 
+           "paclet:ArnoudBuzing/Physarum/guide/CellularAutomata"},
+          "RefLinkPlain",
+          BaseStyle->{"GuideMoreAbout"}]], "GuideMoreAbout",ExpressionUUID->
+         "7dd324ac-32f6-498c-b669-0d6ae6400115"]}]}
+     }]}
+  }]], "GuideMoreAboutSection",ExpressionUUID->"8171ba04-296d-4770-9dcc-\
+576342c75c70"],
+
+Cell[" ", "FooterCell",ExpressionUUID->"f88df715-468f-41fe-9cf6-3ca8ca49d424"]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{900, 830},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"Physarum",
+Visible->True,
+TaggingRules->{
+ "ModificationHighlight" -> False, "ColorType" -> "", "LinkTrails" -> "", 
+  "ExampleCounter" -> 1, 
+  "Openers" -> {
+   "PrimaryExamplesSection" -> Open, "ExampleSection" -> {"0" -> Open}}, 
+  "NewStyles" -> True, "CitationPopupData" -> {$Failed, ""}, "ShowCitation" -> 
+  False, "RootCaptions" -> "", "HeaderCoreAreaLink" -> {}, 
+  "Metadata" -> {
+   "built" -> "{2026, 10, 30, 14, 24, 32.523673}", 
+    "history" -> {"XX", "", "", ""}, "context" -> "ArnoudBuzing`Physarum`", 
+    "keywords" -> {
+     "physarum", "slime mold", "agent-based", "generative art", 
+      "transport network", "emergence", "maze", "Tero", "Jones"}, 
+    "specialkeywords" -> {}, "tutorialcollectionlinks" -> {}, "index" -> True,
+     "label" -> "Arnoud Buzing/ Physarum Guide", "language" -> "en", "paclet" -> 
+    "ArnoudBuzing/Physarum", "status" -> "None", "summary" -> 
+    "ArnoudBuzing/Physarum simulates the slime mold Physarum polycephalum \
+using two classic models: Jeff Jones's multi-agent trail model (in 2D and 3D) \
+for emergent pattern formation and generative art, and Tero et al.'s adaptive \
+tube-flow model for maze solving and transport networks.", "synonyms" -> {}, 
+    "tabletags" -> {}, "title" -> "Physarum", "titlemodifier" -> "", 
+    "metadescription" -> "", "windowtitle" -> "Physarum", "type" -> "Guide", 
+    "uri" -> "ArnoudBuzing/Physarum/guide/Physarum"}},
+CellContext->CellGroup,
+ShowAutoSpellCheck->False,
+CacheGraphics->False,
+FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (July 2, 2026)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb"],
+ExpressionUUID->"731cb1a7-9e1d-4e32-8483-a7a30debdd1c"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[576, 21, 4350, 107, 70, "AnchorBarGrid",ExpressionUUID->"c8247fc2-78bc-4632-9263-3622c82ff70f",
+ CellID->1],
+Cell[CellGroupData[{
+Cell[4951, 132, 105, 1, 70, "GuideTitle",ExpressionUUID->"a577d308-e80a-483e-99a5-dd9472f11f97",
+ CellID->942062912],
+Cell[5059, 135, 566, 11, 70, "GuideAbstract",ExpressionUUID->"306980bd-6d90-4b1a-912c-402fbbb3392a",
+ CellID->329621944],
+Cell[5628, 148, 93, 0, 70, "GuideDelimiterSubsection",ExpressionUUID->"e0de6a71-ba99-47f2-90c6-fa35d1d89da7"],
+Cell[CellGroupData[{
+Cell[5746, 152, 131, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"a0cb67a3-e9bc-45fd-99fa-82c0838408e2",
+ CellID->510245036],
+Cell[5880, 155, 525, 14, 70, "GuideText",ExpressionUUID->"fc64818a-cffc-4ce8-84ce-1c81c7e9d00d",
+ CellID->1885175719],
+Cell[6408, 171, 552, 15, 70, "GuideText",ExpressionUUID->"36e503cf-4b95-4fb7-a50e-650910676d35",
+ CellID->264545953],
+Cell[6963, 188, 539, 15, 70, "GuideText",ExpressionUUID->"0358cef3-2e8c-4a8b-a33f-da422bdc5c67",
+ CellID->117495636],
+Cell[7505, 205, 531, 15, 70, "GuideText",ExpressionUUID->"13b668e7-2d4a-4979-944b-ab07cc76662c",
+ CellID->909380698],
+Cell[8039, 222, 657, 18, 70, "GuideText",ExpressionUUID->"981dc5c0-91d4-4277-a589-ac38b2e7e9c3",
+ CellID->1749936716],
+Cell[8699, 242, 672, 18, 70, "GuideText",ExpressionUUID->"d4c639af-0303-495b-b1ab-828a6a74228a",
+ CellID->1821852175],
+Cell[9374, 262, 536, 15, 70, "GuideText",ExpressionUUID->"7315a1c4-425c-468e-a5cb-df0724a7bbd6",
+ CellID->1323053982]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9947, 282, 132, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"3f651b47-a1fd-4faa-9144-976aa7fe7051",
+ CellID->1144192954],
+Cell[10082, 285, 534, 15, 70, "GuideText",ExpressionUUID->"69f743af-f874-49be-a1da-624c1b2bca42",
+ CellID->1812565958],
+Cell[10619, 302, 546, 15, 70, "GuideText",ExpressionUUID->"84a4eb41-745d-4544-9297-0e9bcbce80fe",
+ CellID->1674030030],
+Cell[11168, 319, 543, 15, 70, "GuideText",ExpressionUUID->"8f0b8300-57bf-47ec-8858-186e24ce5799",
+ CellID->226213643],
+Cell[11714, 336, 652, 18, 70, "GuideText",ExpressionUUID->"3f4ca650-a1ba-423e-8602-3b5e57ddc1b4",
+ CellID->955925492],
+Cell[12369, 356, 549, 15, 70, "GuideText",ExpressionUUID->"ea1eb054-19ef-49c3-9dba-4ff45e66b49b",
+ CellID->1730714281]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[12955, 376, 143, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"6331fae7-44bb-4f00-a40d-f3e6e5509158",
+ CellID->1354807534],
+Cell[13101, 379, 820, 22, 70, "GuideText",ExpressionUUID->"1631ae48-00e7-4532-8825-3764227f1088",
+ CellID->1491006849],
+Cell[13924, 403, 679, 18, 70, "GuideText",ExpressionUUID->"6571116d-1058-4727-97c6-c7ad514c0a59",
+ CellID->1661384961],
+Cell[14606, 423, 653, 19, 70, "GuideText",ExpressionUUID->"c8562693-bd32-4cae-8a08-457b32054470",
+ CellID->1212309981]
+}, Open  ]]
+}, Open  ]],
+Cell[15286, 446, 1512, 37, 70, "GuideMoreAboutSection",ExpressionUUID->"8171ba04-296d-4770-9dcc-576342c75c70"],
+Cell[16801, 485, 78, 0, 70, "FooterCell",ExpressionUUID->"f88df715-468f-41fe-9cf6-3ca8ca49d424"]
+}
+]
+*)
+
+(* End of internal cache information *)

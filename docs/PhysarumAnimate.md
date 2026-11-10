@@ -1,119 +1,78 @@
-# PhysarumAnimate
+---
+Template: Symbol
+Name: PhysarumAnimate
+Context: ArnoudBuzing`Physarum`
+Paclet: ArnoudBuzing/Physarum
+URI: ArnoudBuzing/Physarum/ref/PhysarumAnimate
+Keywords: [physarum, slime mold, animate, frames, video, evolution]
+SeeAlso: [PhysarumEvolve, PhysarumImage, PhysarumSimulation, PhysarumArt]
+RelatedGuides: [Physarum]
+---
 
-Runs a simulation and renders the frames, as a list of images, an interactive animation or a video.
+## Usage
 
-## Syntax
+<code>PhysarumAnimate[*sim*, *frames*, *steps*]</code> evolves *sim* for *frames* frames of *steps* steps each and returns the rendered frames.
 
-| Form | Meaning |
-| --- | --- |
-| `PhysarumAnimate[sim, frames, steps]` | evolves `sim` for `frames` frames of `steps` steps each, and returns the rendered frames |
-| `PhysarumAnimate["preset", frames, steps]` | the same for a new simulation made from a preset (or any specification) |
-| `PhysarumAnimate[..., opts]` | with options |
+<code>PhysarumAnimate["*preset*", *frames*, *steps*]</code> creates and animates a simulation from a preset name or species specification.
 
-## Details
+<code>PhysarumAnimate[*spec*, *frames*, *steps*, *opts*]</code> animates with the given options.
 
-* The first frame is the simulation *after* the first `steps` steps, not the starting state. The
-  last frame is at step `frames × steps` beyond the starting point of `sim`.
-* `frames` and `steps` must be positive integers.
-* If the first argument is not a simulation object, a simulation is created from it with
-  [PhysarumSimulation](PhysarumSimulation.md) and default options. To set `"Size"` or other
-  simulation options, create the simulation yourself and pass it in.
-* The options of [PhysarumImage](PhysarumImage.md) (`ColorFunction`, `"Colors"`, `Background`,
-  `"Gamma"`, `"Glow"`, `"Clip"`, `"ShowFood"`, `"ShowWalls"`, `"WallColor"`, `"FoodColor"`,
-  `ImageSize`) are passed on to every frame.
-* `"Output" -> "Video"` writes an MP4 file into `$TemporaryDirectory` and returns it as a `Video`.
-  Use `Export` on the frames yourself if you want to keep a file or write a GIF.
-* The simulation is evolved in one pass, and an aborted evaluation returns `$Aborted`.
+## Details & Options
 
-## Options
+- The first returned frame is the simulation after *steps* steps, and the last frame is at step $\text{frames} \times \text{steps}$ beyond the initial state of *sim*.
+- If the first argument is not a [PhysarumSimulationObject](), a new simulation is created via <code>PhysarumSimulation[*spec*]</code>.
+- All options of [PhysarumImage]() (`ColorFunction`, `"Colors"`, `Background`, `"Gamma"`, `"Glow"`, `"Clip"`, `"ShowFood"`, `"ShowWalls"`, `"WallColor"`, `"FoodColor"`, `ImageSize`) are forwarded to every rendered frame.
+- [PhysarumAnimate]() accepts the following options:
 
-| Option | Default | Meaning |
+| Option | Default | Description |
 | --- | --- | --- |
-| `"Output"` | `"Frames"` | what to return: `"Frames"`, `"Animation"` or `"Video"` (see below) |
-| `FrameRate` | 30 | frames per second, for `"Animation"` and `"Video"` |
-| `ColorFunction`, `"Colors"`, `Background`, `"Gamma"`, `"Glow"`, `"Clip"`, `"ShowFood"`, `"ShowWalls"`, `"WallColor"`, `"FoodColor"`, `ImageSize` | | as for [PhysarumImage](PhysarumImage.md) |
+| `"Output"` | `"Frames"` | return format: `"Frames"` (list of [Image]()s), `"Animation"` ([ListAnimate]()) or `"Video"` ([Video]()) |
+| [FrameRate]() | `30` | frames per second for `"Animation"` and `"Video"` |
 
-### `"Output"` values
+## Basic Examples
 
-| Value | Result |
-| --- | --- |
-| `"Frames"` | a list of `Image` objects |
-| `"Animation"` | a `ListAnimate` control (not started automatically) |
-| `"Video"` | a `Video` object, made from an MP4 file |
+Generate 60 frames spaced 10 steps apart and animate them:
 
-## Examples
-
-### A list of frames
-
-```wolfram
-frames = PhysarumAnimate["Classic", 60, 10];       (* 60 frames, 10 steps each *)
-Length[frames]                                       (* 60 *)
+```wl
+frames = PhysarumAnimate["Classic", 60, 10];
 ListAnimate[frames]
 ```
 
-![From noise to network](../images/growth.gif)
+## Scope
 
-### Start from your own simulation
+Configure size, food or walls on a [PhysarumSimulationObject]() before passing it to [PhysarumAnimate]():
 
-Create the simulation first to set its size, food, walls and species:
-
-```wolfram
+```wl
 sim = PhysarumSimulation["Marble", "Size" -> 384];
 frames = PhysarumAnimate[sim, 120, 5];
 ListAnimate[frames, 30]
 ```
 
-### A video
+## Options
 
-```wolfram
-PhysarumAnimate[PhysarumSimulation["Marble", "Size" -> 384], 120, 5, "Output" -> "Video"]
-PhysarumAnimate[PhysarumSimulation["Marble", "Size" -> 384], 120, 5, "Output" -> "Video", FrameRate -> 60]
-```
+### `"Output"` and `FrameRate`
 
-### An animation control
+Return an interactive [ListAnimate]() control directly:
 
-```wolfram
+```wl
 PhysarumAnimate["Filaments", 40, 10, "Output" -> "Animation", FrameRate -> 15]
 ```
 
-### Frames with their own look
+---
 
-The image options apply to every frame:
+Render an MP4 [Video]() object at 60 frames per second:
 
-```wolfram
-PhysarumAnimate["Classic", 30, 10, ColorFunction -> "SunsetColors", "Glow" -> 0.6, ImageSize -> 300]
+```wl
+PhysarumAnimate[PhysarumSimulation["Marble", "Size" -> 384], 120, 5, "Output" -> "Video", FrameRate -> 60]
 ```
 
-### Watch a network grow to its food
+### Rendering options
 
-```wolfram
+Pass [PhysarumImage]() options such as `"ShowFood"` or [ColorFunction]() to style every frame:
+
+```wl
 SeedRandom[5];
 food = RandomReal[{0.15, 0.85}, {9, 2}];
 sim = PhysarumSimulation["Classic", "Size" -> 220, "Food" -> food, "FoodStrength" -> 50];
 ListAnimate[PhysarumAnimate[sim, 60, 15, "ShowFood" -> True]]
 ```
-
-### Export a GIF
-
-```wolfram
-Export["physarum.gif", PhysarumAnimate["Classic", 60, 10, ImageSize -> 300], "DisplayDurations" -> 1/20]
-```
-
-### Continue from a partly evolved state
-
-The frames are made from a copy, so `sim` itself is unchanged. Evolve it yourself if you need the
-final state:
-
-```wolfram
-sim = PhysarumSimulation["Classic", "Size" -> 200];
-frames = PhysarumAnimate[sim, 10, 20];
-sim["Step"]                          (* 0 *)
-last = PhysarumEvolve[sim, 200];
-```
-
-## See also
-
-[PhysarumEvolve](PhysarumEvolve.md) ·
-[PhysarumImage](PhysarumImage.md) ·
-[PhysarumSimulation](PhysarumSimulation.md) ·
-[PhysarumArt](PhysarumArt.md)

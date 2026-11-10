@@ -1,4 +1,4 @@
-(* Run with:  wolframscript -code 'TestReport["Tests/Physarum.wlt"]'  (after ./scripts/build.sh) *)
+(* Run with:  wolfram -script scripts/report.wl Tests/Physarum.wlt  (after ./scripts/build.sh) *)
 
 BeginTestSection["Physarum"];
 
@@ -274,6 +274,22 @@ VerificationTest[
   $Failed,
   {PhysarumSimulation3D::size},
   TestID -> "BadSize3D"
+];
+
+VerificationTest[
+  declared = Sort @ Lookup[Rest /@ Cases[PacletObject["ArnoudBuzing/Physarum"]["Extensions"], {"Kernel", __}], "Symbols"][[1]];
+  refFiles = FileNames["*.nb", FileNameJoin[{DirectoryName[$TestFileName, 2], "Physarum", "Documentation", "English", "ReferencePages", "Symbols"}]];
+  refNames = FileBaseName /@ refFiles;
+  declaredSymbols = StringDelete[declared, "ArnoudBuzing`Physarum`"];
+  Complement[declaredSymbols, refNames],
+  {},
+  TestID -> "DocumentationCoverage"
+];
+
+VerificationTest[
+  FileExistsQ[FileNameJoin[{DirectoryName[$TestFileName, 2], "Physarum", "Documentation", "English", "Guides", "Physarum.nb"}]],
+  True,
+  TestID -> "GuidePageExists"
 ];
 
 EndTestSection[];
